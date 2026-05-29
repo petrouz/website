@@ -104,7 +104,7 @@
 <section class="py-16">
   <div class="max-w-3xl mx-auto px-6">
     <h1 class="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">Download MurOS</h1>
-    <p class="mt-3 text-slate-600">All releases are built by GitHub Actions and signed by the repository. There is no third-party APT mirror yet (planned for V1.1).</p>
+    <p class="mt-3 text-slate-600">All releases are built by GitHub Actions and published to the signed apt repository at <a href="https://apt.muros.org" class="text-amber-700 hover:underline">apt.muros.org</a>. The individual files stay available on the GitHub Releases page.</p>
 
     <div class="mt-10 border border-slate-200 rounded shadow-card p-6">
       <div class="flex items-baseline justify-between gap-4 flex-wrap">
@@ -122,40 +122,40 @@
         </thead>
         <tbody class="divide-y divide-slate-200 bg-white">
           <tr>
-            <td class="px-3 py-2 mono">muros_<i>VERSION</i>_amd64.deb</td>
+            <td class="px-3 py-2 mono">muros_<i>VERSION</i>_all.deb</td>
             <td class="px-3 py-2 hidden sm:table-cell">Main package, ~25 MB.</td>
             <td class="px-3 py-2 text-right"><a href="https://github.com/murosorg/muros/releases/latest" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
-            <td class="px-3 py-2 mono">muros_<i>VERSION</i>_amd64.deb.sha256</td>
+            <td class="px-3 py-2 mono">muros_<i>VERSION</i>_all.deb.sha256</td>
             <td class="px-3 py-2 hidden sm:table-cell">SHA-256 sum of the .deb.</td>
             <td class="px-3 py-2 text-right"><a href="https://github.com/murosorg/muros/releases/latest" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
             <td class="px-3 py-2 mono">install.sh</td>
-            <td class="px-3 py-2 hidden sm:table-cell">Wrapper: downloads, verifies, apt-installs.</td>
-            <td class="px-3 py-2 text-right"><a href="https://github.com/murosorg/muros/releases/latest/download/install.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
+            <td class="px-3 py-2 hidden sm:table-cell">Registers the apt repository and installs the package.</td>
+            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/install.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
           </tr>
           <tr>
             <td class="px-3 py-2 mono">uninstall.sh</td>
             <td class="px-3 py-2 hidden sm:table-cell">Stashes DB, then apt-removes the package.</td>
-            <td class="px-3 py-2 text-right"><a href="https://github.com/murosorg/muros/releases/latest/download/uninstall.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
+            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/uninstall.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <h2 class="mt-12 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">One-line install</h2>
-    <pre class="mt-3 bg-slate-900 text-slate-100 rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://github.com/murosorg/muros/releases/latest/download/install.sh | sudo bash</code></pre>
+    <pre class="mt-3 bg-slate-900 text-slate-100 rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://apt.muros.org/install.sh | sudo bash</code></pre>
     <p class="mt-3 text-sm text-slate-600">Full guide on the <a href="install.html" class="text-amber-700 hover:underline font-medium">Install</a> page.</p>
 
-    <h2 class="mt-12 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Manual download + apt</h2>
-    <p class="mt-3 text-sm text-slate-600">If you do not want to pipe a remote script into a shell:</p>
-    <pre class="mt-3 bg-slate-900 text-slate-100 rounded p-4 text-sm overflow-x-auto mono"><code>VERSION=<span data-muros-tag>v0.9.0-rc</span>
-wget https://github.com/murosorg/muros/releases/download/${VERSION}/muros_${VERSION#v}_amd64.deb
-wget https://github.com/murosorg/muros/releases/download/${VERSION}/muros_${VERSION#v}_amd64.deb.sha256
-sha256sum -c muros_${VERSION#v}_amd64.deb.sha256
-sudo apt install ./muros_${VERSION#v}_amd64.deb</code></pre>
+    <h2 class="mt-12 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Add the apt repository by hand</h2>
+    <p class="mt-3 text-sm text-slate-600">If you do not want to pipe a remote script into a shell, register the signed repository yourself:</p>
+    <pre class="mt-3 bg-slate-900 text-slate-100 rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://apt.muros.org/muros.asc | sudo gpg --dearmor -o /usr/share/keyrings/muros-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/muros-archive-keyring.gpg] https://apt.muros.org stable main" | sudo tee /etc/apt/sources.list.d/muros.list
+sudo apt update
+sudo apt install muros</code></pre>
+    <p class="mt-3 text-sm text-slate-600">A plain <code class="bg-slate-100 px-1 rounded">.deb</code> is also attached to each <a href="https://github.com/murosorg/muros/releases/latest" class="text-amber-700 hover:underline">GitHub release</a> if you prefer a manual <code class="bg-slate-100 px-1 rounded">apt install ./muros_*_all.deb</code>.</p>
 
     <h2 class="mt-12 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Build from source</h2>
     <p class="mt-3 text-sm text-slate-600">On a Debian 13 build host:</p>
