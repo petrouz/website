@@ -45,8 +45,8 @@ HAMBURGER = ('<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" '
     'y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" '
     'y2="17"/></svg>')
 
-NAV = [('features', 'Features'), ('install', 'Install'), ('download', 'Download'),
-       ('hardware', 'Hardware'), ('docs', 'Docs')]
+NAV = [('why', 'Why MurOS'), ('features', 'Features'), ('install', 'Install'),
+       ('download', 'Download'), ('hardware', 'Hardware'), ('docs', 'Docs')]
 
 
 def header(active='docs'):
