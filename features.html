@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>MurOS features - firewall, NAT, VPN and HA</title>
+<meta name="description" content="Every module shipped with MurOS: firewall, NAT, routing, multi-WAN, DHCP, DNS, VPN (WireGuard + IPsec), HA, observability, notifications, hardening.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/app.css">
+<link rel="canonical" href="https://muros.org/features.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MurOS">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://muros.org/features.html">
+<meta property="og:title" content="MurOS features - firewall, NAT, VPN and HA">
+<meta property="og:description" content="Every module shipped with MurOS: firewall, NAT, routing, multi-WAN, DHCP, DNS, VPN (WireGuard + IPsec), HA, observability, notifications, hardening.">
+<meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MurOS features - firewall, NAT, VPN and HA">
+<meta name="twitter:description" content="Every module shipped with MurOS: firewall, NAT, routing, multi-WAN, DHCP, DNS, VPN (WireGuard + IPsec), HA, observability, notifications, hardening.">
+<meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://muros.org/#org",
+      "name": "MurOS",
+      "url": "https://muros.org/",
+      "logo": "https://muros.org/assets/logo-dark.svg",
+      "sameAs": [
+        "https://github.com/murosorg/muros"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://muros.org/#website",
+      "name": "MurOS",
+      "url": "https://muros.org/",
+      "publisher": {
+        "@id": "https://muros.org/#org"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://muros.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Features",
+          "item": "https://muros.org/features.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
+      <img src="assets/logo-dark.svg" alt="MurOS" class="block h-9 w-auto">
+      <span class="mono text-xs font-semibold text-amber-700">[BETA]</span>
+    </a>
+    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
+      <a href="features.html" class="nav-link hover:text-slate-900 active">Features</a>
+      <a href="install.html" class="nav-link hover:text-slate-900">Install</a>
+      <a href="download.html" class="nav-link hover:text-slate-900">Download</a>
+      <a href="hardware.html" class="nav-link hover:text-slate-900">Hardware</a>
+      <a href="docs.html" class="nav-link hover:text-slate-900">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+    </nav><details class="sm:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+      <a href="features.html" class="nav-link hover:text-slate-900 active px-4 py-2 hover:bg-slate-50">Features</a>
+      <a href="install.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Install</a>
+      <a href="download.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Download</a>
+      <a href="hardware.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Hardware</a>
+      <a href="docs.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+    </div></details>
+  </div>
+</header>
+
+<main>
+
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-6">
+    <h1 class="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">Features</h1>
+    <p class="mt-3 text-slate-600 max-w-3xl">Everything in this list ships in the default <code class="text-sm bg-slate-100 px-1.5 py-0.5 rounded">muros</code> Debian package. There is no separate enterprise edition, no paywalled module.</p>
+
+    <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <figure>
+        <a href="assets/rules.webp" data-lightbox><img width="1440" height="900" loading="lazy" decoding="async" src="assets/rules.webp" alt="Filter rules" class="w-full block rounded border border-slate-300 shadow-card"></a>
+        <figcaption class="mt-2 text-sm text-slate-600"><strong class="text-slate-900">Filter rules.</strong> Zones, services, live counters.</figcaption>
+      </figure>
+      <figure>
+        <a href="assets/nat.webp" data-lightbox><img width="1440" height="900" loading="lazy" decoding="async" src="assets/nat.webp" alt="NAT" class="w-full block rounded border border-slate-300 shadow-card"></a>
+        <figcaption class="mt-2 text-sm text-slate-600"><strong class="text-slate-900">NAT.</strong> Masquerade, SNAT, DNAT.</figcaption>
+      </figure>
+      <figure>
+        <a href="assets/wireguard.webp" data-lightbox><img width="1440" height="900" loading="lazy" decoding="async" src="assets/wireguard.webp" alt="WireGuard" class="w-full block rounded border border-slate-300 shadow-card"></a>
+        <figcaption class="mt-2 text-sm text-slate-600"><strong class="text-slate-900">WireGuard.</strong> Server config and peers.</figcaption>
+      </figure>
+      <figure>
+        <a href="assets/ha.webp" data-lightbox><img width="1440" height="900" loading="lazy" decoding="async" src="assets/ha.webp" alt="High availability" class="w-full block rounded border border-slate-300 shadow-card"></a>
+        <figcaption class="mt-2 text-sm text-slate-600"><strong class="text-slate-900">High availability.</strong> Keepalived VRRP and conntrackd sync.</figcaption>
+      </figure>
+    </div>
+
+    <h2 class="mt-16 text-xl font-bold text-slate-900">Modules in detail</h2>
+    <p class="mt-2 text-sm text-slate-600">One entry per page or tab actually present in the web UI.</p>
+
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Network</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>Interfaces.</strong> Static / DHCP / unconfigured per NIC. IPv4 with /CIDR, MTU, optional comment.</li>
+          <li><strong>802.1Q VLANs.</strong> Add tagged sub-interfaces, persisted in DB and replayed by muros-boot.service before network-online.target.</li>
+          <li><strong>Routing.</strong> Static routes in the main table, with metric and optional source.</li>
+          <li><strong>Multi-WAN gateways.</strong> Multiple WAN gateways with ICMP health probes, automatic default-route swap on failure, configurable per-gateway weight.</li>
+          <li><strong>Zones.</strong> Symbolic groups of interfaces (lan, wan, dmz, custom). Rules reference zones, not interface names, so re-cabling does not rewrite the ruleset.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>Filter rules.</strong> input / forward / output chains, action accept / drop / reject, per-rule log, rate-limit, comment.</li>
+          <li><strong>Drag-and-drop ordering.</strong> Same UX as NAT.</li>
+          <li><strong>Service groups.</strong> Reusable named port + protocol sets (e.g. http_https, dns, ssh).</li>
+          <li><strong>Address groups.</strong> Reusable CIDR / IP sets, referenced from rules.</li>
+          <li><strong>Live counters.</strong> Per-rule packets and bytes pulled from nft, refreshed in the UI.</li>
+          <li><strong>Default deny + state matching.</strong> Stateful, out of the box.</li>
+          <li><strong>Dry-run preview.</strong> Generated nft ruleset shown before Apply.</li>
+          <li><strong>Apply with auto-rollback.</strong> If the new ruleset breaks the management session, the previous ruleset is restored.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>Masquerade</strong> per outgoing interface for cheap outbound internet.</li>
+          <li><strong>SNAT</strong> with explicit source IP.</li>
+          <li><strong>DNAT</strong> to publish internal services on a public port.</li>
+          <li><strong>Redirects.</strong> Port-to-port on the same host (e.g. 80 -&gt; 8080).</li>
+          <li><strong>Drag-and-drop reorder.</strong>  Same UX as filter rules.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">LAN services</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>DHCP server.</strong> dnsmasq backend, per-interface pools, gateway and DNS offered, lease time. Static leases by MAC.</li>
+          <li><strong>Active lease view.</strong> Reads dnsmasq.leases, shows MAC, IP, hostname, expiry.</li>
+          <li><strong>Recursive DNS.</strong> Unbound resolver, DNSSEC validation, forwarders, local A and AAAA records.</li>
+          <li><strong>System resolver toggle.</strong> Optionally point /etc/resolv.conf at the local Unbound.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>WireGuard.</strong> Server config (interface, listen port, MTU), peer list with key generation, persists across reboots.</li>
+          <li><strong>IPsec.</strong> StrongSwan, PSK or cert-based connections, road-warrior support.</li>
+          <li><strong>Built-in PKI.</strong> CA, leaf certs, CRL, all managed from the IPsec page. No openssl on the CLI.</li>
+          <li><strong>IPsec users.</strong> Per-user EAP credentials.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>VRRP active / passive</strong> via keepalived, one VIP per interface.</li>
+          <li><strong>Conntrack sync.</strong> conntrackd replicates connections to the slave, no TCP reset on takeover.</li>
+          <li><strong>Inter-node DB sync.</strong> The slave mirrors the master MurOS database so a takeover keeps the full config.</li>
+          <li><strong>Asymmetric pairs supported.</strong> Different vendors and NIC counts work as long as enabled interfaces line up.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Observability</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>Dashboard.</strong> CPU, memory, disk, swap, conntrack, throughput per interface, service state. Refreshed every 3 seconds.</li>
+          <li><strong>Firewall logs.</strong> journalctl -k filtered on the nft prefix, action / rule id / packet columns, infinite scroll.</li>
+          <li><strong>Audit log.</strong> Every UI write action recorded (user, method, path, status, source IP, payload digest).</li>
+          <li><strong>System journal.</strong> Per-unit journalctl viewer, errors-only filter, auto-refresh, tail mode.</li>
+          <li><strong>Notifications.</strong> SMTP relay config, event watcher rules (HA takeover, multi-WAN failover, apt updates, conntrack exhaustion, ...). Optional Postfix smarthost.</li>
+          <li><strong>SNMP.</strong> Standard Debian snmpd, community + CIDR ACL, sysContact, sysLocation.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Diagnostic</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>Live tools.</strong> ping, traceroute, dig, tcpdump (timed), conntrack -L, nft list ruleset.</li>
+          <li><strong>Per-tool args.</strong> Source interface, packet count, timeout, BPF filter for tcpdump.</li>
+          <li><strong>Streaming output.</strong> Server-Sent Events, no copy-paste from a shell.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">System</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>General.</strong> Hostname, time zone, locale, kernel and Debian version.</li>
+          <li><strong>NTP.</strong> chrony or systemd-timesyncd, configurable servers, current offset.</li>
+          <li><strong>System DNS.</strong> /etc/resolv.conf (separate from the recursive resolver).</li>
+          <li><strong>Backups.</strong> One-click snapshots of DB + nftables ruleset + network config + NTP + DNS. Local archive plus remote push via rclone, FTP or SSH. Restore from any snapshot.</li>
+          <li><strong>Updates (apt).</strong> apt-get update + upgrade view, kernel reboot indicator, deferred reboot scheduling.</li>
+          <li><strong>Maintenance.</strong> Reboot, shutdown, scheduled at a future time.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">HTTP access</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>Administrator account.</strong> Login + password policy (12+ chars, mixed case, digits, symbol).</li>
+          <li><strong>HaveIBeenPwned check.</strong> k-anonymity API call rejects pwned passwords on change.</li>
+          <li><strong>TOTP MFA.</strong> Standard RFC 6238, any authenticator app.</li>
+          <li><strong>Web listen interface.</strong> Bind nginx to all interfaces, a specific zone IP, or localhost only.</li>
+          <li><strong>HTTP / HTTPS ports.</strong> Configurable, with HTTP -&gt; HTTPS redirect.</li>
+          <li><strong>TLS certificate.</strong> Upload existing PEM cert + key, or generate a self-signed RSA 4096 in one click.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">SSH access</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>Install / remove openssh-server</strong> from the UI.</li>
+          <li><strong>Listen address and port</strong> per sshd_config drop-in.</li>
+          <li><strong>Authorized keys</strong> for root, with paste-in or upload.</li>
+          <li><strong>Linux root password</strong> reset (separately from the UI admin account).</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Hardening</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li><strong>sysctl drop-in.</strong> Forwarding, rp_filter, BCP-38 anti-spoof, conntrack tuning.</li>
+          <li><strong>sshd drop-in.</strong> No root password, no challenge response, MaxAuthTries.</li>
+          <li><strong>fail2ban drop-in.</strong> MurOS filter for the UI login, sshd jail.</li>
+          <li><strong>journald drop-in.</strong> Persistent storage, size cap.</li>
+          <li><strong>API rate limit.</strong> Per-IP login attempts throttled at the FastAPI layer.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-14 border-t border-slate-200 pt-8">
+      <h2 class="text-lg font-semibold text-slate-900">Out of scope, by design</h2>
+      <p class="mt-2 text-sm text-slate-600 max-w-3xl">SD-WAN with application steering, HTTP proxy / web filter with HTTPS interception, gateway antivirus, dynamic routing (OSPF / BGP), reverse proxy / HTTP load balancer, OpenVPN, non-Debian distributions. MurOS stays smaller in scope on purpose.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-slate-200 py-10 mt-16">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+    <div class="flex items-center gap-2">
+      <img src="assets/logo-dark.svg" alt="MurOS" class="h-5 w-auto">
+      <span>&middot; AGPL v3</span>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href="legal.html" class="hover:text-slate-900">Legal</a>
+      <a href="https://github.com/murosorg/muros" class="hover:text-slate-900">GitHub</a>
+      <a href="https://github.com/murosorg/muros/issues" class="hover:text-slate-900">Issues</a>
+      <a href="https://github.com/murosorg/muros/blob/main/LICENSE" class="hover:text-slate-900">License</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/lightbox.js" defer></script>
+</body>
+</html>

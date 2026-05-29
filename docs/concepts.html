@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>Concepts - MurOS Docs</title>
+<meta name="description" content="Core MurOS concepts: zones, stage in database, apply, and automatic rollback.">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="canonical" href="https://muros.org/docs/concepts.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MurOS">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://muros.org/docs/concepts.html">
+<meta property="og:title" content="Concepts - MurOS Docs">
+<meta property="og:description" content="Core MurOS concepts: zones, stage in database, apply, and automatic rollback.">
+<meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Concepts - MurOS Docs">
+<meta name="twitter:description" content="Core MurOS concepts: zones, stage in database, apply, and automatic rollback.">
+<meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Concepts",
+      "description": "Core MurOS concepts: zones, stage in database, apply, and automatic rollback.",
+      "url": "https://muros.org/docs/concepts.html",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "datePublished": "2026-05-27",
+      "dateModified": "2026-05-29"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://muros.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Docs",
+          "item": "https://muros.org/docs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Concepts",
+          "item": "https://muros.org/docs/concepts.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
+      <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-9 w-auto">
+      <span class="mono text-xs font-semibold text-amber-700">[BETA]</span>
+    </a>
+    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
+      <a href="/features.html" class="nav-link hover:text-slate-900">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+    </nav>
+    <details class="sm:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+      <a href="/features.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active px-4 py-2 hover:bg-slate-50">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+    </div></details>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
+      <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+      <div class="group-title">Getting started</div>
+      <a href="/docs/quickstart.html" class="">Quickstart</a>
+      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <div class="group-title">Reference</div>
+      <a href="/docs/concepts.html" class="active">Concepts</a>
+      <a href="/docs/architecture.html" class="">Architecture</a>
+      <a href="/docs/ha.html" class="">High availability</a>
+      <a href="/docs/changelog.html" class="">Changelog</a>
+      <div class="group-title">Help</div>
+      <a href="/docs/faq.html" class="">FAQ</a>
+      <div class="group-title">Help</div>
+      <a href="https://github.com/murosorg/muros/issues">Issues (GitHub)</a>
+      <a href="https://github.com/murosorg/muros/discussions">Discussions</a>
+      </aside>
+    <article>
+      <nav class="text-xs text-slate-500 mb-4 mono"><a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">concepts.md</span></nav>
+      <div class="doc-prose">
+<h1 id="muros-concepts">MurOS concepts</h1>
+<p>This document explains the key concepts you will encounter in the UI.</p>
+<h2 id="interfaces">Interfaces</h2>
+<p>An <strong>interface</strong> represents a network card on the firewall: <code>eth0</code>, <code>eth1</code>, a
+VLAN on <code>eth0</code> (e.g. <code>eth0.10</code>), a bridge, a WireGuard tunnel <code>wg0</code>, etc.
+In MurOS, each interface has:</p>
+<ul>
+<li>A name (the Linux name: <code>eth0</code>, <code>eth0.10</code>)</li>
+<li>One or more IP addresses (with CIDR mask: <code>192.168.1.1/24</code>)</li>
+<li>Optionally a custom MTU</li>
+<li>An assigned zone (see below)</li>
+</ul>
+<p>Interfaces are configured in <strong>Network &gt; Interfaces</strong>.</p>
+<h2 id="zones">Zones</h2>
+<p>A <strong>zone</strong> is a logical grouping of interfaces that share the same trust
+level. It is the core filtering concept of MurOS, inspired by pfSense /
+OPNsense / Shorewall.</p>
+<p>Typical examples:</p>
+<ul>
+<li><code>wan</code>: internet-facing interface(s), untrusted</li>
+<li><code>lan</code>: internal network, trusted</li>
+<li><code>dmz</code>: exposed servers</li>
+<li><code>mgmt</code>: admin network</li>
+<li><code>vpn</code>: VPN tunnel interfaces</li>
+</ul>
+<p>Filter rules reference zones (not interfaces directly). That way, if you add
+a 2nd interface to the LAN tomorrow, the rules keep working.</p>
+<p>Zones are defined in <strong>Network &gt; Zones</strong>.</p>
+<h2 id="filter-rules">Filter rules</h2>
+<p>A <strong>rule</strong> decides the fate of packets matching its criteria:
+* <code>accept</code>: let through
+* <code>drop</code>: silently discard (sender does not know)
+* <code>reject</code>: send back an ICMP "unreachable" (sender is informed)</p>
+<p>Possible criteria:
+* <strong>Chain</strong>: <code>input</code> (packets to the firewall itself), <code>forward</code> (packets
+  traversing two interfaces), <code>output</code> (packets emitted by the firewall)
+* <strong>Source zone</strong> and <strong>destination zone</strong>
+* <strong>Protocol</strong> (tcp, udp, icmp, sctp)
+* <strong>Destination port</strong> (or range)
+* <strong>Source</strong> and/or <strong>destination address</strong> (IP or CIDR)
+* <strong>Rate-limit</strong> (e.g. <code>100/s burst 20</code>)
+* <strong>Log</strong>: if enabled, matched packets are written to journalctl</p>
+<p>Rules are ordered: the first one that matches takes the decision. A default
+<code>drop</code> rule is appended at the end by MurOS.</p>
+<p>Rules are managed in <strong>Filtering &gt; Rules</strong>. Click <strong>Apply</strong> after editing to
+push into nftables.</p>
+<h2 id="nat-network-address-translation">NAT (Network Address Translation)</h2>
+<p><strong>NAT</strong> lets you modify packet addresses:</p>
+<ul>
+<li><strong>SNAT / Masquerade</strong>: replaces the source IP. Typical use: LAN hosts go
+  out to the Internet with the firewall's public IP.</li>
+<li><strong>DNAT</strong>: replaces the destination IP. Use case: expose an internal web
+  server by redirecting traffic arriving on port 443 of the public IP.</li>
+</ul>
+<p>Managed in <strong>Network &gt; NAT</strong>.</p>
+<h2 id="vpn">VPN</h2>
+<p>Two technologies available:</p>
+<h3 id="wireguard">WireGuard</h3>
+<p>Modern, simple, fast VPN protocol. Configured in <strong>VPN &gt; WireGuard</strong>:
+* An "interface" wg0 with IP, listen port, private key
+* "Peers" (clients or other firewalls) with their public key, allowed IPs,
+  optionally an endpoint and a keepalive</p>
+<p>Best for: roaming users (laptop, phone), simple site-to-site, performance.</p>
+<h3 id="ipsec-strongswan">IPsec (StrongSwan)</h3>
+<p>Standard protocol interoperable with everything (Cisco, Fortinet, etc.).
+Configured in <strong>VPN &gt; IPsec</strong>:
+* Connections with local/remote address, IKE and ESP proposals
+* Auth via PSK (pre-shared key) or X.509 certificate
+* Integrated PKI: MurOS can generate the CA, peer certificates and the CRL</p>
+<p>Best for: interoperability, client contracts that mandate IPsec.</p>
+<h2 id="high-availability-ha">High Availability (HA)</h2>
+<p>MurOS supports an <strong>active-passive 2-node</strong> configuration:
+* <strong>keepalived</strong> handles VIP failover via VRRP
+* <strong>conntrackd</strong> synchronizes connection state between the 2 nodes
+  (established connections survive the failover)
+* MurOS synchronizes its own configuration DB between the 2 nodes (the
+  BACKUP receives all changes made on the MASTER)</p>
+<p>A node is either <strong>MASTER</strong> or <strong>BACKUP</strong> at a given moment. The MASTER
+holds the VIPs, the BACKUP waits silently. If the MASTER goes down, the
+BACKUP takes over the VIP and keeps serving traffic.</p>
+<p>Managed in <strong>HA</strong>.</p>
+<h2 id="audit-log">Audit log</h2>
+<p>All UI-driven changes (rule creation, peer deletion, config apply...) are
+logged in <strong>Logs &gt; UI actions</strong>. This lets you trace who did what and when.</p>
+<p>Read operations (GET) are not logged to avoid noise (otherwise UI polling
+would saturate the table).</p>
+<h2 id="backups">Backups</h2>
+<p>MurOS backs up its entire <strong>SQLite DB</strong> (which contains the whole config:
+rules, zones, peers, etc.). Backups can be:
+* Local in <code>/var/lib/muros/backups/</code>
+* Remote via rclone, FTP, or SSH (depending on what is configured)</p>
+<p>A backup is created automatically before every HA sync (so you can roll
+back if the sync breaks something).</p>
+<p>Managed in <strong>Backups</strong>.</p>
+      </div>
+      <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-500 flex items-center justify-between">
+        <a href="https://github.com/murosorg/muros/blob/main/docs/concepts.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">muros/docs</span>
+      </div>
+    </article>
+  </div>
+</section>
+</main>
+
+<footer class="border-t border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 py-8 text-sm text-slate-500 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+    <div>MurOS &middot; AGPL v3 &middot; <a href="https://github.com/murosorg/muros" class="hover:text-amber-700">github.com/murosorg/muros</a></div>
+    <div class="flex gap-5">
+      <a href="/features.html" class="hover:text-amber-700">Features</a>
+      <a href="/install.html" class="hover:text-amber-700">Install</a>
+      <a href="/hardware.html" class="hover:text-amber-700">Hardware</a>
+      <a href="/docs.html" class="hover:text-amber-700">Docs</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

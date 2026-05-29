@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>First filter rule - MurOS Docs</title>
+<meta name="description" content="Create your first stateful filter rule from the MurOS web UI.">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="canonical" href="https://muros.org/docs/first-filter.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MurOS">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://muros.org/docs/first-filter.html">
+<meta property="og:title" content="First filter rule - MurOS Docs">
+<meta property="og:description" content="Create your first stateful filter rule from the MurOS web UI.">
+<meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="First filter rule - MurOS Docs">
+<meta name="twitter:description" content="Create your first stateful filter rule from the MurOS web UI.">
+<meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "First filter rule",
+      "description": "Create your first stateful filter rule from the MurOS web UI.",
+      "url": "https://muros.org/docs/first-filter.html",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "datePublished": "2026-05-27",
+      "dateModified": "2026-05-29"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://muros.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Docs",
+          "item": "https://muros.org/docs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "First filter rule",
+          "item": "https://muros.org/docs/first-filter.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
+      <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-9 w-auto">
+      <span class="mono text-xs font-semibold text-amber-700">[BETA]</span>
+    </a>
+    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
+      <a href="/features.html" class="nav-link hover:text-slate-900">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+    </nav>
+    <details class="sm:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+      <a href="/features.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active px-4 py-2 hover:bg-slate-50">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+    </div></details>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
+      <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+      <div class="group-title">Getting started</div>
+      <a href="/docs/quickstart.html" class="">Quickstart</a>
+      <a href="/docs/first-filter.html" class="active">First filter rule</a>
+      <div class="group-title">Reference</div>
+      <a href="/docs/concepts.html" class="">Concepts</a>
+      <a href="/docs/architecture.html" class="">Architecture</a>
+      <a href="/docs/ha.html" class="">High availability</a>
+      <a href="/docs/changelog.html" class="">Changelog</a>
+      <div class="group-title">Help</div>
+      <a href="/docs/faq.html" class="">FAQ</a>
+      <div class="group-title">Help</div>
+      <a href="https://github.com/murosorg/muros/issues">Issues (GitHub)</a>
+      <a href="https://github.com/murosorg/muros/discussions">Discussions</a>
+      </aside>
+    <article>
+      <nav class="text-xs text-slate-500 mb-4 mono"><a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">first-filter.md</span></nav>
+      <div class="doc-prose">
+<h1 id="use-case-setting-up-your-first-filter">Use case: setting up your first filter</h1>
+<p>This tutorial shows how to configure MurOS from scratch for a typical use
+case: a firewall protecting an internal LAN with Internet access and
+restricted admin SSH.</p>
+<h2 id="topology">Topology</h2>
+<pre><code>   [Internet]
+       |
+     eth0 (WAN, 203.0.113.10/24)
+       |
+   +---MurOS firewall---+
+       |
+     eth1 (LAN, 192.168.1.1/24)
+       |
+   [LAN hosts]
+</code></pre>
+<h2 id="step-1-interfaces">Step 1: Interfaces</h2>
+<p>Go to <strong>Network &gt; Interfaces</strong>, add:</p>
+<ul>
+<li><code>eth0</code>: IP <code>203.0.113.10/24</code>, MTU 1500</li>
+<li><code>eth1</code>: IP <code>192.168.1.1/24</code>, MTU 1500</li>
+</ul>
+<h2 id="step-2-zones">Step 2: Zones</h2>
+<p>Go to <strong>Network &gt; Zones</strong>, add:</p>
+<ul>
+<li><code>wan</code>: interface <code>eth0</code></li>
+<li><code>lan</code>: interface <code>eth1</code></li>
+</ul>
+<h2 id="step-3-nat-for-internet-outbound">Step 3: NAT for Internet outbound</h2>
+<p>Go to <strong>Network &gt; NAT</strong>, add a SNAT (or masquerade) rule:</p>
+<ul>
+<li>Source: zone <code>lan</code></li>
+<li>Destination: zone <code>wan</code></li>
+<li>Action: Masquerade</li>
+<li>Egress interface: <code>eth0</code></li>
+</ul>
+<p>Click <strong>Apply</strong>.</p>
+<h2 id="step-4-forward-rule-lan-to-wan">Step 4: Forward rule LAN to WAN</h2>
+<p>Go to <strong>Filtering &gt; Rules</strong>, add:</p>
+<ul>
+<li>Chain: <code>forward</code></li>
+<li>Source zone: <code>lan</code></li>
+<li>Destination zone: <code>wan</code></li>
+<li>Action: <code>accept</code></li>
+<li>Description: "Allow LAN to reach the Internet"</li>
+</ul>
+<p>Click <strong>Apply</strong>.</p>
+<h2 id="step-5-block-the-other-direction-wan-to-lan">Step 5: Block the other direction (WAN to LAN)</h2>
+<p>The default MurOS rule is already <code>drop</code> on the <code>forward</code> chain. Traffic
+from the Internet to the LAN is therefore blocked by default.</p>
+<h2 id="step-6-restricted-admin-ssh-access">Step 6: Restricted admin SSH access</h2>
+<p>In <strong>Filtering &gt; Rules</strong>, add in order:</p>
+<ol>
+<li>Chain <code>input</code>, source IP <code>203.0.113.99/32</code>, port 22 tcp, action <code>accept</code></li>
+<li>Chain <code>input</code>, port 22 tcp, action <code>drop</code></li>
+</ol>
+<p>The first matching rule wins, so only SSH packets coming from the admin IP
+are accepted.</p>
+<h2 id="step-7-allow-lan-to-ping-the-firewall">Step 7: Allow LAN to ping the firewall</h2>
+<ul>
+<li>Chain <code>input</code>, source zone <code>lan</code>, protocol <code>icmp</code>, action <code>accept</code></li>
+</ul>
+<h2 id="step-8-restrict-muros-ui-to-lan">Step 8: Restrict MurOS UI to LAN</h2>
+<p>In <strong>HTTP Access</strong> &gt; "Web listen interface", pick IP <code>192.168.1.1</code>
+(LAN interface). Click <strong>Apply in nginx</strong>.</p>
+<p>A modal opens with a 60s countdown. Click <strong>Confirm</strong> after checking the UI
+is still reachable. If you lose access, automatic rollback restores the
+previous listen address after 60s.</p>
+<h2 id="step-9-backup-before-going-to-production">Step 9: Backup before going to production</h2>
+<p>In <strong>Backups</strong>, click <strong>Create a backup</strong>.</p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li>Add a <code>dmz</code> zone for exposed servers</li>
+<li>Configure a WireGuard VPN for roaming users</li>
+<li>Enable email notifications</li>
+<li>Enable SNMP for monitoring</li>
+<li>Configure high availability if you have a 2nd node</li>
+</ul>
+      </div>
+      <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-500 flex items-center justify-between">
+        <a href="https://github.com/murosorg/muros/blob/main/docs/first-filter.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">muros/docs</span>
+      </div>
+    </article>
+  </div>
+</section>
+</main>
+
+<footer class="border-t border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 py-8 text-sm text-slate-500 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+    <div>MurOS &middot; AGPL v3 &middot; <a href="https://github.com/murosorg/muros" class="hover:text-amber-700">github.com/murosorg/muros</a></div>
+    <div class="flex gap-5">
+      <a href="/features.html" class="hover:text-amber-700">Features</a>
+      <a href="/install.html" class="hover:text-amber-700">Install</a>
+      <a href="/hardware.html" class="hover:text-amber-700">Hardware</a>
+      <a href="/docs.html" class="hover:text-amber-700">Docs</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>Install MurOS on Debian 13 - open source firewall</title>
+<meta name="description" content="Install MurOS on a fresh Debian 13 (Trixie) machine in under five minutes. One curl + sudo bash, then point a browser at https://<firewall-ip>.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/app.css">
+<link rel="canonical" href="https://muros.org/install.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MurOS">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://muros.org/install.html">
+<meta property="og:title" content="Install MurOS on Debian 13 - open source firewall">
+<meta property="og:description" content="Install MurOS on a fresh Debian 13 (Trixie) machine in under five minutes. One curl + sudo bash, then point a browser at https://<firewall-ip>.">
+<meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Install MurOS on Debian 13 - open source firewall">
+<meta name="twitter:description" content="Install MurOS on a fresh Debian 13 (Trixie) machine in under five minutes. One curl + sudo bash, then point a browser at https://<firewall-ip>.">
+<meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://muros.org/#org",
+      "name": "MurOS",
+      "url": "https://muros.org/",
+      "logo": "https://muros.org/assets/logo-dark.svg",
+      "sameAs": [
+        "https://github.com/murosorg/muros"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://muros.org/#website",
+      "name": "MurOS",
+      "url": "https://muros.org/",
+      "publisher": {
+        "@id": "https://muros.org/#org"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://muros.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Install",
+          "item": "https://muros.org/install.html"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Install MurOS on Debian 13",
+      "description": "Install the MurOS open source firewall on a fresh Debian 13 (Trixie) machine in a few minutes.",
+      "totalTime": "PT5M",
+      "tool": [
+        { "@type": "HowToTool", "name": "A machine running Debian 13 (Trixie), server profile" },
+        { "@type": "HowToTool", "name": "Root access" }
+      ],
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Check prerequisites",
+          "url": "https://muros.org/install.html#prerequisites",
+          "text": "Start from a clean Debian 13 (Trixie) install with a server profile, root access, at least one network interface reachable from the management subnet, and outbound HTTPS to github.com for the package download."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Run the installer",
+          "url": "https://muros.org/install.html#install",
+          "text": "As root on the target machine, run: curl -fsSL https://github.com/murosorg/muros/releases/latest/download/install.sh | sudo bash. The script downloads the latest .deb, verifies its SHA-256, installs it, and enables the muros-backend, nginx and muros-boot services."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Log in to the web UI",
+          "url": "https://muros.org/install.html#first-login",
+          "text": "Open https://<firewall-ip> in any browser and log in with the default credentials admin / muros. The UI forces a password change at first login, requiring at least 12 characters with mixed case, a digit and a symbol."
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
+      <img src="assets/logo-dark.svg" alt="MurOS" class="block h-9 w-auto">
+      <span class="mono text-xs font-semibold text-amber-700">[BETA]</span>
+    </a>
+    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
+      <a href="features.html" class="nav-link hover:text-slate-900">Features</a>
+      <a href="install.html" class="nav-link hover:text-slate-900 active">Install</a>
+      <a href="download.html" class="nav-link hover:text-slate-900">Download</a>
+      <a href="hardware.html" class="nav-link hover:text-slate-900">Hardware</a>
+      <a href="docs.html" class="nav-link hover:text-slate-900">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+    </nav><details class="sm:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+      <a href="features.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Features</a>
+      <a href="install.html" class="nav-link hover:text-slate-900 active px-4 py-2 hover:bg-slate-50">Install</a>
+      <a href="download.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Download</a>
+      <a href="hardware.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Hardware</a>
+      <a href="docs.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+    </div></details>
+  </div>
+</header>
+
+<main>
+
+<section class="py-16">
+  <div class="max-w-3xl mx-auto px-6">
+    <h1 class="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">Install MurOS</h1>
+    <p class="mt-3 text-slate-600">From a freshly installed Debian 13 (Trixie) to a running firewall in about five minutes.</p>
+
+    <h2 id="prerequisites" class="mt-12 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">1. Prerequisites</h2>
+    <ul class="mt-3 space-y-2 text-sm text-slate-700 list-disc list-inside">
+      <li>A clean <strong>Debian 13 (Trixie)</strong> install, server profile (no desktop).</li>
+      <li>Root access (the install script must run as root).</li>
+      <li>At least one network interface reachable from the management subnet.</li>
+      <li>Outbound HTTPS to <code class="bg-slate-100 px-1 rounded">github.com</code> for the package download.</li>
+    </ul>
+    <p class="mt-3 text-sm text-slate-500">Other distributions (Ubuntu, Rocky, RHEL) are not supported. MurOS uses Debian-specific drop-in paths.</p>
+
+    <h2 id="install" class="mt-10 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">2. Install</h2>
+    <p class="mt-3 text-sm text-slate-600">Run as root on the target machine:</p>
+    <pre class="mt-3 bg-slate-900 text-slate-100 rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://github.com/murosorg/muros/releases/latest/download/install.sh | sudo bash</code></pre>
+    <p class="mt-3 text-sm text-slate-600">The script:</p>
+    <ol class="mt-2 space-y-1 text-sm text-slate-700 list-decimal list-inside">
+      <li>Downloads the latest <code class="bg-slate-100 px-1 rounded">muros_*.deb</code>.</li>
+      <li>Verifies its SHA-256.</li>
+      <li>Drops a selective <code class="bg-slate-100 px-1 rounded">policy-rc.d</code> so feature daemons (dnsmasq, unbound, etc.) do not auto-start during package configure.</li>
+      <li>Runs <code class="bg-slate-100 px-1 rounded">apt-get install</code>.</li>
+      <li>Enables <code class="bg-slate-100 px-1 rounded">muros-backend</code>, <code class="bg-slate-100 px-1 rounded">nginx</code> and <code class="bg-slate-100 px-1 rounded">muros-boot</code>.</li>
+    </ol>
+
+    <h2 id="first-login" class="mt-10 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">3. First login</h2>
+    <p class="mt-3 text-sm text-slate-600">Open <code class="bg-slate-100 px-1 rounded">https://&lt;firewall-ip&gt;</code> in any browser. Default credentials:</p>
+    <pre class="mt-3 bg-slate-50 border border-slate-200 rounded p-4 text-sm mono"><code>Login    : admin
+Password : muros</code></pre>
+    <p class="mt-3 text-sm text-slate-600">The UI forces a password change at the first login. The new password must be at least 12 chars, contain mixed case, digits, a symbol, and is checked against the HaveIBeenPwned k-anonymity API.</p>
+
+    <h2 class="mt-10 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">4. Optional flags</h2>
+    <table class="mt-3 w-full text-sm border border-slate-200 rounded">
+      <thead class="bg-slate-50 text-slate-700">
+        <tr><th class="text-left font-medium px-3 py-2">Env variable</th><th class="text-left font-medium px-3 py-2">Effect</th></tr>
+      </thead>
+      <tbody class="divide-y divide-slate-200">
+        <tr><td class="px-3 py-2 mono">MUROS_VERSION</td><td class="px-3 py-2">Pin a specific tag, e.g. <code class="bg-slate-100 px-1 rounded">MUROS_VERSION=<span data-muros-tag>v1.0.0-rc</span></code>.</td></tr>
+        <tr><td class="px-3 py-2 mono">MUROS_NO_DOWNLOAD</td><td class="px-3 py-2">Use an existing <code class="bg-slate-100 px-1 rounded">muros_*.deb</code> in the current directory.</td></tr>
+        <tr><td class="px-3 py-2 mono">MUROS_BACKUP_RESTORE</td><td class="px-3 py-2">Skip the snapshot restore from <code class="bg-slate-100 px-1 rounded">/var/backups/muros</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="mt-10 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">5. Uninstall</h2>
+    <pre class="mt-3 bg-slate-900 text-slate-100 rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://github.com/murosorg/muros/releases/latest/download/uninstall.sh | sudo bash</code></pre>
+    <p class="mt-3 text-sm text-slate-600">The uninstall script stashes the SQLite DB under <code class="bg-slate-100 px-1 rounded">/var/backups/muros/data-&lt;timestamp&gt;</code> before removing the package. A reinstall restores it automatically.</p>
+
+    <h2 class="mt-10 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">6. Where things live</h2>
+    <pre class="mt-3 bg-slate-50 border border-slate-200 rounded p-4 text-xs mono overflow-x-auto"><code>/opt/muros/                                  code (backend + built frontend)
+/var/lib/muros/muros.db                      SQLite, the source of truth
+/var/lib/muros/muros-secret.key              JWT signing secret (mode 0600)
+/etc/nftables.conf                           fully generated by MurOS
+/etc/keepalived/keepalived.conf              fully generated
+/etc/wireguard/wg0.conf                      fully generated
+/etc/ssh/sshd_config.d/muros.conf            sshd drop-in
+/etc/fail2ban/{filter.d,jail.d}/muros*       fail2ban drop-in
+/etc/snmp/snmpd.conf.d/muros.conf            snmpd drop-in
+/etc/sysctl.d/99-muros-hardening.conf        sysctl drop-in
+/etc/dnsmasq.d/muros-dhcp.conf               dnsmasq drop-in (DHCP only)
+/etc/unbound/unbound.conf.d/muros.conf       unbound drop-in (recursive DNS)
+/etc/swanctl/conf.d/muros.conf               strongswan drop-in
+/etc/nginx/sites-available/muros             nginx site (regenerated by HTTP Access UI)</code></pre>
+    <p class="mt-3 text-sm text-slate-600">MurOS never writes to <code class="bg-slate-100 px-1 rounded">/etc/network/interfaces</code>, <code class="bg-slate-100 px-1 rounded">/etc/systemd/network/</code> or <code class="bg-slate-100 px-1 rounded">/etc/netplan/</code>. Interfaces, VLANs and routes are replayed from the DB by <code class="bg-slate-100 px-1 rounded">muros-boot.service</code> before <code class="bg-slate-100 px-1 rounded">network-online.target</code>.</p>
+
+    <div class="mt-12 border border-amber-200 bg-amber-50 rounded p-4 text-sm text-amber-900">
+      <strong>Beta status.</strong> MurOS is currently in beta (1.0.0 release candidate cycle). Run it on a staging firewall first, validate every page against your topology, then promote.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-slate-200 py-10 mt-16">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+    <div class="flex items-center gap-2">
+      <img src="assets/logo-dark.svg" alt="MurOS" class="h-5 w-auto">
+      <span>&middot; AGPL v3</span>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href="legal.html" class="hover:text-slate-900">Legal</a>
+      <a href="https://github.com/murosorg/muros" class="hover:text-slate-900">GitHub</a>
+      <a href="https://github.com/murosorg/muros/issues" class="hover:text-slate-900">Issues</a>
+      <a href="https://github.com/murosorg/muros/blob/main/LICENSE" class="hover:text-slate-900">License</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/version.js" defer></script>
+</body>
+</html>
+ipt>
+</body>
+</html>

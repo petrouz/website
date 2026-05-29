@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>Architecture - MurOS Docs</title>
+<meta name="description" content="How MurOS is built: database model, boot sequence and kernel push.">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="canonical" href="https://muros.org/docs/architecture.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MurOS">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://muros.org/docs/architecture.html">
+<meta property="og:title" content="Architecture - MurOS Docs">
+<meta property="og:description" content="How MurOS is built: database model, boot sequence and kernel push.">
+<meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Architecture - MurOS Docs">
+<meta name="twitter:description" content="How MurOS is built: database model, boot sequence and kernel push.">
+<meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Architecture",
+      "description": "How MurOS is built: database model, boot sequence and kernel push.",
+      "url": "https://muros.org/docs/architecture.html",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "datePublished": "2026-05-27",
+      "dateModified": "2026-05-29"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://muros.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Docs",
+          "item": "https://muros.org/docs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Architecture",
+          "item": "https://muros.org/docs/architecture.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
+      <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-9 w-auto">
+      <span class="mono text-xs font-semibold text-amber-700">[BETA]</span>
+    </a>
+    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
+      <a href="/features.html" class="nav-link hover:text-slate-900">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+    </nav>
+    <details class="sm:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+      <a href="/features.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active px-4 py-2 hover:bg-slate-50">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+    </div></details>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
+      <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+      <div class="group-title">Getting started</div>
+      <a href="/docs/quickstart.html" class="">Quickstart</a>
+      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <div class="group-title">Reference</div>
+      <a href="/docs/concepts.html" class="">Concepts</a>
+      <a href="/docs/architecture.html" class="active">Architecture</a>
+      <a href="/docs/ha.html" class="">High availability</a>
+      <a href="/docs/changelog.html" class="">Changelog</a>
+      <div class="group-title">Help</div>
+      <a href="/docs/faq.html" class="">FAQ</a>
+      <div class="group-title">Help</div>
+      <a href="https://github.com/murosorg/muros/issues">Issues (GitHub)</a>
+      <a href="https://github.com/murosorg/muros/discussions">Discussions</a>
+      </aside>
+    <article>
+      <nav class="text-xs text-slate-500 mb-4 mono"><a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">architecture.md</span></nav>
+      <div class="doc-prose">
+<h1 id="architecture">Architecture</h1>
+<p>This document maps the moving parts of a MurOS install: which files it
+owns on disk, which daemons it manages, and how an operator action in
+the UI propagates down to the kernel.</p>
+<h2 id="layout-on-disk">Layout on disk</h2>
+<pre><code>/opt/muros/                                  code (FastAPI backend + built Vite frontend)
+/opt/muros/backend/venv/                     Python venv built at postinst
+/var/lib/muros/muros.db                      SQLite, the only source of truth
+/var/lib/muros/muros-secret.key              JWT signing secret (mode 0600)
+/var/lib/muros/backups/                      DB + config snapshots
+/etc/muros/                                  out-of-band configuration owned by muros user
+/etc/muros/jwt.key                           JWT HMAC key
+/etc/muros/unattended.json                   unattended-upgrades schedule (UI-managed)
+</code></pre>
+<p>Generated configuration files (rewritten on every Apply):</p>
+<pre><code>/etc/nftables.conf                           full ruleset (filter + NAT)
+/etc/keepalived/keepalived.conf              VRRP
+/etc/conntrackd/conntrackd.conf              state replication
+/etc/wireguard/wg0.conf                      WireGuard
+/etc/swanctl/conf.d/muros.conf               StrongSwan
+/etc/dnsmasq.d/muros-dhcp.conf               DHCP server
+/etc/unbound/unbound.conf.d/muros.conf       recursive DNS
+/etc/ssh/sshd_config.d/muros.conf            SSH drop-in
+/etc/fail2ban/{filter.d,jail.d}/muros*       fail2ban
+/etc/snmp/snmpd.conf.d/muros.conf            SNMP
+/etc/sysctl.d/99-muros-hardening.conf        sysctl
+/etc/nginx/sites-available/muros             nginx site
+</code></pre>
+<p>MurOS never writes to <code>/etc/network/interfaces</code>, <code>/etc/systemd/network/</code>
+or <code>/etc/netplan/</code>. Interfaces, VLANs and routes are replayed from the
+DB by <code>muros-boot.service</code> before <code>network-online.target</code>.</p>
+<h2 id="daemons-managed">Daemons managed</h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Role</th>
+<th>When MurOS touches it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>muros-backend.service</td>
+<td>FastAPI + uvicorn behind nginx</td>
+<td>always running</td>
+</tr>
+<tr>
+<td>nginx</td>
+<td>HTTPS termination, /api proxy</td>
+<td>reload on HTTP access change</td>
+</tr>
+<tr>
+<td>muros-boot.service</td>
+<td>replays interfaces/routes at boot</td>
+<td>oneshot, before network-online</td>
+</tr>
+<tr>
+<td>muros-watcher.service</td>
+<td>alert loop (SMTP / webhook)</td>
+<td>enabled when notification rules exist</td>
+</tr>
+<tr>
+<td>muros-wan-monitor.service</td>
+<td>multi-WAN ICMP probes</td>
+<td>enabled when &gt;1 WAN gateway</td>
+</tr>
+<tr>
+<td>nftables</td>
+<td>filter + NAT</td>
+<td><code>nft -f</code> on Apply</td>
+</tr>
+<tr>
+<td>keepalived</td>
+<td>VRRP active/passive</td>
+<td>restart on HA Apply</td>
+</tr>
+<tr>
+<td>conntrackd</td>
+<td>conntrack state sync</td>
+<td>restart with keepalived</td>
+</tr>
+<tr>
+<td>dnsmasq</td>
+<td>DHCP only (port=0 for DNS)</td>
+<td>restart on DHCP Apply</td>
+</tr>
+<tr>
+<td>unbound</td>
+<td>recursive DNS</td>
+<td>restart on DNS Apply</td>
+</tr>
+<tr>
+<td>strongswan</td>
+<td>IPsec</td>
+<td>swanctl --load-all on IPsec Apply</td>
+</tr>
+<tr>
+<td>wg-quick@wg0</td>
+<td>WireGuard tunnel</td>
+<td>wg syncconf on peer Apply (no tunnel drop)</td>
+</tr>
+<tr>
+<td>fail2ban</td>
+<td>bruteforce protection</td>
+<td>reload on rule change</td>
+</tr>
+<tr>
+<td>snmpd</td>
+<td>SNMP agent</td>
+<td>restart on SNMP Apply</td>
+</tr>
+<tr>
+<td>chrony or systemd-timesyncd</td>
+<td>NTP</td>
+<td>restart on Time Apply</td>
+</tr>
+</tbody>
+</table>
+<h2 id="apply-pipeline">Apply pipeline</h2>
+<p>Every write action follows the same shape:</p>
+<ol>
+<li><strong>Stage in DB.</strong> The HTTP route validates and persists to <code>muros.db</code>.</li>
+<li><strong>Render.</strong> A <code>services/&lt;module&gt;_apply.py</code> reads the DB and writes the
+   target configuration file under <code>/etc/...</code>.</li>
+<li><strong>Reload.</strong> <code>systemctl reload</code> or <code>restart</code> for the relevant daemon.
+   For nftables we use <code>nft -f</code> so the kernel swap is atomic.</li>
+<li><strong>Auto-rollback.</strong> Filter / NAT applies open a 30-second control
+   window. If the management session does not heartbeat back, MurOS
+   restores the previous ruleset from <code>/var/lib/muros/nftables.last</code>.</li>
+</ol>
+<p>For read paths, no Apply is needed: the routes hit <code>/proc</code>, <code>nft</code>,
+<code>conntrack</code>, <code>journalctl</code>, <code>ip -j ...</code> directly and stream results.</p>
+<h2 id="database-schema">Database schema</h2>
+<p>SQLite with SQLAlchemy ORM. Schemas live under <code>backend/app/models/</code>.
+The canonical tables: <code>interface</code>, <code>vlan</code>, <code>route</code>, <code>wan_gateway</code>,
+<code>zone</code>, <code>firewall_rule</code>, <code>nat_rule</code>, <code>dhcp_pool</code>, <code>dhcp_static_lease</code>,
+<code>dns_record</code>, <code>wg_peer</code>, <code>ipsec_connection</code>, <code>ipsec_certificate</code>,
+<code>ha_config</code>, <code>user</code>, <code>audit_log</code>, <code>notification_rule</code>.</p>
+<h2 id="boot-sequence">Boot sequence</h2>
+<pre><code>systemd-boot
+  -&gt; systemd
+     -&gt; muros-boot.service (oneshot)
+        - reads DB, brings interfaces / VLANs / routes up
+        - generates /etc/nftables.conf, loads it
+     -&gt; network-online.target
+     -&gt; muros-backend.service, nginx, keepalived, conntrackd,
+        dnsmasq, unbound, strongswan, wg-quick@wg0 (if enabled)
+</code></pre>
+<p>A failure in muros-boot is non-fatal for the OS: SSH and the
+emergency console still come up so the operator can recover.</p>
+      </div>
+      <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-500 flex items-center justify-between">
+        <a href="https://github.com/murosorg/muros/blob/main/docs/architecture.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">muros/docs</span>
+      </div>
+    </article>
+  </div>
+</section>
+</main>
+
+<footer class="border-t border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 py-8 text-sm text-slate-500 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+    <div>MurOS &middot; AGPL v3 &middot; <a href="https://github.com/murosorg/muros" class="hover:text-amber-700">github.com/murosorg/muros</a></div>
+    <div class="flex gap-5">
+      <a href="/features.html" class="hover:text-amber-700">Features</a>
+      <a href="/install.html" class="hover:text-amber-700">Install</a>
+      <a href="/hardware.html" class="hover:text-amber-700">Hardware</a>
+      <a href="/docs.html" class="hover:text-amber-700">Docs</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>FAQ - MurOS Docs</title>
+<meta name="description" content="Frequently asked questions and troubleshooting for MurOS.">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="canonical" href="https://muros.org/docs/faq.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MurOS">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://muros.org/docs/faq.html">
+<meta property="og:title" content="FAQ - MurOS Docs">
+<meta property="og:description" content="Frequently asked questions and troubleshooting for MurOS.">
+<meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FAQ - MurOS Docs">
+<meta name="twitter:description" content="Frequently asked questions and troubleshooting for MurOS.">
+<meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "FAQ",
+      "description": "Frequently asked questions and troubleshooting for MurOS.",
+      "url": "https://muros.org/docs/faq.html",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "datePublished": "2026-05-27",
+      "dateModified": "2026-05-29"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://muros.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Docs",
+          "item": "https://muros.org/docs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "FAQ",
+          "item": "https://muros.org/docs/faq.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "The UI keeps showing \"Service temporarily unavailable\"",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The MurOS backend is down or restarting. The page auto-refreshes every 10 seconds. Check its state with sudo systemctl status muros-backend and read the journal for a traceback if it does not come back up."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to send notification emails?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MurOS sends mail directly through an external SMTP smarthost. Configure the host, port, credentials and sender in Notifications > SMTP Configuration, then use the Send a test email button to verify the setup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I changed the SSH port but sshd is still on 22",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Check the effective config with sshd -T | grep -E \"^port|^listenaddress\". If the new port is set but not listening, restart with systemctl restart ssh. On Debian 12+ ssh may use socket activation, so disable ssh.socket with systemctl disable --now ssh.socket."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I lost SSH or HTTPS access after a change",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MurOS applies an automatic 60 second rollback on changes that may lock you out. If you do not confirm in the modal that follows the apply, the previous ruleset is restored. For interface or route changes that move the admin IP, reconnect on the previous address while the rollback timer runs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I forgot the UI admin password",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SSH into the firewall as root and reset the password from a short Python snippet that updates the MurOS database. The new password must satisfy the policy of at least 12 characters with complexity."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "The firewall does not forward LAN to WAN traffic",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Check that IP forwarding is enabled, that a forward rule allows LAN to WAN, and that NAT masquerade is set on the WAN interface. Test connectivity from the firewall with ping -I eth0 8.8.8.8 and then from a LAN host."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "The WireGuard VPN does not come up",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Verify in Services that wg-quick@wg0 is active, otherwise check sudo systemctl status wg-quick@wg0. The most common causes are a UDP port not allowed on WAN, a wrong public endpoint, or mismatched keys between peers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I upgrade MurOS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "While MurOS is in beta (v1.0.0-rcXX), upgrade by reinstalling. Export a backup first to keep your config. Starting from v1.0.0 stable, in-place upgrades will be supported and the database schema will be migrated automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to change the Linux root account password?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use passwd as root over SSH, or the System page in the UI. The Linux root account password is different from the MurOS UI admin password."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to add an SSH key for root?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In the UI go to SSH Access and paste the public key in the \"SSH keys allowed for root\" section. The key is written to /root/.ssh/authorized_keys with the correct permissions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to watch live backend requests?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "From the firewall run sudo journalctl -u muros-backend -f, or open the UI action audit log under Logs > UI actions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to export or import MurOS config from one firewall to another?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use the backups feature. The full database config is transferred. Note that UI TLS certificates and WireGuard keys are regenerated on the target firewall."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to uninstall MurOS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run the official uninstall.sh script. It removes MurOS files and services but does not touch installed packages such as postfix, wireguard or strongswan. The nftables configuration is reloaded to its pre-MurOS state."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
+      <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-9 w-auto">
+      <span class="mono text-xs font-semibold text-amber-700">[BETA]</span>
+    </a>
+    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
+      <a href="/features.html" class="nav-link hover:text-slate-900">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+    </nav>
+    <details class="sm:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+      <a href="/features.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active px-4 py-2 hover:bg-slate-50">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+    </div></details>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
+      <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+      <div class="group-title">Getting started</div>
+      <a href="/docs/quickstart.html" class="">Quickstart</a>
+      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <div class="group-title">Reference</div>
+      <a href="/docs/concepts.html" class="">Concepts</a>
+      <a href="/docs/architecture.html" class="">Architecture</a>
+      <a href="/docs/ha.html" class="">High availability</a>
+      <a href="/docs/changelog.html" class="">Changelog</a>
+      <div class="group-title">Help</div>
+      <a href="/docs/faq.html" class="active">FAQ</a>
+      <div class="group-title">Help</div>
+      <a href="https://github.com/murosorg/muros/issues">Issues (GitHub)</a>
+      <a href="https://github.com/murosorg/muros/discussions">Discussions</a>
+      </aside>
+    <article>
+      <nav class="text-xs text-slate-500 mb-4 mono"><a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">faq.md</span></nav>
+      <div class="doc-prose">
+<h1 id="faq-and-troubleshooting">FAQ and troubleshooting</h1>
+<h2 id="the-ui-keeps-showing-service-temporarily-unavailable">The UI keeps showing "Service temporarily unavailable"</h2>
+<p>The MurOS backend is down or restarting. The page auto-refreshes every 10s.
+Otherwise, SSH on the firewall:</p>
+<pre><code class="language-bash">sudo systemctl status muros-backend
+sudo journalctl -u muros-backend -n 100 --no-pager
+</code></pre>
+<p>If the backend has a traceback, the journal shows the stack. Common cause
+during dev: missing DB migration after a schema update. See also the
+Migration section below.</p>
+<h2 id="how-to-send-notification-emails">How to send notification emails?</h2>
+<p>MurOS sends mail directly via an <strong>external SMTP smarthost</strong> (typically
+your operator's SMTP relay or an internal enterprise relay). No local
+postfix is installed: the SMTP relay handles delivery.</p>
+<p>In <strong>Notifications &gt; SMTP Configuration</strong>:</p>
+<ul>
+<li><strong>SMTP server</strong>: e.g. <code>smtp.company.com</code></li>
+<li><strong>Port</strong>: 587 (STARTTLS, default) or 465 (SMTPS) or 25 (clear)</li>
+<li><strong>Username / Password</strong>: smarthost credentials (often required on 587/465)</li>
+<li><strong>TLS</strong>: checked (recommended)</li>
+<li><strong>Sender</strong>: e.g. <code>firewall@company.com</code></li>
+<li><strong>Recipients</strong>: comma-separated addresses</li>
+</ul>
+<p>Test with the "Send a test email" button. History shows up at the bottom of
+the page.</p>
+<h2 id="i-changed-the-ssh-port-but-sshd-is-still-on-22">I changed the SSH port but sshd is still on 22</h2>
+<p>Check the effective config:</p>
+<pre><code class="language-bash">sshd -T 2&gt;&amp;1 | grep -E &quot;^port|^listenaddress&quot;
+ss -tlnp | grep ssh
+</code></pre>
+<p>If <code>sshd -T</code> returns the new port but <code>ss</code> shows nothing, do a full restart:</p>
+<pre><code class="language-bash">systemctl restart ssh
+</code></pre>
+<p>On Debian 12+, ssh may be started through socket activation (<code>ssh.socket</code>)
+which listens on 22 by default. If you want sshd to listen exclusively on
+your custom port, disable the socket:</p>
+<pre><code class="language-bash">systemctl disable --now ssh.socket
+systemctl restart ssh
+</code></pre>
+<h2 id="i-lost-ssh-or-https-access-after-a-change">I lost SSH or HTTPS access after a change</h2>
+<p>MurOS implements <strong>automatic 60s rollback</strong> on changes that may lock you
+out of admin access:</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Auto-rollback 60s</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apply firewall (nft)</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>Apply HTTP nginx (listen + ports)</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>Apply SSH (port + listen)</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>Upload TLS cert or regen self-signed</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>Interface change (IP, MTU)</td>
+<td>NO (confirm() only)</td>
+</tr>
+<tr>
+<td>Static route change</td>
+<td>NO (confirm() only)</td>
+</tr>
+<tr>
+<td>Apply WireGuard, IPsec, SNMP, HA</td>
+<td>NO (low risk on local admin access)</td>
+</tr>
+</tbody>
+</table>
+<p>If you do not confirm in the modal that follows the apply, the previous
+config is restored automatically by a backend thread that scans for
+expired pending_apply records every 5 seconds.</p>
+<p>If you were blocked in the meantime:
+* Wait 60-90s, the previous config is restored
+* Reconnect with the old parameters</p>
+<p><strong>Special case interfaces/routes</strong>: if you change the admin interface IP
+or the default gateway and lose access, you need serial console / IPMI /
+hypervisor access to revert manually. V1 plans auto-rollback on these too.</p>
+<h2 id="i-forgot-the-ui-admin-password">I forgot the UI admin password</h2>
+<p>SSH on the firewall (as root), reset from Python:</p>
+<pre><code class="language-bash">sudo -i
+cd /opt/muros/backend
+source .venv/bin/activate
+python -c &quot;
+from app.db import SessionLocal
+from app import models
+from app.auth import hash_password
+with SessionLocal() as db:
+    user = db.query(models.User).filter_by(username='admin').first()
+    user.password_hash = hash_password('new_temporary_password_AAbb12!!')
+    user.must_change_password = True
+    db.commit()
+    print('Password reset.')
+&quot;
+</code></pre>
+<p>The new password must satisfy the policy (12+ chars, complexity), otherwise
+the mandatory change on the next login will refuse to accept it.</p>
+<h2 id="the-firewall-does-not-forward-lan-wan-traffic">The firewall does not forward LAN -&gt; WAN traffic</h2>
+<p>Check in order:</p>
+<ol>
+<li><strong>IP forwarding enabled</strong>: <code>sysctl net.ipv4.ip_forward</code> must return <code>1</code>.
+   Otherwise the MurOS drop-in <code>99-muros-hardening.conf</code> is not loaded.</li>
+<li><strong>NAT rule present</strong>: in Network &gt; NAT, masquerade or SNAT rule
+   <code>lan</code> -&gt; <code>wan</code> egressing on the WAN interface.</li>
+<li><strong>Forward rule</strong>: in Filtering &gt; Rules, <code>forward</code> <code>lan</code> -&gt; <code>wan</code> rule
+   with action accept.</li>
+<li><strong>Apply done</strong>: a pending "Apply" button means changes haven't been
+   pushed yet.</li>
+</ol>
+<p>From the firewall, test <code>ping -I eth0 8.8.8.8</code>. From a LAN host, test
+<code>traceroute 8.8.8.8</code> to see where it stops.</p>
+<h2 id="the-wireguard-vpn-does-not-come-up">The WireGuard VPN does not come up</h2>
+<p>Check in Services (Dashboard) that <code>wg-quick@wg0</code> is active. Otherwise:</p>
+<pre><code class="language-bash">sudo systemctl status wg-quick@wg0
+sudo wg show
+sudo journalctl -u wg-quick@wg0 -n 50
+</code></pre>
+<p>Most common causes:
+* UDP port 51820 (or other) blocked on the firewall or upstream
+* Public/private key mismatch
+* PSK mismatch
+* AllowedIPs too restrictive on the peer</p>
+<h2 id="upgrading-muros">Upgrading MurOS</h2>
+<p>While MurOS is in <strong>beta</strong> (<code>v1.0.0-rcXX</code> release candidate cycle), the DB
+schema is not frozen. Upgrades between beta releases are done via clean
+reinstall:</p>
+<pre><code class="language-bash">curl -fsSL https://github.com/murosorg/muros/releases/latest/download/uninstall.sh | sudo bash
+curl -fsSL https://github.com/murosorg/muros/releases/latest/download/install.sh | sudo bash
+</code></pre>
+<p>If you want to keep your config across reinstalls, export a backup first
+(Backups menu) and restore after reinstall.</p>
+<p>Starting from v1.0.0 stable, in-place upgrades will be supported and the
+schema will evolve via versioned migrations.</p>
+<h2 id="how-to-change-the-linux-root-account-password">How to change the Linux root account password?</h2>
+<p>Two ways:
+* <strong>Via the UI</strong>: SSH Access &gt; "Linux root account password" section
+* <strong>Via SSH</strong>: <code>sudo passwd root</code></p>
+<p>The Linux root account password is <strong>different</strong> from the MurOS UI
+password. The first is for password-based SSH login, the second is for
+logging into the web interface.</p>
+<h2 id="how-to-add-an-ssh-key-for-root">How to add an SSH key for root?</h2>
+<p>Via the UI: <strong>SSH Access</strong> &gt; "SSH keys allowed for root" section &gt; paste
+the public key (<code>ssh-ed25519 AAAA... comment</code>) &gt; Add.</p>
+<p>The key is written to <code>/root/.ssh/authorized_keys</code> with correct perms.</p>
+<h2 id="how-to-watch-live-backend-requests">How to watch live backend requests?</h2>
+<p>From the firewall:</p>
+<pre><code class="language-bash">sudo journalctl -u muros-backend -f
+</code></pre>
+<p>Or see the UI action audit log in <strong>Logs &gt; UI actions</strong>.</p>
+<h2 id="how-to-export-import-muros-config-from-one-firewall-to-another">How to export / import MurOS config from one firewall to another?</h2>
+<p>Use <strong>backups</strong>:</p>
+<ol>
+<li>On source firewall: Backups &gt; Create a backup &gt; Download</li>
+<li>On destination firewall: Backups &gt; Restore &gt; Upload the .tar.gz</li>
+</ol>
+<p>The full DB config is transferred. Note: UI TLS certs and WireGuard keys
+are <strong>not</strong> in the DB (they live on disk), you need to regenerate or copy
+them separately.</p>
+<h2 id="how-to-uninstall-muros">How to uninstall MurOS?</h2>
+<p>The <code>uninstall.sh</code> script removes:
+* The <code>muros-*</code> systemd services
+* The <code>/opt/muros</code> directory
+* The <code>/var/lib/muros/</code> DB
+* MurOS drop-ins (sysctl, sshd, journald, fail2ban, logrotate, snmpd)
+* The <code>muros</code> nginx site</p>
+<p>It does not touch installed packages (postfix, wireguard, strongswan,
+keepalived, conntrackd, snmpd). Uninstall those manually if desired.</p>
+<p>The nftables configuration is reloaded to its pre-MurOS state (but for
+safety, reboot the machine after uninstall).</p>
+      </div>
+      <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-500 flex items-center justify-between">
+        <a href="https://github.com/murosorg/muros/blob/main/docs/faq.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">muros/docs</span>
+      </div>
+    </article>
+  </div>
+</section>
+</main>
+
+<footer class="border-t border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 py-8 text-sm text-slate-500 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+    <div>MurOS &middot; AGPL v3 &middot; <a href="https://github.com/murosorg/muros" class="hover:text-amber-700">github.com/murosorg/muros</a></div>
+    <div class="flex gap-5">
+      <a href="/features.html" class="hover:text-amber-700">Features</a>
+      <a href="/install.html" class="hover:text-amber-700">Install</a>
+      <a href="/hardware.html" class="hover:text-amber-700">Hardware</a>
+      <a href="/docs.html" class="hover:text-amber-700">Docs</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

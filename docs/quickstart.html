@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>Quickstart - MurOS Docs</title>
+<meta name="description" content="Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="canonical" href="https://muros.org/docs/quickstart.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MurOS">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://muros.org/docs/quickstart.html">
+<meta property="og:title" content="Quickstart - MurOS Docs">
+<meta property="og:description" content="Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.">
+<meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Quickstart - MurOS Docs">
+<meta name="twitter:description" content="Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.">
+<meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Quickstart",
+      "description": "Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.",
+      "url": "https://muros.org/docs/quickstart.html",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MurOS",
+        "url": "https://muros.org/"
+      },
+      "datePublished": "2026-05-27",
+      "dateModified": "2026-05-29"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://muros.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Docs",
+          "item": "https://muros.org/docs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Quickstart",
+          "item": "https://muros.org/docs/quickstart.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
+      <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-9 w-auto">
+      <span class="mono text-xs font-semibold text-amber-700">[BETA]</span>
+    </a>
+    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
+      <a href="/features.html" class="nav-link hover:text-slate-900">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+    </nav>
+    <details class="sm:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+      <a href="/features.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Features</a> <a href="/install.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Install</a> <a href="/download.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Download</a> <a href="/hardware.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Hardware</a> <a href="/docs.html" class="nav-link hover:text-slate-900 active px-4 py-2 hover:bg-slate-50">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+    </div></details>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
+      <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+      <div class="group-title">Getting started</div>
+      <a href="/docs/quickstart.html" class="active">Quickstart</a>
+      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <div class="group-title">Reference</div>
+      <a href="/docs/concepts.html" class="">Concepts</a>
+      <a href="/docs/architecture.html" class="">Architecture</a>
+      <a href="/docs/ha.html" class="">High availability</a>
+      <a href="/docs/changelog.html" class="">Changelog</a>
+      <div class="group-title">Help</div>
+      <a href="/docs/faq.html" class="">FAQ</a>
+      <div class="group-title">Help</div>
+      <a href="https://github.com/murosorg/muros/issues">Issues (GitHub)</a>
+      <a href="https://github.com/murosorg/muros/discussions">Discussions</a>
+      </aside>
+    <article>
+      <nav class="text-xs text-slate-500 mb-4 mono"><a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">quickstart.md</span></nav>
+      <div class="doc-prose">
+<h1 id="muros-first-deployment-in-15-minutes">MurOS - First deployment in 15 minutes</h1>
+<p>This guide walks you from a fresh Debian install to a working firewall.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>An x86_64 machine (VM or bare metal):</li>
+<li>1 vCPU minimum, 2 vCPU recommended</li>
+<li>2 GB RAM minimum, 4 GB recommended</li>
+<li>8 GB disk minimum</li>
+<li><strong>2 network interfaces</strong>: 1 for WAN (Internet/uplink), 1 for LAN (internal network)</li>
+<li><strong>Debian 13 (trixie) netinst</strong> ISO: https://www.debian.org/distrib/netinst</li>
+<li>Root access via console or SSH</li>
+</ul>
+<p>MurOS also works on Ubuntu 22.04+ but the official V1 target is Debian 13.</p>
+<hr />
+<h2 id="step-1-install-debian-13-minimal-10-min">Step 1: install Debian 13 minimal (10 min)</h2>
+<p>Boot the netinst, standard install:</p>
+<ul>
+<li>Locale: your choice</li>
+<li>Hostname: <code>firewall</code> (or whatever you like)</li>
+<li>Domain: <code>local</code> or your domain</li>
+<li>Root user: set a password (you can change it later from the UI)</li>
+<li>Normal user: you can skip it</li>
+<li><strong>Partitioning</strong>: auto LVM, everything on one partition</li>
+<li><strong>Software selection</strong>: uncheck EVERYTHING except <code>SSH server</code> and <code>standard system utilities</code>. <strong>No desktop</strong>.</li>
+</ul>
+<p>Reboot. Login as root via console or SSH.</p>
+<hr />
+<h2 id="step-2-install-muros-2-min">Step 2: install MurOS (2 min)</h2>
+<p>From the firewall, as root:</p>
+<pre><code class="language-bash">curl -fsSL https://github.com/murosorg/muros/releases/latest/download/install.sh | sudo bash
+</code></pre>
+<p>At the end of the script you will see something like:</p>
+<pre><code>MurOS v1.0.0-rcXX installed.
+
+  UI     : http://192.168.1.10/
+  Login  : admin / muros  (password change required on first login)
+  Log    : /var/log/muros-install.log
+</code></pre>
+<p>Note the IP and the credentials.</p>
+<hr />
+<h2 id="step-3-first-ui-connection-1-min">Step 3: first UI connection (1 min)</h2>
+<p>Open <code>https://&lt;IP&gt;/</code> in your browser. Accept the self-signed certificate (generated by MurOS, you will replace it with a real one later).</p>
+<p>Log in with <code>admin</code> / <code>muros</code>.</p>
+<p><strong>Mandatory first action</strong>: top-right menu &gt; My account &gt; Change password.</p>
+<hr />
+<h2 id="step-4-configure-the-network-2-min">Step 4: configure the network (2 min)</h2>
+<p><strong>Network</strong> menu:</p>
+<h3 id="wan-interface">WAN interface</h3>
+<ol>
+<li>Click on the interface facing the Internet (e.g. <code>eth0</code> or <code>ens3</code>)</li>
+<li>IP mode: <code>static</code> or <code>dhcp</code> depending on your uplink</li>
+<li>If static: IP + CIDR mask (e.g. <code>192.168.1.10/24</code>), gateway, DNS</li>
+<li>Description: <code>WAN</code></li>
+<li>Save</li>
+</ol>
+<h3 id="lan-interface">LAN interface</h3>
+<ol>
+<li>Click on the interface facing the internal network (e.g. <code>eth1</code>)</li>
+<li>IP mode: <code>static</code></li>
+<li>IP: e.g. <code>10.0.0.1/24</code></li>
+<li>Description: <code>LAN</code></li>
+<li>Save</li>
+</ol>
+<h3 id="apply">Apply</h3>
+<p>An orange banner appears at the top: <strong>"2 unapplied network changes"</strong>. Click <strong>Apply</strong>. A 60s countdown modal opens. Check that you still have UI access then <strong>Confirm</strong>.</p>
+<hr />
+<h2 id="step-5-firewall-zones-and-rules-3-min">Step 5: firewall zones and rules (3 min)</h2>
+<p><strong>Filtering &gt; Zones</strong> menu:</p>
+<ol>
+<li>Add zone <code>wan</code>: select the WAN interface</li>
+<li>Add zone <code>lan</code>: select the LAN interface</li>
+<li>Save</li>
+</ol>
+<p><strong>Filtering &gt; Rules</strong> menu:</p>
+<p>Click <strong>Load a preset</strong> &gt; <strong>Basic firewall</strong>:</p>
+<ul>
+<li>Blocks everything in INPUT/FORWARD by default</li>
+<li>Allows LAN -&gt; WAN (Internet outbound)</li>
+<li>Allows LAN -&gt; firewall on 22 (SSH) and 443 (UI)</li>
+<li>Blocks WAN -&gt; firewall except ICMP</li>
+</ul>
+<p>Click <strong>Apply</strong>. 60s countdown modal. <strong>Confirm</strong> once you have verified your SSH/UI still works.</p>
+<hr />
+<h2 id="step-6-nat-for-internet-outbound-1-min">Step 6: NAT for Internet outbound (1 min)</h2>
+<p><strong>Filtering &gt; NAT</strong> menu:</p>
+<p>Add a rule:
+* Type: <code>masquerade</code>
+* Egress interface: <code>&lt;your WAN interface&gt;</code>
+* Source: <code>10.0.0.0/24</code> (your LAN network)</p>
+<p>Save + Apply.</p>
+<p>Now the LAN can reach the Internet through the firewall.</p>
+<hr />
+<h2 id="step-7-test-from-a-lan-host-1-min">Step 7: test from a LAN host (1 min)</h2>
+<p>Plug a PC into the LAN interface, static IP <code>10.0.0.50/24</code> gateway <code>10.0.0.1</code> DNS <code>1.1.1.1</code>.</p>
+<p>From the PC:</p>
+<pre><code class="language-bash">ping 10.0.0.1     # firewall reachable
+ping 1.1.1.1      # Internet OK
+curl https://10.0.0.1/  # UI reachable from LAN
+</code></pre>
+<p>If everything responds, <strong>your firewall is running.</strong></p>
+<hr />
+<h2 id="next-steps-optional">Next steps (optional)</h2>
+<ul>
+<li><strong>WireGuard VPN</strong>: VPN &gt; WireGuard, generate a server key, add a peer</li>
+<li><strong>TLS certificate</strong>: HTTP Access menu &gt; certificate, upload one or regenerate self-signed with your CN</li>
+<li><strong>Notifications</strong>: Notifications menu, configure your SMTP relay to receive alerts</li>
+<li><strong>SNMP</strong>: to monitor from LibreNMS/Zabbix</li>
+<li><strong>HA</strong>: if you have a 2nd identical firewall, pair them active/passive</li>
+<li><strong>Remote backup</strong>: System menu &gt; back up to an SFTP target</li>
+</ul>
+<hr />
+<h2 id="problem-see-the-faq">Problem? see the FAQ</h2>
+<p><code>docs/faq.md</code> covers the classic traps:</p>
+<ul>
+<li>UI access blocked after apply</li>
+<li>SSH does not change port</li>
+<li>SMTP rejects recipients</li>
+<li>HA backup fails</li>
+<li>Conntrack out of sync</li>
+</ul>
+<p>And if you find yourself locked out (rollback failure, too strict nft rule), the console always keeps root access. One command to reset all rules:</p>
+<pre><code class="language-bash">nft flush ruleset
+systemctl restart muros-backend
+</code></pre>
+<p>The UI will be reachable again.</p>
+      </div>
+      <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-500 flex items-center justify-between">
+        <a href="https://github.com/murosorg/muros/blob/main/docs/quickstart.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">muros/docs</span>
+      </div>
+    </article>
+  </div>
+</section>
+</main>
+
+<footer class="border-t border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 py-8 text-sm text-slate-500 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+    <div>MurOS &middot; AGPL v3 &middot; <a href="https://github.com/murosorg/muros" class="hover:text-amber-700">github.com/murosorg/muros</a></div>
+    <div class="flex gap-5">
+      <a href="/features.html" class="hover:text-amber-700">Features</a>
+      <a href="/install.html" class="hover:text-amber-700">Install</a>
+      <a href="/hardware.html" class="hover:text-amber-700">Hardware</a>
+      <a href="/docs.html" class="hover:text-amber-700">Docs</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

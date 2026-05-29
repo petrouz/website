@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-label="MurOS 1U firewall appliance">
+  <defs>
+    <!-- Diagonal teal -> navy backdrop (same vibe as the OG cover) -->
+    <linearGradient id="backdrop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#0d6e7a"/>
+      <stop offset="0.5" stop-color="#0d4654"/>
+      <stop offset="1"   stop-color="#0b1a2a"/>
+    </linearGradient>
+    <!-- Chassis top face : light slate with a subtle highlight -->
+    <linearGradient id="chassisTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6b7686"/>
+      <stop offset="1" stop-color="#3f4956"/>
+    </linearGradient>
+    <!-- Front panel : teal (the distinctive color of the reference) -->
+    <linearGradient id="frontPanel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0e8f8c"/>
+      <stop offset="1" stop-color="#0a5c61"/>
+    </linearGradient>
+    <!-- Right side : deep slate, slightly darker than the top -->
+    <linearGradient id="chassisSide" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2c333e"/>
+      <stop offset="1" stop-color="#10141d"/>
+    </linearGradient>
+    <!-- Bottom strip visible under the front panel (warm dark band) -->
+    <linearGradient id="chassisLip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#37404d"/>
+      <stop offset="1" stop-color="#1c222b"/>
+    </linearGradient>
+    <radialGradient id="portGlow" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0"   stop-color="#fde68a"/>
+      <stop offset="0.45" stop-color="#f59e0b"/>
+      <stop offset="1"   stop-color="#7c2d12"/>
+    </radialGradient>
+    <radialGradient id="powerGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0"   stop-color="#fbbf24" stop-opacity="0.7"/>
+      <stop offset="1"   stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+    </filter>
+    <filter id="hardGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"/>
+    </filter>
+  </defs>
+
+  <!-- Backdrop -->
+  <rect width="720" height="420" fill="url(#backdrop)"/>
+
+  <!-- Faint diagonal vignette to add depth -->
+  <radialGradient id="vign" cx="0.35" cy="0.45" r="0.75">
+    <stop offset="0" stop-color="#fff" stop-opacity="0.06"/>
+    <stop offset="1" stop-color="#000" stop-opacity="0.15"/>
+  </radialGradient>
+  <rect width="720" height="420" fill="url(#vign)"/>
+
+  <!-- ============================================================== -->
+  <!-- The appliance group is translated to roughly center-right.      -->
+  <!-- ============================================================== -->
+  <g transform="translate(180 60)">
+
+    <!-- Soft floor shadow -->
+    <ellipse cx="220" cy="282" rx="230" ry="16" fill="#000" opacity="0.45"/>
+
+    <!-- Rack ear : top bracket like an inverted U.                    -->
+    <!-- Drawn before the chassis so the chassis overlaps the legs.    -->
+    <g stroke="#1f2937" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" fill="none">
+      <path d="M 25 140 L 25 30 L 405 30 L 405 200"/>
+    </g>
+    <!-- Mounting plates with screws (left ear) -->
+    <rect x="4"  y="122" width="36" height="60" rx="3" fill="#3a4452" stroke="#1a2230" stroke-width="1"/>
+    <circle cx="15" cy="135" r="3" fill="#1a2230"/>
+    <circle cx="15" cy="170" r="3" fill="#1a2230"/>
+    <circle cx="30" cy="152" r="2" fill="#1a2230"/>
+    <!-- Mounting plates with screws (right ear) -->
+    <rect x="380" y="172" width="36" height="60" rx="3" fill="#3a4452" stroke="#1a2230" stroke-width="1"/>
+    <circle cx="410" cy="185" r="3" fill="#1a2230"/>
+    <circle cx="410" cy="220" r="3" fill="#1a2230"/>
+    <circle cx="395" cy="202" r="2" fill="#1a2230"/>
+
+    <!-- Chassis : isometric volume.                                   -->
+    <!-- Top face -->
+    <polygon points="40,178  380,178  420,135  80,135" fill="url(#chassisTop)" stroke="#0c111a" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- Front face (teal) -->
+    <polygon points="40,178  380,178  380,250 40,250" fill="url(#frontPanel)" stroke="#0c111a" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- Lower lip under the front panel -->
+    <polygon points="40,250 380,250 380,260 40,260" fill="url(#chassisLip)" stroke="#0c111a" stroke-width="1"/>
+    <!-- Right side -->
+    <polygon points="380,178  420,135  420,217 380,260" fill="url(#chassisSide)" stroke="#0c111a" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- Right side -> lip transition shade -->
+    <polygon points="380,250 420,210 420,217 380,260" fill="#0a0e15" opacity="0.5"/>
+
+    <!-- Highlight strokes on the chassis top edges -->
+    <line x1="80" y1="135" x2="420" y2="135" stroke="#9ca3af" stroke-width="1" opacity="0.5"/>
+    <line x1="40" y1="178" x2="380" y2="178" stroke="#94a3b8" stroke-width="1" opacity="0.35"/>
+
+    <!-- Ventilation grille on the left of the front -->
+    <g stroke="#062a30" stroke-width="1.2" opacity="0.85">
+      <line x1="60" y1="190" x2="130" y2="190"/>
+      <line x1="60" y1="200" x2="130" y2="200"/>
+      <line x1="60" y1="210" x2="130" y2="210"/>
+      <line x1="60" y1="220" x2="130" y2="220"/>
+      <line x1="60" y1="230" x2="130" y2="230"/>
+      <line x1="60" y1="240" x2="130" y2="240"/>
+    </g>
+
+    <!-- Two RJ-45 ports, centered, with light rays beneath them.      -->
+    <!-- Light rays first, so the ports paint on top of them.         -->
+    <g opacity="0.85">
+      <!-- Rays emanating downward from the ports -->
+      <path d="M 215 246 L 211 268" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 225 246 L 222 273" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 200 246 L 195 264" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 185 246 L 178 260" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 250 246 L 250 270" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 265 246 L 270 264" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 280 246 L 287 260" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- Port 1 -->
+    <g>
+      <rect x="180" y="208" width="40" height="34" rx="3" fill="#0c111a" stroke="#000" stroke-width="1"/>
+      <rect x="184" y="212" width="32" height="26" rx="1" fill="url(#portGlow)"/>
+      <!-- pin shadow lines inside the port -->
+      <g stroke="#7c2d12" stroke-width="0.8" opacity="0.6">
+        <line x1="188" y1="234" x2="212" y2="234"/>
+      </g>
+      <!-- Halo -->
+      <rect x="180" y="208" width="40" height="34" rx="3" fill="#fbbf24" opacity="0.4" filter="url(#softGlow)"/>
+    </g>
+    <!-- Port 2 -->
+    <g>
+      <rect x="240" y="208" width="40" height="34" rx="3" fill="#0c111a" stroke="#000" stroke-width="1"/>
+      <rect x="244" y="212" width="32" height="26" rx="1" fill="url(#portGlow)"/>
+      <g stroke="#7c2d12" stroke-width="0.8" opacity="0.6">
+        <line x1="248" y1="234" x2="272" y2="234"/>
+      </g>
+      <rect x="240" y="208" width="40" height="34" rx="3" fill="#fbbf24" opacity="0.4" filter="url(#softGlow)"/>
+    </g>
+
+    <!-- Power button : amber outlined disk to the right of the ports -->
+    <g transform="translate(320 225)">
+      <!-- Background halo -->
+      <circle r="22" fill="url(#powerGlow)"/>
+      <!-- Disk -->
+      <circle r="14" fill="#0c111a" stroke="#f59e0b" stroke-width="2.8"/>
+      <!-- Power glyph -->
+      <path d="M -7 0 a 7 7 0 1 0 14 0" fill="none" stroke="#f59e0b" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="0" y1="-8" x2="0" y2="2" stroke="#f59e0b" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>
