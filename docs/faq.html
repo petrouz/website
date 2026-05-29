@@ -81,7 +81,7 @@
           "name": "The UI keeps showing \"Service temporarily unavailable\"",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The MurOS backend is down or restarting. The page auto-refreshes every 10 seconds. Check its state with sudo systemctl status muros-backend and read the journal for a traceback if it does not come back up."
+            "text": "The MurOS backend is down or restarting. The page auto-refreshes every 10s. Otherwise, SSH on the firewall: If the backend has a traceback, the journal shows the stack. Common cause during dev: missing DB migration after a schema update. See also the Migration section below."
           }
         },
         {
@@ -89,7 +89,7 @@
           "name": "How to send notification emails?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "MurOS sends mail directly through an external SMTP smarthost. Configure the host, port, credentials and sender in Notifications > SMTP Configuration, then use the Send a test email button to verify the setup."
+            "text": "MurOS sends mail directly via an external SMTP smarthost (typically your operator's SMTP relay or an internal enterprise relay). No local postfix is installed: the SMTP relay handles delivery. In Notifications > SMTP Configuration: SMTP server: e.g. smtp.company.com Port: 587 (STARTTLS, default) or 465 (SMTPS) or 25 (clear) Username / Password: smarthost credentials (often required on 587/465) TLS: checked (recommended) Sender: e.g. firewall@company.com Recipients: comma-separated addresses Test with the \"Send a test email\" button. History shows up at the bottom of the page."
           }
         },
         {
@@ -97,7 +97,7 @@
           "name": "I changed the SSH port but sshd is still on 22",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Check the effective config with sshd -T | grep -E \"^port|^listenaddress\". If the new port is set but not listening, restart with systemctl restart ssh. On Debian 12+ ssh may use socket activation, so disable ssh.socket with systemctl disable --now ssh.socket."
+            "text": "Check the effective config: If sshd -T returns the new port but ss shows nothing, do a full restart: On Debian 12+, ssh may be started through socket activation (ssh.socket) which listens on 22 by default. If you want sshd to listen exclusively on your custom port, disable the socket:"
           }
         },
         {
@@ -105,7 +105,7 @@
           "name": "I lost SSH or HTTPS access after a change",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "MurOS applies an automatic 60 second rollback on changes that may lock you out. If you do not confirm in the modal that follows the apply, the previous ruleset is restored. For interface or route changes that move the admin IP, reconnect on the previous address while the rollback timer runs."
+            "text": "MurOS implements automatic 60s rollback on changes that may lock you out of admin access: | Action | Auto-rollback 60s | |---|---| | Apply firewall (nft) | YES | | Apply HTTP nginx (listen + ports) | YES | | Apply SSH (port + listen) | YES | | Upload TLS cert or regen self-signed | YES | | Interface change (IP, MTU) | NO (confirm() only) | | Static route change | NO (confirm() only) | | Apply WireGuard, IPsec, SNMP, HA | NO (low risk on local admin access) | If you do not confirm in the modal that follows the apply, the previous config is restored automatically by a backend thread that scans for expired pending_apply records every 5 seconds. If you were blocked in the meantime: Wait 60-90s, the previous config is restored Reconnect with the old parameters Special case interfaces/routes: if you change the admin interface IP or the default gateway and lose access, you need serial console / IPMI / hypervisor access to revert manually. V1 plans auto-rollback on these too."
           }
         },
         {
@@ -113,15 +113,15 @@
           "name": "I forgot the UI admin password",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "SSH into the firewall as root and reset the password from a short Python snippet that updates the MurOS database. The new password must satisfy the policy of at least 12 characters with complexity."
+            "text": "SSH on the firewall (as root), reset from Python: The new password must satisfy the policy (12+ chars, complexity), otherwise the mandatory change on the next login will refuse to accept it."
           }
         },
         {
           "@type": "Question",
-          "name": "The firewall does not forward LAN to WAN traffic",
+          "name": "The firewall does not forward LAN -> WAN traffic",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Check that IP forwarding is enabled, that a forward rule allows LAN to WAN, and that NAT masquerade is set on the WAN interface. Test connectivity from the firewall with ping -I eth0 8.8.8.8 and then from a LAN host."
+            "text": "Check in order: 1. IP forwarding enabled: sysctl net.ipv4.ip_forward must return 1. Otherwise the MurOS drop-in 99-muros-hardening.conf is not loaded. 2. NAT rule present: in Network > NAT, masquerade or SNAT rule lan -> wan egressing on the WAN interface. 3. Forward rule: in Filtering > Rules, forward lan -> wan rule with action accept. 4. Apply done: a pending \"Apply\" button means changes haven't been pushed yet. From the firewall, test ping -I eth0 8.8.8.8. From a LAN host, test traceroute 8.8.8.8 to see where it stops."
           }
         },
         {
@@ -129,15 +129,15 @@
           "name": "The WireGuard VPN does not come up",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Verify in Services that wg-quick@wg0 is active, otherwise check sudo systemctl status wg-quick@wg0. The most common causes are a UDP port not allowed on WAN, a wrong public endpoint, or mismatched keys between peers."
+            "text": "Check in Services (Dashboard) that wg-quick@wg0 is active. Otherwise: Most common causes: UDP port 51820 (or other) blocked on the firewall or upstream Public/private key mismatch PSK mismatch AllowedIPs too restrictive on the peer"
           }
         },
         {
           "@type": "Question",
-          "name": "How do I upgrade MurOS?",
+          "name": "Upgrading MurOS",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "While MurOS is in beta (v1.0.0-rcXX), upgrade by reinstalling. Export a backup first to keep your config. Starting from v1.0.0 stable, in-place upgrades will be supported and the database schema will be migrated automatically."
+            "text": "While MurOS is in beta (v0.9.0-rcXX release candidate cycle), the DB schema is not frozen. Upgrades between beta releases are done via clean reinstall: If you want to keep your config across reinstalls, export a backup first (Backups menu) and restore after reinstall. Starting from the first stable release, in-place upgrades will be supported and the schema will evolve via versioned migrations."
           }
         },
         {
@@ -145,7 +145,7 @@
           "name": "How to change the Linux root account password?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Use passwd as root over SSH, or the System page in the UI. The Linux root account password is different from the MurOS UI admin password."
+            "text": "Two ways: Via the UI: SSH Access > \"Linux root account password\" section Via SSH: sudo passwd root The Linux root account password is different from the MurOS UI password. The first is for password-based SSH login, the second is for logging into the web interface."
           }
         },
         {
@@ -153,7 +153,7 @@
           "name": "How to add an SSH key for root?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "In the UI go to SSH Access and paste the public key in the \"SSH keys allowed for root\" section. The key is written to /root/.ssh/authorized_keys with the correct permissions."
+            "text": "Via the UI: SSH Access > \"SSH keys allowed for root\" section > paste the public key (ssh-ed25519 AAAA... comment) > Add. The key is written to /root/.ssh/authorized_keys with correct perms."
           }
         },
         {
@@ -161,15 +161,15 @@
           "name": "How to watch live backend requests?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "From the firewall run sudo journalctl -u muros-backend -f, or open the UI action audit log under Logs > UI actions."
+            "text": "From the firewall: Or see the UI action audit log in Logs > UI actions."
           }
         },
         {
           "@type": "Question",
-          "name": "How to export or import MurOS config from one firewall to another?",
+          "name": "How to export / import MurOS config from one firewall to another?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Use the backups feature. The full database config is transferred. Note that UI TLS certificates and WireGuard keys are regenerated on the target firewall."
+            "text": "Use backups: 1. On source firewall: Backups > Create a backup > Download 2. On destination firewall: Backups > Restore > Upload the .tar.gz The full DB config is transferred. Note: UI TLS certs and WireGuard keys are not in the DB (they live on disk), you need to regenerate or copy them separately."
           }
         },
         {
@@ -177,7 +177,7 @@
           "name": "How to uninstall MurOS?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Run the official uninstall.sh script. It removes MurOS files and services but does not touch installed packages such as postfix, wireguard or strongswan. The nftables configuration is reloaded to its pre-MurOS state."
+            "text": "The uninstall.sh script removes: The muros- systemd services The /opt/muros directory The /var/lib/muros/ DB MurOS drop-ins (sysctl, sshd, journald, fail2ban, logrotate, snmpd) The muros nginx site It does not touch installed packages (postfix, wireguard, strongswan, keepalived, conntrackd, snmpd). Uninstall those manually if desired. The nftables configuration is reloaded to its pre-MurOS state (but for safety, reboot the machine after uninstall)."
           }
         }
       ]
@@ -360,7 +360,7 @@ sudo journalctl -u wg-quick@wg0 -n 50
 * PSK mismatch
 * AllowedIPs too restrictive on the peer</p>
 <h2 id="upgrading-muros">Upgrading MurOS</h2>
-<p>While MurOS is in <strong>beta</strong> (<code>v1.0.0-rcXX</code> release candidate cycle), the DB
+<p>While MurOS is in <strong>beta</strong> (<code>v0.9.0-rcXX</code> release candidate cycle), the DB
 schema is not frozen. Upgrades between beta releases are done via clean
 reinstall:</p>
 <pre><code class="language-bash">curl -fsSL https://github.com/murosorg/muros/releases/latest/download/uninstall.sh | sudo bash
@@ -368,7 +368,7 @@ curl -fsSL https://github.com/murosorg/muros/releases/latest/download/install.sh
 </code></pre>
 <p>If you want to keep your config across reinstalls, export a backup first
 (Backups menu) and restore after reinstall.</p>
-<p>Starting from v1.0.0 stable, in-place upgrades will be supported and the
+<p>Starting from the first stable release, in-place upgrades will be supported and the
 schema will evolve via versioned migrations.</p>
 <h2 id="how-to-change-the-linux-root-account-password">How to change the Linux root account password?</h2>
 <p>Two ways:

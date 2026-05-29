@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>Why MurOS - the no-plugin open source firewall alternative</title>
+<meta name="description" content="Why pick MurOS over pfSense, OPNsense or a FortiGate. One native, tested core instead of hundreds of plugins. Open source, free, Debian-native, web-managed.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/app.css">
+<link rel="canonical" href="https://muros.org/why.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MurOS">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://muros.org/why.html">
+<meta property="og:title" content="Why MurOS - the no-plugin open source firewall alternative">
+<meta property="og:description" content="Why pick MurOS over pfSense, OPNsense or a FortiGate. One native, tested core instead of hundreds of plugins. Open source, free, Debian-native, web-managed.">
+<meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why MurOS - the no-plugin open source firewall alternative">
+<meta name="twitter:description" content="Why pick MurOS over pfSense, OPNsense or a FortiGate. One native, tested core instead of hundreds of plugins. Open source, free, Debian-native, web-managed.">
+<meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://muros.org/#org",
+      "name": "MurOS",
+      "url": "https://muros.org/",
+      "logo": "https://muros.org/assets/logo-dark.svg",
+      "sameAs": [
+        "https://github.com/murosorg/muros"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://muros.org/#website",
+      "name": "MurOS",
+      "url": "https://muros.org/",
+      "publisher": {
+        "@id": "https://muros.org/#org"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://muros.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Why MurOS",
+          "item": "https://muros.org/why.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is MurOS a fork of pfSense or OPNsense?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. MurOS is a fresh codebase built on stock Debian 13. It drives nftables, iproute2, WireGuard, strongSwan, keepalived, dnsmasq and unbound directly, with a FastAPI backend and a React web UI. It shares no code with the BSD-based pfSense or OPNsense."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does MurOS refuse a plugin system?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A plugin catalogue means uneven quality, untested feature combinations and a compatibility matrix that breaks on upgrade. MurOS ships every feature in the core, tested end to end, integrated into the same UI and documented in one place. The attack surface is known and the whole product is tested at every release."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is MurOS really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. MurOS is licensed under AGPL-3.0-or-later. There is no enterprise edition, no paywalled module and no per-seat or throughput subscription. You install the same package everyone else runs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What hardware does MurOS run on?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Anything Debian 13 supports: a mini PC, a 1U server, a virtual machine on Proxmox or VMware, or a small appliance with two or more network cards. There is no proprietary hardware requirement."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
+      <img src="assets/logo-dark.svg" alt="MurOS" class="block h-9 w-auto">
+      <span class="mono text-xs font-semibold text-amber-700">[BETA]</span>
+    </a>
+    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
+      <a href="why.html" class="nav-link hover:text-slate-900 active">Why MurOS</a>
+      <a href="features.html" class="nav-link hover:text-slate-900">Features</a>
+      <a href="install.html" class="nav-link hover:text-slate-900">Install</a>
+      <a href="download.html" class="nav-link hover:text-slate-900">Download</a>
+      <a href="hardware.html" class="nav-link hover:text-slate-900">Hardware</a>
+      <a href="docs.html" class="nav-link hover:text-slate-900">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+    </nav><details class="sm:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+      <a href="why.html" class="nav-link hover:text-slate-900 active px-4 py-2 hover:bg-slate-50">Why MurOS</a>
+      <a href="features.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Features</a>
+      <a href="install.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Install</a>
+      <a href="download.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Download</a>
+      <a href="hardware.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Hardware</a>
+      <a href="docs.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-50">Docs</a>
+      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+    </div></details>
+  </div>
+</header>
+
+<main>
+
+<section class="bg-grid border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6 pt-12 pb-16 lg:pt-16 lg:pb-20">
+    <div class="max-w-3xl">
+      <div class="flex items-start gap-3 mb-6">
+        <span class="mt-1 inline-block w-1 self-stretch bg-amber-500"></span>
+        <div class="mono text-sm font-semibold text-slate-900 tracking-wide">THE SHORT VERSION</div>
+      </div>
+      <h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-slate-900">Why MurOS</h1>
+      <p class="mt-5 text-lg text-slate-700 leading-relaxed">MurOS does fewer things than OPNsense. The things it does are native, tested and guaranteed to work together. No plugins, no surprises.</p>
+      <p class="mt-4 text-base text-slate-600 leading-relaxed">It is built for the firewall most companies actually need: stateful filtering, NAT, routing, VPN, high availability and clean logs, all driven from a web UI on stock Debian. Free, open source, no subscription.</p>
+      <div class="mt-7 flex flex-col sm:flex-row gap-3">
+        <a href="install.html" class="inline-flex items-center justify-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-medium rounded">Install guide</a>
+        <a href="features.html" class="inline-flex items-center justify-center px-5 py-3 border border-slate-300 text-slate-900 font-medium rounded hover:bg-slate-50">See every feature</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-bold text-slate-900">The state of open source firewalls</h2>
+    <div class="mt-4 max-w-3xl space-y-4 text-slate-700 leading-relaxed">
+      <p>The incumbents pull in two directions. Commercial appliances like FortiGate are polished but closed, licensed per throughput and feature tier, and tie you to one vendor's hardware and renewal cycle.</p>
+      <p>The open source options, pfSense and OPNsense, solve the lock-in but lean on a large catalogue of community plugins. That catalogue is their strength and their weakness: hundreds of add-ons of uneven quality, combinations nobody tests together, and a compatibility matrix that can break on the next upgrade.</p>
+      <p>MurOS takes a third path.</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 bg-slate-50 border-y border-slate-200">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-bold text-slate-900">One native core, no plugins</h2>
+    <p class="mt-3 text-slate-600 max-w-3xl">Every feature MurOS ships lives in the core. It is tested end to end, wired into the same web UI, and documented in the same place. There is no third-party extension system, on purpose.</p>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Tested as a whole</h3>
+        <p class="mt-2 text-sm text-slate-700 leading-relaxed">Because there is no plugin matrix, the entire product can be integration-tested at every release. What ships has been run together.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">A known attack surface</h3>
+        <p class="mt-2 text-sm text-slate-700 leading-relaxed">A fixed set of components means CVEs are trackable and patch cadence is predictable. You always know what is running on your perimeter.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Upgrades that do not break</h3>
+        <p class="mt-2 text-sm text-slate-700 leading-relaxed">No plugin can be left behind on an update. The package upgrades as one unit, with an automatic pre-upgrade snapshot of config and ruleset.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">One consistent UI</h3>
+        <p class="mt-2 text-sm text-slate-700 leading-relaxed">Every page follows the same pattern: stage in the database, click Apply, push to the kernel, auto-rollback if reachability breaks. No bolted-on screens.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-bold text-slate-900">An honest trade-off</h2>
+    <p class="mt-2 text-slate-600 max-w-3xl">A focused scope is a choice with a cost. Here is both sides of it, plainly.</p>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="border border-slate-200 rounded p-6">
+        <h3 class="text-base font-semibold text-slate-900">What you get</h3>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li>Stateful filtering, NAT, static routing and multi-WAN failover.</li>
+          <li>WireGuard and IPsec, with a built-in PKI for certificates.</li>
+          <li>HA with VRRP, conntrack sync and inter-node config replication.</li>
+          <li>DHCP, recursive validating DNS, monitoring, logs and notifications.</li>
+          <li>Everything in the default package. No edition, no paywall.</li>
+        </ul>
+      </div>
+      <div class="border border-slate-200 rounded p-6">
+        <h3 class="text-base font-semibold text-slate-900">What you give up</h3>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li>No third-party plugin ecosystem to bolt on niche features.</li>
+          <li>No HTTP proxy or web filter with HTTPS interception, by design.</li>
+          <li>No gateway antivirus, supplanted by endpoint EDR.</li>
+          <li>No SD-WAN application steering. Multi-WAN failover covers the real need.</li>
+          <li>Dynamic routing, IDS/IPS and external auth are on the roadmap, not shipped yet.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 bg-slate-50 border-y border-slate-200">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-bold text-slate-900">How the approaches compare</h2>
+    <p class="mt-2 text-slate-600 max-w-3xl">Not a feature checklist, that lives on the features page. This is about how each product is built and licensed.</p>
+
+    <div class="mt-8 overflow-x-auto">
+      <table class="w-full text-sm border border-slate-200 rounded">
+        <thead class="bg-white text-slate-700">
+          <tr><th class="text-left font-medium px-3 py-2">Approach</th><th class="text-center font-medium px-3 py-2">FortiGate</th><th class="text-center font-medium px-3 py-2">pfSense</th><th class="text-center font-medium px-3 py-2">OPNsense</th><th class="text-center font-medium px-3 py-2 text-slate-900">MurOS</th></tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200">
+          <tr><td class="px-3 py-2">License</td><td class="text-center">proprietary</td><td class="text-center">Apache 2.0</td><td class="text-center">BSD 2-clause</td><td class="text-center font-medium">AGPL-3.0+</td></tr>
+          <tr><td class="px-3 py-2">Base system</td><td class="text-center">FortiOS</td><td class="text-center">FreeBSD</td><td class="text-center">FreeBSD</td><td class="text-center font-medium">Debian 13</td></tr>
+          <tr><td class="px-3 py-2">Feature model</td><td class="text-center">licensed tiers</td><td class="text-center">packages</td><td class="text-center">plugins</td><td class="text-center font-medium">native core</td></tr>
+          <tr><td class="px-3 py-2">Third-party plugins</td><td class="text-center">no</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">none, by design</td></tr>
+          <tr><td class="px-3 py-2">Cost</td><td class="text-center">subscription</td><td class="text-center">free / paid</td><td class="text-center">free</td><td class="text-center font-medium">free</td></tr>
+          <tr><td class="px-3 py-2">Runs on any hardware</td><td class="text-center">no</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
+          <tr><td class="px-3 py-2">Scope</td><td class="text-center">full NGFW</td><td class="text-center">broad</td><td class="text-center">broad</td><td class="text-center font-medium">focused</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-5 text-sm text-slate-500 max-w-3xl">pfSense and OPNsense are solid projects. If you depend on a specific plugin or on dynamic routing today, they remain the right call. MurOS is for teams who would rather run a smaller, fully tested core.</p>
+  </div>
+</section>
+
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-bold text-slate-900">Who it is for</h2>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="border border-slate-200 rounded p-6">
+        <h3 class="text-base font-semibold text-slate-900">A good fit</h3>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li>Small and mid-size companies that need a reliable perimeter firewall.</li>
+          <li>Admins who prefer Debian and standard Linux tooling under the hood.</li>
+          <li>Teams that value a tested, predictable product over a large feature catalogue.</li>
+          <li>Anyone replacing an end-of-life appliance without a new subscription.</li>
+        </ul>
+      </div>
+      <div class="border border-slate-200 rounded p-6">
+        <h3 class="text-base font-semibold text-slate-900">Look elsewhere if</h3>
+        <ul class="mt-3 space-y-2 text-sm text-slate-700">
+          <li>You need OSPF or BGP in production today.</li>
+          <li>You require inline IDS/IPS or deep packet inspection now.</li>
+          <li>You depend on a specific community plugin.</li>
+          <li>You want an HTTP proxy with TLS interception on the gateway.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 bg-slate-50 border-y border-slate-200">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-bold text-slate-900">Common questions</h2>
+    <div class="mt-8 max-w-3xl space-y-6">
+      <div>
+        <h3 class="text-base font-semibold text-slate-900">Is MurOS a fork of pfSense or OPNsense?</h3>
+        <p class="mt-2 text-sm text-slate-700 leading-relaxed">No. MurOS is a fresh codebase on stock Debian 13. It drives nftables, iproute2, WireGuard, strongSwan, keepalived, dnsmasq and unbound directly, with a FastAPI backend and a React web UI. It shares no code with the BSD-based projects.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-slate-900">Why refuse a plugin system?</h3>
+        <p class="mt-2 text-sm text-slate-700 leading-relaxed">A plugin catalogue means uneven quality, untested feature combinations and a compatibility matrix that breaks on upgrade. Shipping every feature in the core keeps the product testable as a whole and the attack surface known.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-slate-900">Is MurOS really free?</h3>
+        <p class="mt-2 text-sm text-slate-700 leading-relaxed">Yes, under AGPL-3.0-or-later. No enterprise edition, no paywalled module, no per-seat or throughput subscription. You run the same package as everyone else.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-slate-900">What hardware does it run on?</h3>
+        <p class="mt-2 text-sm text-slate-700 leading-relaxed">Anything Debian 13 supports: a mini PC, a 1U server, a VM on Proxmox or VMware, or a small box with two or more NICs. No proprietary hardware required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h2 class="text-2xl font-bold text-slate-900">Try it on a spare box</h2>
+    <p class="mt-3 text-slate-600 max-w-2xl mx-auto">Install on a fresh Debian 13 and reach the web UI in minutes. No account, no key, no phone-home.</p>
+    <div class="mt-6 max-w-2xl mx-auto text-left">
+      <pre class="bg-slate-900 text-slate-100 rounded px-4 py-3 text-sm mono leading-relaxed overflow-x-auto"><code>curl -fsSL https://github.com/murosorg/muros/releases/latest/download/install.sh | sudo bash</code></pre>
+    </div>
+    <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="install.html" class="inline-flex items-center justify-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-medium rounded">Read the install guide</a>
+      <a href="https://github.com/murosorg/muros" class="inline-flex items-center justify-center px-5 py-3 border border-slate-300 text-slate-900 font-medium rounded hover:bg-slate-50">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-slate-200 py-10">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+    <div class="flex items-center gap-2">
+      <img src="assets/logo-dark.svg" alt="MurOS" class="h-5 w-auto">
+      <span>&middot; AGPL v3</span>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href="legal.html" class="hover:text-slate-900">Legal</a>
+      <a href="https://github.com/murosorg/muros" class="hover:text-slate-900">GitHub</a>
+      <a href="https://github.com/murosorg/muros/issues" class="hover:text-slate-900">Issues</a>
+      <a href="https://github.com/murosorg/muros/blob/main/LICENSE" class="hover:text-slate-900">License</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

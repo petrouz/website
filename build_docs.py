@@ -9,7 +9,11 @@ structured data, so search engines index the content directly instead of
 a client-side fetch.
 """
 from __future__ import annotations
-import html, json, os, pathlib, markdown
+import datetime, html, json, os, pathlib, re, markdown
+
+# Date the docs section first went live. Used as datePublished in the
+# TechArticle structured data; dateModified tracks each source file.
+DOCS_PUBLISHED = '2026-05-27'
 
 SITE = pathlib.Path(__file__).resolve().parent
 REPO = pathlib.Path(os.environ.get('MUROS_REPO', SITE.parent / 'muros'))
@@ -107,6 +111,8 @@ def shell(title, desc, canonical, jsonld, body):
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/app.css">
 <link rel="canonical" href="{canonical}">
 <meta property="og:type" content="article">
@@ -116,6 +122,11 @@ def shell(title, desc, canonical, jsonld, body):
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="670">
+<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
@@ -138,20 +149,67 @@ def shell(title, desc, canonical, jsonld, body):
 '''
 
 
+def _inline_plain(text: str) -> str:
+    """Reduce a markdown line to readable plain text for structured data."""
+    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)  # links -> label
+    text = text.replace('`', '')                          # inline code ticks
+    text = re.sub(r'\*\*([^*]+)\*\*', r'\1', text)         # bold
+    text = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'\1', text)  # italic
+    text = re.sub(r'^[-*]\s+', '', text)                   # list bullet
+    return text.strip()
+
+
+def faq_entries(md: str):
+    """Yield (question, answer) pairs from a FAQ markdown document.
+
+    Each level-two heading is a question; the answer is the prose under
+    it, with fenced code blocks and headings dropped so the structured
+    data stays short and readable.
+    """
+    entries, question, lines, in_code = [], None, [], False
+    def flush():
+        if question:
+            answer = ' '.join(p for p in (_inline_plain(l) for l in lines) if p)
+            answer = re.sub(r'\s+', ' ', answer).strip()
+            if answer:
+                entries.append((question, answer))
+    for raw in md.splitlines():
+        if raw.startswith('```'):
+            in_code = not in_code
+            continue
+        if in_code:
+            continue
+        if raw.startswith('## '):
+            flush()
+            question, lines = raw[3:].strip(), []
+        elif question is not None and not raw.startswith('#'):
+            lines.append(raw)
+    flush()
+    return entries
+
+
 def render_doc(slug):
     title, desc, src, blob = DOCS[slug]
     md = src.read_text(encoding='utf-8')
     body_html = markdown.markdown(md, extensions=['fenced_code', 'tables', 'sane_lists', 'toc', 'attr_list'])
     canonical = f'https://muros.org/docs/{slug}.html'
     page_title = f'{title} - MurOS Docs'
-    jsonld = json.dumps({'@context': 'https://schema.org', '@graph': [
+    modified = datetime.date.fromtimestamp(src.stat().st_mtime).isoformat()
+    graph = {'@context': 'https://schema.org', '@graph': [
         {'@type': 'TechArticle', 'headline': title, 'description': desc, 'url': canonical,
          'inLanguage': 'en', 'author': {'@type': 'Organization', 'name': 'MurOS', 'url': 'https://muros.org/'},
-         'publisher': {'@type': 'Organization', 'name': 'MurOS', 'url': 'https://muros.org/'}},
+         'publisher': {'@type': 'Organization', 'name': 'MurOS', 'url': 'https://muros.org/'},
+         'datePublished': DOCS_PUBLISHED, 'dateModified': modified},
         {'@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://muros.org/'},
             {'@type': 'ListItem', 'position': 2, 'name': 'Docs', 'item': 'https://muros.org/docs.html'},
-            {'@type': 'ListItem', 'position': 3, 'name': title, 'item': canonical}]}]}, indent=2)
+            {'@type': 'ListItem', 'position': 3, 'name': title, 'item': canonical}]}]}
+    if slug == 'faq':
+        graph['@graph'].append({'@type': 'FAQPage', 'mainEntity': [
+            {'@type': 'Question', 'name': q,
+             'acceptedAnswer': {'@type': 'Answer', 'text': a}}
+            for q, a in faq_entries(md)]})
+    jsonld = json.dumps(graph, indent=2)
     crumb = f'<a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">{slug}.md</span>'
     body = f'''<section>
   <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
