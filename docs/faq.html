@@ -363,8 +363,8 @@ sudo journalctl -u wg-quick@wg0 -n 50
 <p>While MurOS is in <strong>beta</strong> (<code>v0.9.0-rcXX</code> release candidate cycle), the DB
 schema is not frozen. Upgrades between beta releases are done via clean
 reinstall:</p>
-<pre><code class="language-bash">curl -fsSL https://github.com/murosorg/muros/releases/latest/download/uninstall.sh | sudo bash
-curl -fsSL https://github.com/murosorg/muros/releases/latest/download/install.sh | sudo bash
+<pre><code class="language-bash">curl -fsSL https://apt.muros.org/uninstall.sh | sudo bash
+curl -fsSL https://apt.muros.org/install.sh | sudo bash
 </code></pre>
 <p>If you want to keep your config across reinstalls, export a backup first
 (Backups menu) and restore after reinstall.</p>

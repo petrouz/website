@@ -119,8 +119,34 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="v090-rc3-2026-05-29">[v0.9.0-rc3] - 2026-05-29</h2>
+<h2 id="v090-rc5-2026-05-29">[v0.9.0-rc5] - 2026-05-29</h2>
 <h3 id="changed">Changed</h3>
+<ul>
+<li>The in-product MurOS updater now goes through apt (apt.muros.org)
+  instead of GitHub. The upgrade candidate is read from <code>apt-cache
+  policy muros</code>, and the upgrade runs <code>apt-get install --only-upgrade
+  muros</code> (integrity guaranteed by the repository GPG signature), still
+  detached via systemd-run so the backend can restart safely. No more
+  .deb download or SHA-256 check in the backend.</li>
+<li>All install/uninstall instructions (docs, packaging README, uninstall
+  message) now point to apt.muros.org. GitHub Releases remain available
+  as an artifact mirror but are no longer the official procedure.</li>
+<li>System &gt; Updates UI: source shown as apt.muros.org.</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>Dead GitHub release-fetching code in backend/app/updates.py
+  (_fetch_latest_release, HTML 302 fallback, .deb download/sha256).</li>
+</ul>
+<h2 id="v090-rc4-2026-05-29">[v0.9.0-rc4] - 2026-05-29</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>CI auto-publishes every release to apt.muros.org (publish-apt job in
+  build-deb.yml) through a deploy key locked server-side to a single
+  forced command. A git tag now publishes to GitHub and apt at once.</li>
+</ul>
+<h2 id="v090-rc3-2026-05-29">[v0.9.0-rc3] - 2026-05-29</h2>
+<h3 id="changed_1">Changed</h3>
 <ul>
 <li>install.sh is now apt-native: it registers the signed apt.muros.org
   repository and runs apt install muros, instead of downloading the .deb
@@ -133,19 +159,19 @@
   tolerated.</li>
 </ul>
 <h2 id="v090-rc2-2026-05-29">[v0.9.0-rc2] - 2026-05-29</h2>
-<h3 id="added">Added</h3>
+<h3 id="added_1">Added</h3>
 <ul>
 <li>Signed apt repository at https://apt.muros.org. The installer now
   registers the repository and its signing key, so upgrades flow through
   apt and unattended-upgrades. A manual setup snippet is documented in
   the README.</li>
 </ul>
-<h3 id="changed_1">Changed</h3>
+<h3 id="changed_2">Changed</h3>
 <ul>
 <li>README positioning made explicit: open source alternative to pfSense
   and OPNsense.</li>
 </ul>
-<h3 id="removed">Removed</h3>
+<h3 id="removed_1">Removed</h3>
 <ul>
 <li>uninstall.sh now removes the apt source and keyring for symmetry.</li>
 </ul>
