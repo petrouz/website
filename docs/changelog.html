@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-05-29"
+      "dateModified": "2026-05-30"
     },
     {
       "@type": "BreadcrumbList",
@@ -122,20 +122,50 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="v090-rc6-2026-05-29">[v0.9.0-rc6] - 2026-05-29</h2>
+<h2 id="v090-rc9-2026-05-30">[v0.9.0-rc9] - 2026-05-30</h2>
 <h3 id="changed">Changed</h3>
+<ul>
+<li>Dashboard is now a live view. The summary endpoint is sampled twice
+  per second (was every 3s) and the per-interface traffic and history
+  charts are fed from an in-memory ring buffer instead of the backend
+  60s collector, so they update in real time.</li>
+<li>History window selector now offers 1 / 5 / 15 minutes and defaults to
+  5 minutes (was 1 / 6 / 12 / 24 hours, default 24h). Time charts pin
+  the x axis to the selected window and show minute:second labels for
+  sub-hour spans.</li>
+<li>Authentication now goes through PAM: the web UI and SSH share the same
+  Linux account. The UI login is validated against the system password
+  (pam_unix on /etc/shadow), and changing the password from the UI also
+  changes it for SSH. The default account is the Linux user <code>admin</code>
+  (password <code>muros</code>, forced change on first UI login).</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>The five summary cards at the top of the dashboard (Interfaces up,
+  Total throughput, Conntrack, Pending changes, Last apply). The same
+  information is available from the metric cards and the relevant pages.</li>
+</ul>
+<h3 id="security">Security</h3>
+<ul>
+<li>SSH is closed by default. <code>openssh-server</code> ships but ssh.service /
+  ssh.socket are disabled on a fresh install; the operator opens SSH
+  from the SSH access page once keys and restrictions are in place.
+  Root login over SSH defaults to disabled (log in as <code>admin</code>, then sudo).</li>
+</ul>
+<h2 id="v090-rc6-2026-05-29">[v0.9.0-rc6] - 2026-05-29</h2>
+<h3 id="changed_1">Changed</h3>
 <ul>
 <li>CI runs JavaScript actions on Node 24 (FORCE_JAVASCRIPT_ACTIONS_TO_NODE24)
   ahead of the Node 20 removal on GitHub runners.</li>
 </ul>
-<h3 id="security">Security</h3>
+<h3 id="security_1">Security</h3>
 <ul>
 <li>The apt deploy key wrapper now requires an explicit release tag. A bare
   SSH connection with no command is refused instead of defaulting to
   publishing "latest".</li>
 </ul>
 <h2 id="v090-rc5-2026-05-29">[v0.9.0-rc5] - 2026-05-29</h2>
-<h3 id="changed_1">Changed</h3>
+<h3 id="changed_2">Changed</h3>
 <ul>
 <li>The in-product MurOS updater now goes through apt (apt.muros.org)
   instead of GitHub. The upgrade candidate is read from <code>apt-cache
@@ -148,7 +178,7 @@
   as an artifact mirror but are no longer the official procedure.</li>
 <li>System &gt; Updates UI: source shown as apt.muros.org.</li>
 </ul>
-<h3 id="removed">Removed</h3>
+<h3 id="removed_1">Removed</h3>
 <ul>
 <li>Dead GitHub release-fetching code in backend/app/updates.py
   (_fetch_latest_release, HTML 302 fallback, .deb download/sha256).</li>
@@ -161,7 +191,7 @@
   forced command. A git tag now publishes to GitHub and apt at once.</li>
 </ul>
 <h2 id="v090-rc3-2026-05-29">[v0.9.0-rc3] - 2026-05-29</h2>
-<h3 id="changed_2">Changed</h3>
+<h3 id="changed_3">Changed</h3>
 <ul>
 <li>install.sh is now apt-native: it registers the signed apt.muros.org
   repository and runs apt install muros, instead of downloading the .deb
@@ -181,12 +211,12 @@
   apt and unattended-upgrades. A manual setup snippet is documented in
   the README.</li>
 </ul>
-<h3 id="changed_3">Changed</h3>
+<h3 id="changed_4">Changed</h3>
 <ul>
 <li>README positioning made explicit: open source alternative to pfSense
   and OPNsense.</li>
 </ul>
-<h3 id="removed_1">Removed</h3>
+<h3 id="removed_2">Removed</h3>
 <ul>
 <li>uninstall.sh now removes the apt source and keyring for symmetry.</li>
 </ul>
