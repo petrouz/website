@@ -107,19 +107,25 @@
     <div class="grid grid-cols-1 lg:grid-cols-[3fr_4fr] gap-10 lg:gap-8 items-center">
       <div>
         <div class="flex items-start gap-3 mb-6">
-          <span class="mt-1 inline-block w-1 self-stretch bg-amber-500"></span>
+          <span class="mt-1 inline-block w-1 self-stretch bg-amber-400"></span>
           <div>
             <div class="mono text-base font-semibold text-slate-900 tracking-wide">BETA &middot; <span data-muros-tag>v0.9.0-rc</span></div>
             <div class="text-sm text-slate-600">Production-grade features, breaking changes still possible.</div>
           </div>
         </div>
         <h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-slate-900">Turn any Linux into a firewall.</h1>
-        <p class="mt-4 text-base lg:text-lg text-slate-600 leading-relaxed">An open source firewall appliance on Debian 13, managed entirely from a web UI. Stateful filtering, NAT, routing, VPN and high availability, all native in the core. The capabilities of pfSense, OPNsense or a FortiGate, free, on any hardware Linux supports.</p>
+        <p class="mt-4 text-base lg:text-lg text-slate-600 leading-relaxed">An open source firewall appliance on Debian 13, managed entirely from a web UI. Stateful filtering, NAT, routing, VPN and high availability, all native in the core. The capabilities of pfSense, OPNsense or FortiGate, free, on any hardware Linux runs on.</p>
 
         <div class="mt-6 flex flex-col sm:flex-row gap-3">
           <a href="install.html" class="inline-flex items-center justify-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-medium rounded">Install guide</a>
           <a href="https://github.com/murosorg/muros" class="inline-flex items-center justify-center px-5 py-3 border border-slate-300 text-slate-900 font-medium rounded hover:bg-slate-50">View on GitHub</a>
         </div>
+
+        <ul class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500">
+          <li class="flex items-center gap-1.5"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>AGPL-3.0, no subscription</li>
+          <li class="flex items-center gap-1.5"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Native on Debian 13</li>
+          <li class="flex items-center gap-1.5"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>No CLI required</li>
+        </ul>
       </div>
 
       <div class="lg:-mr-8 xl:-mr-12">
@@ -129,7 +135,13 @@
 
     <div class="mt-12">
       <div class="text-xs font-medium text-slate-500 mb-1.5">Install on a fresh Debian 13:</div>
-      <pre class="bg-slate-900 text-slate-100 rounded px-4 py-3 text-sm mono leading-relaxed overflow-x-auto"><code>curl -fsSL https://apt.muros.org/install.sh | sudo bash</code></pre>
+      <div class="relative group">
+        <pre class="bg-slate-900 text-slate-100 rounded px-4 py-3 pr-24 text-sm mono leading-relaxed overflow-x-auto"><code id="install-cmd">curl -fsSL https://apt.muros.org/install.sh | sudo bash</code></pre>
+        <button type="button" data-copy="#install-cmd" class="absolute top-1.5 right-1.5 inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span class="copy-label">Copy</span>
+        </button>
+      </div>
     </div>
 
     <div class="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-7">
@@ -218,6 +230,7 @@
 </footer>
 
 <script src="assets/lightbox.js" defer></script>
+<script src="assets/copy.js" defer></script>
 <script src="assets/theme.js"></script>
 </body>
 </html>
