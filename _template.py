@@ -42,8 +42,6 @@ THEME_HEAD = ('<script>(function(){try{var t=localStorage.getItem("muros-theme")
 NAV = [
     ('features', 'Features'),
     ('install',  'Install'),
-    ('download', 'Download'),
-    ('hardware', 'Hardware'),
     ('docs',     'Docs'),
 ]
 
