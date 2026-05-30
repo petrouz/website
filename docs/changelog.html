@@ -124,8 +124,28 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="v090-rc53-2026-05-30">[v0.9.0-rc53] - 2026-05-30</h2>
+<h2 id="unreleased">[Unreleased]</h2>
 <h3 id="added">Added</h3>
+<ul>
+<li>Management-lockout guard on firewall applies. Before applying, MurOS
+  statically evaluates the input chain against a new connection from the
+  operator's source to the web UI and SSH ports. If the ruleset would
+  block new management connections (the commit-confirm modal cannot catch
+  this because conntrack keeps the current session alive), the Apply
+  modal shows a blocking warning that must be acknowledged. New endpoint
+  <code>GET /api/firewall/apply/lockout-check</code>; <code>POST /api/firewall/apply</code>
+  refuses with 409 unless <code>acknowledge_lockout</code> is set.</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Dashboard reorganized: KPIs (CPU, memory, conntrack, load) moved to a
+  full-width top row; services and storage side by side below. The
+  service list now groups essential (always-on) services and only shows
+  optional ones when active or in error, with a summary line for the
+  rest.</li>
+</ul>
+<h2 id="v090-rc53-2026-05-30">[v0.9.0-rc53] - 2026-05-30</h2>
+<h3 id="added_1">Added</h3>
 <ul>
 <li>System settings page (hostname, timezone, locale, console keymap),
   applied live and persisted through systemd (hostnamectl / timedatectl /
@@ -136,7 +156,7 @@
   on a physical interface and serves DHCP on it via Kea, so the UI stays
   reachable from a directly attached laptop without a shell.</li>
 </ul>
-<h3 id="changed">Changed</h3>
+<h3 id="changed_1">Changed</h3>
 <ul>
 <li>Installer ISO default credentials are now <strong><code>root</code> / <code>root</code></strong>. The
   password is deliberately AZERTY/QWERTY-safe so the first console login
@@ -155,7 +175,7 @@
   pinned to an outdated version, and the hybrid ISO repack was fixed.</li>
 </ul>
 <h2 id="v090-rc30-2026-05-30">[v0.9.0-rc30] - 2026-05-30</h2>
-<h3 id="added_1">Added</h3>
+<h3 id="added_2">Added</h3>
 <ul>
 <li>IPv6 Router Advertisements / SLAAC (lot 2 of IPv6 support). MurOS can now
   act as the IPv6 router for a LAN interface via radvd: it advertises a /64
@@ -169,7 +189,7 @@
   enabled automatically when RA is on. New /api/ipv6/ra endpoints.</li>
 </ul>
 <h2 id="v090-rc28-2026-05-30">[v0.9.0-rc28] - 2026-05-30</h2>
-<h3 id="added_2">Added</h3>
+<h3 id="added_3">Added</h3>
 <ul>
 <li>CI regression coverage for the per-service config generators. The
   backend pytest job now exercises the rendering path of WireGuard (VPN),
@@ -183,7 +203,7 @@
   Unbound access-control plus defensive allowlist.</li>
 </ul>
 <h2 id="v090-rc29-2026-05-30">[v0.9.0-rc29] - 2026-05-30</h2>
-<h3 id="added_3">Added</h3>
+<h3 id="added_4">Added</h3>
 <ul>
 <li>Unattended installer ISO builder (<code>packaging/iso/</code>). <code>build-iso.sh</code>
   turns a stock Debian 13 (trixie) netinst image into a fully automated
@@ -198,7 +218,7 @@
   <code>MUROS_ROOT_PASSWORD</code>; see <code>packaging/iso/README.md</code>.</li>
 </ul>
 <h2 id="v090-rc27-2026-05-30">[v0.9.0-rc27] - 2026-05-30</h2>
-<h3 id="added_4">Added</h3>
+<h3 id="added_5">Added</h3>
 <ul>
 <li>IPv6 firewall filtering (lot 1 of IPv6 support). Address-based rules are
   now family-aware: the compiler emits <code>ip saddr/daddr</code> for IPv4 values
@@ -211,7 +231,7 @@
   skipped IPv6 traffic, which the drop policy then blackholed.</li>
 </ul>
 <h2 id="v090-rc25-2026-05-30">[v0.9.0-rc25] - 2026-05-30</h2>
-<h3 id="added_5">Added</h3>
+<h3 id="added_6">Added</h3>
 <ul>
 <li>First-boot setup wizard. Until the operator assigns the network
   interfaces, the UI redirects to a one-step wizard that asks which NIC is
@@ -225,14 +245,14 @@
   wizard. New /api/setup/state and /api/setup/apply endpoints.</li>
 </ul>
 <h2 id="v090-rc24-2026-05-30">[v0.9.0-rc24] - 2026-05-30</h2>
-<h3 id="added_6">Added</h3>
+<h3 id="added_7">Added</h3>
 <ul>
 <li>NTP (chrony) now appears on the dashboard service list, and can be
   turned on or off from a master enable toggle on the NTP page (like the
   other service pages). Disabling stops chrony and keeps it down across
   reboots, after a confirmation prompt.</li>
 </ul>
-<h3 id="changed_1">Changed</h3>
+<h3 id="changed_2">Changed</h3>
 <ul>
 <li>Dashboard service list is now split by install state: services enabled
   out of the box (backend, nginx, fail2ban, SNMP, NTP, DHCP, DNS) sit in
@@ -240,7 +260,7 @@
   on the right, instead of an arbitrary half/half split.</li>
 </ul>
 <h2 id="v090-rc22-2026-05-30">[v0.9.0-rc22] - 2026-05-30</h2>
-<h3 id="added_7">Added</h3>
+<h3 id="added_8">Added</h3>
 <ul>
 <li>Two-factor authentication (TOTP, RFC 6238) for the web UI login. When
   enabled on an account, the password step returns a short-lived token
@@ -267,7 +287,7 @@
   now realigned with the service catalog.</li>
 </ul>
 <h2 id="v090-rc20-2026-05-30">[v0.9.0-rc20] - 2026-05-30</h2>
-<h3 id="changed_2">Changed</h3>
+<h3 id="changed_3">Changed</h3>
 <ul>
 <li>Frontend: page components are now code-split with React.lazy and loaded
   on demand. The initial JavaScript bundle dropped from ~577 kB to
@@ -277,7 +297,7 @@
   sidebar visible during navigation. No functional change.</li>
 </ul>
 <h2 id="v090-rc19-2026-05-30">[v0.9.0-rc19] - 2026-05-30</h2>
-<h3 id="changed_3">Changed</h3>
+<h3 id="changed_4">Changed</h3>
 <ul>
 <li>Dashboard: removed the redundant "Per-interface traffic" table, which
   duplicated the per-interface "Traffic <iface>" charts already shown in
@@ -287,7 +307,7 @@
   moved to the bottom.</li>
 </ul>
 <h2 id="v090-rc18-2026-05-30">[v0.9.0-rc18] - 2026-05-30</h2>
-<h3 id="changed_4">Changed</h3>
+<h3 id="changed_5">Changed</h3>
 <ul>
 <li>Internal: migrated the Pydantic schemas from the deprecated class-based
   <code>Config</code> to <code>model_config = ConfigDict(...)</code> (removes the Pydantic V2
@@ -295,7 +315,7 @@
   remaining lint findings. No functional change.</li>
 </ul>
 <h2 id="v090-rc17-2026-05-30">[v0.9.0-rc17] - 2026-05-30</h2>
-<h3 id="changed_5">Changed</h3>
+<h3 id="changed_6">Changed</h3>
 <ul>
 <li>Default firewall rules now follow the OPNsense model: the LAN is the
   trusted zone and gets an "allow LAN to firewall" (input) plus an "allow
@@ -314,7 +334,7 @@
   back on manually from the SSH page toggle.</li>
 </ul>
 <h2 id="v090-rc15-2026-05-30">[v0.9.0-rc15] - 2026-05-30</h2>
-<h3 id="added_8">Added</h3>
+<h3 id="added_9">Added</h3>
 <ul>
 <li>NTP server mode (chrony) for the LAN, enabled by default. chrony now
   emits an <code>allow &lt;subnet&gt;</code> directive for every LAN-side network (every
@@ -371,7 +391,7 @@
   stuck in that state can still be reinstalled.</li>
 </ul>
 <h2 id="v090-rc10-2026-05-30">[v0.9.0-rc10] - 2026-05-30</h2>
-<h3 id="changed_6">Changed</h3>
+<h3 id="changed_7">Changed</h3>
 <ul>
 <li>The root administrator now keeps its existing system password. MurOS
   no longer resets it to <code>muros</code> at install and no longer forces a change
@@ -387,7 +407,7 @@
   root account, Kea, chrony and the per-account web UI access model.</li>
 </ul>
 <h2 id="v090-rc9-2026-05-30">[v0.9.0-rc9] - 2026-05-30</h2>
-<h3 id="changed_7">Changed</h3>
+<h3 id="changed_8">Changed</h3>
 <ul>
 <li>Dashboard is now a live view. The summary endpoint is sampled twice
   per second (was every 3s) and the per-interface traffic and history
@@ -414,7 +434,7 @@
   fail2ban). Services that need a per-site configuration (HA, VPN) stay
   disabled until enabled from the UI.</li>
 </ul>
-<h3 id="added_9">Added</h3>
+<h3 id="added_10">Added</h3>
 <ul>
 <li>Access &gt; Users page (administrators only). The web UI and SSH share the
   PAM stack, so any Linux account could authenticate; this page controls
@@ -441,7 +461,7 @@
   account must be explicitly granted access by root to sign in.</li>
 </ul>
 <h2 id="v090-rc6-2026-05-29">[v0.9.0-rc6] - 2026-05-29</h2>
-<h3 id="changed_8">Changed</h3>
+<h3 id="changed_9">Changed</h3>
 <ul>
 <li>CI runs JavaScript actions on Node 24 (FORCE_JAVASCRIPT_ACTIONS_TO_NODE24)
   ahead of the Node 20 removal on GitHub runners.</li>
@@ -453,7 +473,7 @@
   publishing "latest".</li>
 </ul>
 <h2 id="v090-rc5-2026-05-29">[v0.9.0-rc5] - 2026-05-29</h2>
-<h3 id="changed_9">Changed</h3>
+<h3 id="changed_10">Changed</h3>
 <ul>
 <li>The in-product MurOS updater now goes through apt (apt.muros.org)
   instead of GitHub. The upgrade candidate is read from <code>apt-cache
@@ -472,14 +492,14 @@
   (_fetch_latest_release, HTML 302 fallback, .deb download/sha256).</li>
 </ul>
 <h2 id="v090-rc4-2026-05-29">[v0.9.0-rc4] - 2026-05-29</h2>
-<h3 id="added_10">Added</h3>
+<h3 id="added_11">Added</h3>
 <ul>
 <li>CI auto-publishes every release to apt.muros.org (publish-apt job in
   build-deb.yml) through a deploy key locked server-side to a single
   forced command. A git tag now publishes to GitHub and apt at once.</li>
 </ul>
 <h2 id="v090-rc3-2026-05-29">[v0.9.0-rc3] - 2026-05-29</h2>
-<h3 id="changed_10">Changed</h3>
+<h3 id="changed_11">Changed</h3>
 <ul>
 <li>install.sh is now apt-native: it registers the signed apt.muros.org
   repository and runs apt install muros, instead of downloading the .deb
@@ -492,14 +512,14 @@
   tolerated.</li>
 </ul>
 <h2 id="v090-rc2-2026-05-29">[v0.9.0-rc2] - 2026-05-29</h2>
-<h3 id="added_11">Added</h3>
+<h3 id="added_12">Added</h3>
 <ul>
 <li>Signed apt repository at https://apt.muros.org. The installer now
   registers the repository and its signing key, so upgrades flow through
   apt and unattended-upgrades. A manual setup snippet is documented in
   the README.</li>
 </ul>
-<h3 id="changed_11">Changed</h3>
+<h3 id="changed_12">Changed</h3>
 <ul>
 <li>README positioning made explicit: open source alternative to pfSense
   and OPNsense.</li>
