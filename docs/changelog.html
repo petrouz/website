@@ -123,8 +123,35 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="v090-rc24-2026-05-30">[v0.9.0-rc24] - 2026-05-30</h2>
+<h2 id="v090-rc27-2026-05-30">[v0.9.0-rc27] - 2026-05-30</h2>
 <h3 id="added">Added</h3>
+<ul>
+<li>IPv6 firewall filtering (lot 1 of IPv6 support). Address-based rules are
+  now family-aware: the compiler emits <code>ip saddr/daddr</code> for IPv4 values
+  and <code>ip6 saddr/daddr</code> for IPv6 values inside the <code>inet</code> table, instead
+  of only ever matching IPv4. A rule (or address group) mixing both
+  families expands to one variant per family. ICMP rules now match both
+  ICMP and ICMPv6 (<code>meta l4proto { icmp, ipv6-icmp }</code>), and the forward
+  chain gained the ICMPv6 baseline (NDP / Packet-Too-Big) required for
+  routed IPv6 to work. Previously any address or ICMP rule silently
+  skipped IPv6 traffic, which the drop policy then blackholed.</li>
+</ul>
+<h2 id="v090-rc25-2026-05-30">[v0.9.0-rc25] - 2026-05-30</h2>
+<h3 id="added_1">Added</h3>
+<ul>
+<li>First-boot setup wizard. Until the operator assigns the network
+  interfaces, the UI redirects to a one-step wizard that asks which NIC is
+  the WAN (Internet, DHCP client) and which is the trusted LAN (with its
+  CIDR). Applying it wires the zones and drops the permissive "any to
+  firewall" bootstrap rules, so the box reaches its final posture (LAN
+  reaches the firewall and its services, WAN default-deny) instead of
+  staying in the open bootstrap state. Services keep listening on every
+  interface; access is enforced by the firewall zones, not per-service
+  binds. Boxes already configured (zones assigned, or upgraded) skip the
+  wizard. New /api/setup/state and /api/setup/apply endpoints.</li>
+</ul>
+<h2 id="v090-rc24-2026-05-30">[v0.9.0-rc24] - 2026-05-30</h2>
+<h3 id="added_2">Added</h3>
 <ul>
 <li>NTP (chrony) now appears on the dashboard service list, and can be
   turned on or off from a master enable toggle on the NTP page (like the
@@ -139,7 +166,7 @@
   on the right, instead of an arbitrary half/half split.</li>
 </ul>
 <h2 id="v090-rc22-2026-05-30">[v0.9.0-rc22] - 2026-05-30</h2>
-<h3 id="added_1">Added</h3>
+<h3 id="added_3">Added</h3>
 <ul>
 <li>Two-factor authentication (TOTP, RFC 6238) for the web UI login. When
   enabled on an account, the password step returns a short-lived token
@@ -213,7 +240,7 @@
   back on manually from the SSH page toggle.</li>
 </ul>
 <h2 id="v090-rc15-2026-05-30">[v0.9.0-rc15] - 2026-05-30</h2>
-<h3 id="added_2">Added</h3>
+<h3 id="added_4">Added</h3>
 <ul>
 <li>NTP server mode (chrony) for the LAN, enabled by default. chrony now
   emits an <code>allow &lt;subnet&gt;</code> directive for every LAN-side network (every
@@ -313,7 +340,7 @@
   fail2ban). Services that need a per-site configuration (HA, VPN) stay
   disabled until enabled from the UI.</li>
 </ul>
-<h3 id="added_3">Added</h3>
+<h3 id="added_5">Added</h3>
 <ul>
 <li>Access &gt; Users page (administrators only). The web UI and SSH share the
   PAM stack, so any Linux account could authenticate; this page controls
@@ -371,7 +398,7 @@
   (_fetch_latest_release, HTML 302 fallback, .deb download/sha256).</li>
 </ul>
 <h2 id="v090-rc4-2026-05-29">[v0.9.0-rc4] - 2026-05-29</h2>
-<h3 id="added_4">Added</h3>
+<h3 id="added_6">Added</h3>
 <ul>
 <li>CI auto-publishes every release to apt.muros.org (publish-apt job in
   build-deb.yml) through a deploy key locked server-side to a single
@@ -391,7 +418,7 @@
   tolerated.</li>
 </ul>
 <h2 id="v090-rc2-2026-05-29">[v0.9.0-rc2] - 2026-05-29</h2>
-<h3 id="added_5">Added</h3>
+<h3 id="added_7">Added</h3>
 <ul>
 <li>Signed apt repository at https://apt.muros.org. The installer now
   registers the repository and its signing key, so upgrades flow through
