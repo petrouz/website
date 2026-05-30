@@ -47,7 +47,15 @@
     syncLogos();
   }
 
-  syncLogos();
+  // Re-assert the resolved theme on load. The inline head snippet can
+  // evaluate matchMedia before the OS color-scheme signal is ready (race
+  // observed on some Linux/Chromium setups), which leaves a dark-OS visitor
+  // on the light theme. Recompute here once matchMedia is reliable.
+  if (!stored()) {
+    apply(mq.matches, false);
+  } else {
+    syncLogos();
+  }
 
   // Follow the OS theme while the visitor has not chosen one explicitly.
   mq.addEventListener('change', function (e) {
