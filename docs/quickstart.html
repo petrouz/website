@@ -124,6 +124,18 @@
       <div class="doc-prose">
 <h1 id="muros-first-deployment-in-15-minutes">MurOS - First deployment in 15 minutes</h1>
 <p>This guide walks you from a fresh Debian install to a working firewall.</p>
+<p>There are two ways to install:</p>
+<ul>
+<li><strong>Option A (recommended): the MurOS installer ISO.</strong> Boot it and walk
+  away. It installs Debian and MurOS unattended, no questions asked. The
+  installed system logs in with <strong><code>root</code> / <code>root</code></strong> by default (a value
+  that types the same on AZERTY and QWERTY, so the first console login is
+  never blocked by a keyboard layout mismatch). Change it right after the
+  first login. Build instructions: <code>packaging/iso/README.md</code>.</li>
+<li><strong>Option B: install on an existing Debian.</strong> Run the one-line installer
+  on a machine you already provisioned. This is the path detailed below;
+  here MurOS keeps your existing root password unchanged.</li>
+</ul>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>An x86_64 machine (VM or bare metal):</li>
