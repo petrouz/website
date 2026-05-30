@@ -106,7 +106,7 @@
           "name": "I lost SSH or HTTPS access after a change",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "MurOS implements an automatic rollback on changes that may lock you out of admin access. After the apply, a confirmation modal opens with a short countdown (10s by default); if you do not confirm, the previous config is restored: | Action | Auto-rollback | |---|---| | Apply firewall (nft) | YES | | Apply HTTP nginx (listen + ports) | YES | | Apply SSH (port + listen) | YES | | Upload TLS cert or regen self-signed | YES | | Interface change (IP, MTU) | NO (confirm() only) | | Static route change | NO (confirm() only) | | Apply WireGuard, IPsec, SNMP, HA | NO (low risk on local admin access) | If you do not confirm in the modal that follows the apply, the previous config is restored automatically by a backend thread that scans for expired pending_apply records every 5 seconds. If you were blocked in the meantime: Wait for the countdown to expire (about 10s), the previous config is restored Reconnect with the old parameters Special case interfaces/routes: if you change the admin interface IP or the default gateway and lose access, you need serial console / IPMI / hypervisor access to revert manually. V1 plans auto-rollback on these too."
+            "text": "MurOS implements an automatic rollback on changes that may lock you out of admin access. After the apply, a confirmation modal opens with a countdown (60s by default, configurable: 10/30/60/120/300); if you do not confirm, the previous config is restored: | Action | Auto-rollback | |---|---| | Apply firewall (nft) | YES | | Apply HTTP nginx (listen + ports) | YES | | Apply SSH (port + listen) | YES | | Upload TLS cert or regen self-signed | YES | | Interface change (IP, MTU) | NO (confirm() only) | | Static route change | NO (confirm() only) | | Apply WireGuard, IPsec, SNMP, HA | NO (low risk on local admin access) | If you do not confirm in the modal that follows the apply, the previous config is restored automatically by a backend thread that scans for expired pending_apply records every 5 seconds. If you were blocked in the meantime: Wait for the countdown to expire (60s by default), the previous config is restored Reconnect with the old parameters Special case interfaces/routes: if you change the admin interface IP or the default gateway and lose access, you need serial console / IPMI / hypervisor access to revert manually. V1 plans auto-rollback on these too."
           }
         },
         {
@@ -273,8 +273,8 @@ systemctl restart ssh
 <h2 id="i-lost-ssh-or-https-access-after-a-change">I lost SSH or HTTPS access after a change</h2>
 <p>MurOS implements an <strong>automatic rollback</strong> on changes that may lock you
 out of admin access. After the apply, a confirmation modal opens with a
-short countdown (10s by default); if you do not confirm, the previous
-config is restored:</p>
+countdown (60s by default, configurable: 10/30/60/120/300); if you do not
+confirm, the previous config is restored:</p>
 <table>
 <thead>
 <tr>
@@ -317,7 +317,7 @@ config is restored:</p>
 config is restored automatically by a backend thread that scans for
 expired pending_apply records every 5 seconds.</p>
 <p>If you were blocked in the meantime:
-* Wait for the countdown to expire (about 10s), the previous config is restored
+* Wait for the countdown to expire (60s by default), the previous config is restored
 * Reconnect with the old parameters</p>
 <p><strong>Special case interfaces/routes</strong>: if you change the admin interface IP
 or the default gateway and lose access, you need serial console / IPMI /
