@@ -167,8 +167,8 @@
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">LAN services</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-700">
-          <li><strong>DHCP server.</strong> dnsmasq backend, per-interface pools, gateway and DNS offered, lease time. Static leases by MAC.</li>
-          <li><strong>Active lease view.</strong> Reads dnsmasq.leases, shows MAC, IP, hostname, expiry.</li>
+          <li><strong>DHCP server.</strong> Kea (kea-dhcp4-server) backend, per-interface pools, gateway and DNS offered, lease time. Static leases by MAC.</li>
+          <li><strong>Active lease view.</strong> Reads the Kea lease file, shows MAC, IP, hostname, expiry.</li>
           <li><strong>Recursive DNS.</strong> Unbound resolver, DNSSEC validation, forwarders, local A and AAAA records.</li>
           <li><strong>System resolver toggle.</strong> Optionally point /etc/resolv.conf at the local Unbound.</li>
         </ul>
@@ -219,7 +219,7 @@
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">System</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-700">
           <li><strong>General.</strong> Hostname, time zone, locale, kernel and Debian version.</li>
-          <li><strong>NTP.</strong> chrony or systemd-timesyncd, configurable servers, current offset.</li>
+          <li><strong>NTP.</strong> chrony, enabled by default, its own Services page, configurable servers, current offset.</li>
           <li><strong>System DNS.</strong> /etc/resolv.conf (separate from the recursive resolver).</li>
           <li><strong>Backups.</strong> One-click snapshots of DB + nftables ruleset + network config + NTP + DNS. Local archive plus remote push via rclone, FTP or SSH. Restore from any snapshot.</li>
           <li><strong>Updates (apt).</strong> apt-get update + upgrade view, kernel reboot indicator, deferred reboot scheduling.</li>
@@ -230,8 +230,7 @@
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">HTTP access</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-700">
-          <li><strong>Administrator account.</strong> Login + password policy (12+ chars, mixed case, digits, symbol).</li>
-          <li><strong>HaveIBeenPwned check.</strong> k-anonymity API call rejects pwned passwords on change.</li>
+          <li><strong>Accounts.</strong> PAM authentication: the web UI and SSH share the Linux accounts. root is the default administrator; grant or revoke web UI access per account and promote accounts to administrator.</li>
           <li><strong>TOTP MFA.</strong> Standard RFC 6238, any authenticator app.</li>
           <li><strong>Web listen interface.</strong> Bind nginx to all interfaces, a specific zone IP, or localhost only.</li>
           <li><strong>HTTP / HTTPS ports.</strong> Configurable, with HTTP -&gt; HTTPS redirect.</li>
@@ -245,7 +244,7 @@
           <li><strong>Install / remove openssh-server</strong> from the UI.</li>
           <li><strong>Listen address and port</strong> per sshd_config drop-in.</li>
           <li><strong>Authorized keys</strong> for root, with paste-in or upload.</li>
-          <li><strong>Linux root password</strong> reset (separately from the UI admin account).</li>
+          <li><strong>Linux root password</strong> change (the same password used for the web UI, via PAM).</li>
         </ul>
       </div>
 
