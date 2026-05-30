@@ -44,6 +44,7 @@ GROUPS = [
 DOCS_HOME = '/docs/quickstart.html'
 
 REPO_BLOB = 'https://github.com/murosorg/muros/blob/main/'
+REPO_TREE = 'https://github.com/murosorg/muros/tree/main/'
 HAMBURGER = ('<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" '
     'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
     'stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" '
@@ -76,7 +77,7 @@ THEME_HEAD = ('<script>(function(){try{var t=localStorage.getItem("muros-theme")
     'document.documentElement.classList.add("dark");}}catch(e){}})();</script>')
 
 NAV = [('why', 'Why MurOS'), ('features', 'Features'), ('install', 'Install'),
-       ('docs', 'Docs')]
+       ('security', 'Security'), ('docs', 'Docs')]
 
 
 def header(active='docs'):
@@ -226,10 +227,23 @@ def faq_entries(md: str):
     return entries
 
 
+def rewrite_repo_links(html_str):
+    # Markdown sources link relative to the muros repo (e.g. README.md, docs/).
+    # Those paths would 404 on the site, so point them at GitHub instead.
+    def repl(m):
+        url = m.group(1)
+        if url.startswith(('http://', 'https://', '/', '#', 'mailto:')):
+            return m.group(0)
+        base = REPO_TREE if url.endswith('/') else REPO_BLOB
+        return f'href="{base}{url}"'
+    return re.sub(r'href="([^"]+)"', repl, html_str)
+
+
 def render_doc(slug):
     title, desc, src, blob = DOCS[slug]
     md = src.read_text(encoding='utf-8')
     body_html = markdown.markdown(md, extensions=['fenced_code', 'tables', 'sane_lists', 'toc', 'attr_list'])
+    body_html = rewrite_repo_links(body_html)
     canonical = f'https://muros.org/docs/{slug}.html'
     page_title = f'{title} - MurOS Docs'
     modified = datetime.date.fromtimestamp(src.stat().st_mtime).isoformat()
