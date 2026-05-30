@@ -77,7 +77,7 @@ THEME_HEAD = ('<script>(function(){try{var t=localStorage.getItem("muros-theme")
     'document.documentElement.classList.add("dark");}}catch(e){}})();</script>')
 
 NAV = [('why', 'Why MurOS'), ('features', 'Features'), ('install', 'Install'),
-       ('security', 'Security'), ('docs', 'Docs')]
+       ('docs', 'Docs')]
 
 
 def header(active='docs'):
