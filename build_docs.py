@@ -95,12 +95,12 @@ def header(active='docs'):
       <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-11 w-auto">
       <span class="mono text-base font-bold text-amber-700 -ml-2">[BETA]</span>
     </a>
-    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
+    <nav class="hidden md:flex items-center gap-6 text-sm text-slate-600">
       {' '.join(inline)}
       <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
       {THEME_TOGGLE_DESKTOP}
     </nav>
-    <details class="sm:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu">{HAMBURGER}</summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+    <details class="md:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu">{HAMBURGER}</summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
       {' '.join(mobile)}
       <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
       {THEME_TOGGLE_MOBILE}
