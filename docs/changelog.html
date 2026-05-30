@@ -123,8 +123,18 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="v090-rc19-2026-05-30">[v0.9.0-rc19] - 2026-05-30</h2>
+<h2 id="v090-rc20-2026-05-30">[v0.9.0-rc20] - 2026-05-30</h2>
 <h3 id="changed">Changed</h3>
+<ul>
+<li>Frontend: page components are now code-split with React.lazy and loaded
+  on demand. The initial JavaScript bundle dropped from ~577 kB to
+  ~216 kB (gzip ~149 kB to ~68 kB), so the UI paints faster on the modest
+  hardware MurOS targets. A lightweight "Loading..." placeholder is shown
+  inside the layout shell while a page chunk is fetched, keeping the
+  sidebar visible during navigation. No functional change.</li>
+</ul>
+<h2 id="v090-rc19-2026-05-30">[v0.9.0-rc19] - 2026-05-30</h2>
+<h3 id="changed_1">Changed</h3>
 <ul>
 <li>Dashboard: removed the redundant "Per-interface traffic" table, which
   duplicated the per-interface "Traffic <iface>" charts already shown in
@@ -134,7 +144,7 @@
   moved to the bottom.</li>
 </ul>
 <h2 id="v090-rc18-2026-05-30">[v0.9.0-rc18] - 2026-05-30</h2>
-<h3 id="changed_1">Changed</h3>
+<h3 id="changed_2">Changed</h3>
 <ul>
 <li>Internal: migrated the Pydantic schemas from the deprecated class-based
   <code>Config</code> to <code>model_config = ConfigDict(...)</code> (removes the Pydantic V2
@@ -142,7 +152,7 @@
   remaining lint findings. No functional change.</li>
 </ul>
 <h2 id="v090-rc17-2026-05-30">[v0.9.0-rc17] - 2026-05-30</h2>
-<h3 id="changed_2">Changed</h3>
+<h3 id="changed_3">Changed</h3>
 <ul>
 <li>Default firewall rules now follow the OPNsense model: the LAN is the
   trusted zone and gets an "allow LAN to firewall" (input) plus an "allow
@@ -218,7 +228,7 @@
   stuck in that state can still be reinstalled.</li>
 </ul>
 <h2 id="v090-rc10-2026-05-30">[v0.9.0-rc10] - 2026-05-30</h2>
-<h3 id="changed_3">Changed</h3>
+<h3 id="changed_4">Changed</h3>
 <ul>
 <li>The root administrator now keeps its existing system password. MurOS
   no longer resets it to <code>muros</code> at install and no longer forces a change
@@ -234,7 +244,7 @@
   root account, Kea, chrony and the per-account web UI access model.</li>
 </ul>
 <h2 id="v090-rc9-2026-05-30">[v0.9.0-rc9] - 2026-05-30</h2>
-<h3 id="changed_4">Changed</h3>
+<h3 id="changed_5">Changed</h3>
 <ul>
 <li>Dashboard is now a live view. The summary endpoint is sampled twice
   per second (was every 3s) and the per-interface traffic and history
@@ -288,7 +298,7 @@
   account must be explicitly granted access by root to sign in.</li>
 </ul>
 <h2 id="v090-rc6-2026-05-29">[v0.9.0-rc6] - 2026-05-29</h2>
-<h3 id="changed_5">Changed</h3>
+<h3 id="changed_6">Changed</h3>
 <ul>
 <li>CI runs JavaScript actions on Node 24 (FORCE_JAVASCRIPT_ACTIONS_TO_NODE24)
   ahead of the Node 20 removal on GitHub runners.</li>
@@ -300,7 +310,7 @@
   publishing "latest".</li>
 </ul>
 <h2 id="v090-rc5-2026-05-29">[v0.9.0-rc5] - 2026-05-29</h2>
-<h3 id="changed_6">Changed</h3>
+<h3 id="changed_7">Changed</h3>
 <ul>
 <li>The in-product MurOS updater now goes through apt (apt.muros.org)
   instead of GitHub. The upgrade candidate is read from <code>apt-cache
@@ -326,7 +336,7 @@
   forced command. A git tag now publishes to GitHub and apt at once.</li>
 </ul>
 <h2 id="v090-rc3-2026-05-29">[v0.9.0-rc3] - 2026-05-29</h2>
-<h3 id="changed_7">Changed</h3>
+<h3 id="changed_8">Changed</h3>
 <ul>
 <li>install.sh is now apt-native: it registers the signed apt.muros.org
   repository and runs apt install muros, instead of downloading the .deb
@@ -346,7 +356,7 @@
   apt and unattended-upgrades. A manual setup snippet is documented in
   the README.</li>
 </ul>
-<h3 id="changed_8">Changed</h3>
+<h3 id="changed_9">Changed</h3>
 <ul>
 <li>README positioning made explicit: open source alternative to pfSense
   and OPNsense.</li>
