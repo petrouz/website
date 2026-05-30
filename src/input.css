@@ -27,6 +27,17 @@ body > footer { background-color: #ffffff; }
 html.dark body > header,
 html.dark body > footer { background-color: var(--bg); }
 
+/* Skip-to-content link: hidden until focused by keyboard users. */
+.skip-link {
+  position: absolute; left: 0.5rem; top: 0.5rem;
+  transform: translateY(-150%);
+  background: #0f172a; color: #fff;
+  padding: 0.6rem 1rem; border-radius: 4px;
+  font-size: 0.875rem; font-weight: 600; z-index: 60;
+  transition: transform 0.15s ease;
+}
+.skip-link:focus { transform: translateY(0); outline: 2px solid #f59e0b; outline-offset: 2px; }
+
 .nav-link.active { color: #0f172a; }
 .nav-link.active::after {
   content: ''; display: block; height: 2px; background: #f59e0b; margin-top: 2px;

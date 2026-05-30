@@ -174,10 +174,11 @@ def shell(title, desc, canonical, jsonld, body):
 </script>
 </head>
 <body class="bg-white text-slate-900 antialiased">
+<a href="#main" class="skip-link">Skip to content</a>
 
 {header()}
 
-<main>
+<main id="main" tabindex="-1">
 {body}
 </main>
 
