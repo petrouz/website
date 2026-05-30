@@ -123,8 +123,54 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="v090-rc13-2026-05-30">[v0.9.0-rc13] - 2026-05-30</h2>
+<h2 id="v090-rc18-2026-05-30">[v0.9.0-rc18] - 2026-05-30</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Internal: migrated the Pydantic schemas from the deprecated class-based
+  <code>Config</code> to <code>model_config = ConfigDict(...)</code> (removes the Pydantic V2
+  deprecation warnings and is ready for Pydantic V3) and cleaned up the
+  remaining lint findings. No functional change.</li>
+</ul>
+<h2 id="v090-rc17-2026-05-30">[v0.9.0-rc17] - 2026-05-30</h2>
+<h3 id="changed_1">Changed</h3>
+<ul>
+<li>Default firewall rules now follow the OPNsense model: the LAN is the
+  trusted zone and gets an "allow LAN to firewall" (input) plus an "allow
+  LAN to any" (forward) rule out of the box. Without this the input
+  policy drop blocked LAN clients from reaching box services such as DNS
+  (53) and NTP (123) even though those services were enabled by default.
+  The WAN stays default-deny inbound. These bootstrap rules carry a
+  "restrict once configured" comment and can be tightened from the UI.</li>
+</ul>
+<h2 id="v090-rc16-2026-05-30">[v0.9.0-rc16] - 2026-05-30</h2>
 <h3 id="fixed">Fixed</h3>
+<ul>
+<li>The dashboard no longer shows SSH as "disabled by admin". SSH is now
+  treated like every other service and simply shows as inactive when it
+  is stopped. SSH is still disabled on a fresh install and can be turned
+  back on manually from the SSH page toggle.</li>
+</ul>
+<h2 id="v090-rc15-2026-05-30">[v0.9.0-rc15] - 2026-05-30</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>NTP server mode (chrony) for the LAN, enabled by default. chrony now
+  emits an <code>allow &lt;subnet&gt;</code> directive for every LAN-side network (every
+  static interface whose zone is not a WAN zone), so the firewall serves
+  time to LAN clients out of the box, like an OPNsense appliance. The WAN
+  is never served (no <code>allow all</code>) to avoid NTP reflection/amplification.
+  A "Serve time to LAN clients" toggle on the Services &gt; NTP server page
+  controls it (NtpConfig.serve_lan, default on); the served subnets are
+  shown there. Server mode is reconciled at boot by muros-boot once the
+  LAN interfaces are up.</li>
+</ul>
+<h3 id="note">Note</h3>
+<ul>
+<li>Reaching the NTP server from the LAN still requires the firewall to
+  accept udp/123 from the LAN zone (add an allow rule if your ruleset is
+  restrictive).</li>
+</ul>
+<h2 id="v090-rc13-2026-05-30">[v0.9.0-rc13] - 2026-05-30</h2>
+<h3 id="fixed_1">Fixed</h3>
 <ul>
 <li>Login still broken even with python-pam present: python-pam 2.0.2
   imports <code>six</code> at import time but does not declare it as a dependency,
@@ -135,7 +181,7 @@
   real exception so a missing library or dependency is diagnosable.</li>
 </ul>
 <h2 id="v090-rc12-2026-05-30">[v0.9.0-rc12] - 2026-05-30</h2>
-<h3 id="fixed_1">Fixed</h3>
+<h3 id="fixed_2">Fixed</h3>
 <ul>
 <li>Login broken after a reinstall/upgrade ("python-pam is not available").
   The postinst only installed the Python requirements when the venv had
@@ -150,7 +196,7 @@
   the Debian defaults.</li>
 </ul>
 <h2 id="v090-rc11-2026-05-30">[v0.9.0-rc11] - 2026-05-30</h2>
-<h3 id="fixed_2">Fixed</h3>
+<h3 id="fixed_3">Fixed</h3>
 <ul>
 <li>Uninstall no longer leaves the box without working DNS. When "Unbound
   as system resolver" was enabled, <code>/etc/resolv.conf</code> pointed at
@@ -162,7 +208,7 @@
   stuck in that state can still be reinstalled.</li>
 </ul>
 <h2 id="v090-rc10-2026-05-30">[v0.9.0-rc10] - 2026-05-30</h2>
-<h3 id="changed">Changed</h3>
+<h3 id="changed_2">Changed</h3>
 <ul>
 <li>The root administrator now keeps its existing system password. MurOS
   no longer resets it to <code>muros</code> at install and no longer forces a change
@@ -172,13 +218,13 @@
 <li>NTP moved to its own Services page (<code>/services/ntp</code>, "NTP server" in the
   sidebar) instead of a tab under System. <code>/system/time</code> redirects there.</li>
 </ul>
-<h3 id="fixed_3">Fixed</h3>
+<h3 id="fixed_4">Fixed</h3>
 <ul>
 <li>Documentation (README, FAQ, quickstart, packaging, site) updated for the
   root account, Kea, chrony and the per-account web UI access model.</li>
 </ul>
 <h2 id="v090-rc9-2026-05-30">[v0.9.0-rc9] - 2026-05-30</h2>
-<h3 id="changed_1">Changed</h3>
+<h3 id="changed_3">Changed</h3>
 <ul>
 <li>Dashboard is now a live view. The summary endpoint is sampled twice
   per second (was every 3s) and the per-interface traffic and history
@@ -205,7 +251,7 @@
   fail2ban). Services that need a per-site configuration (HA, VPN) stay
   disabled until enabled from the UI.</li>
 </ul>
-<h3 id="added">Added</h3>
+<h3 id="added_1">Added</h3>
 <ul>
 <li>Access &gt; Users page (administrators only). The web UI and SSH share the
   PAM stack, so any Linux account could authenticate; this page controls
@@ -232,7 +278,7 @@
   account must be explicitly granted access by root to sign in.</li>
 </ul>
 <h2 id="v090-rc6-2026-05-29">[v0.9.0-rc6] - 2026-05-29</h2>
-<h3 id="changed_2">Changed</h3>
+<h3 id="changed_4">Changed</h3>
 <ul>
 <li>CI runs JavaScript actions on Node 24 (FORCE_JAVASCRIPT_ACTIONS_TO_NODE24)
   ahead of the Node 20 removal on GitHub runners.</li>
@@ -244,7 +290,7 @@
   publishing "latest".</li>
 </ul>
 <h2 id="v090-rc5-2026-05-29">[v0.9.0-rc5] - 2026-05-29</h2>
-<h3 id="changed_3">Changed</h3>
+<h3 id="changed_5">Changed</h3>
 <ul>
 <li>The in-product MurOS updater now goes through apt (apt.muros.org)
   instead of GitHub. The upgrade candidate is read from <code>apt-cache
@@ -263,14 +309,14 @@
   (_fetch_latest_release, HTML 302 fallback, .deb download/sha256).</li>
 </ul>
 <h2 id="v090-rc4-2026-05-29">[v0.9.0-rc4] - 2026-05-29</h2>
-<h3 id="added_1">Added</h3>
+<h3 id="added_2">Added</h3>
 <ul>
 <li>CI auto-publishes every release to apt.muros.org (publish-apt job in
   build-deb.yml) through a deploy key locked server-side to a single
   forced command. A git tag now publishes to GitHub and apt at once.</li>
 </ul>
 <h2 id="v090-rc3-2026-05-29">[v0.9.0-rc3] - 2026-05-29</h2>
-<h3 id="changed_4">Changed</h3>
+<h3 id="changed_6">Changed</h3>
 <ul>
 <li>install.sh is now apt-native: it registers the signed apt.muros.org
   repository and runs apt install muros, instead of downloading the .deb
@@ -283,14 +329,14 @@
   tolerated.</li>
 </ul>
 <h2 id="v090-rc2-2026-05-29">[v0.9.0-rc2] - 2026-05-29</h2>
-<h3 id="added_2">Added</h3>
+<h3 id="added_3">Added</h3>
 <ul>
 <li>Signed apt repository at https://apt.muros.org. The installer now
   registers the repository and its signing key, so upgrades flow through
   apt and unattended-upgrades. A manual setup snippet is documented in
   the README.</li>
 </ul>
-<h3 id="changed_5">Changed</h3>
+<h3 id="changed_7">Changed</h3>
 <ul>
 <li>README positioning made explicit: open source alternative to pfSense
   and OPNsense.</li>
