@@ -163,8 +163,7 @@
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-2xl font-bold text-slate-900">The state of open source firewalls</h2>
     <div class="mt-4 max-w-3xl space-y-4 text-slate-700 leading-relaxed">
-      <p>The incumbents pull in two directions. Commercial appliances like FortiGate are polished but closed, licensed per throughput and feature tier, and tie you to one vendor's hardware and renewal cycle.</p>
-      <p>The open source options, pfSense and OPNsense, solve the lock-in but lean on a large catalogue of community plugins. That catalogue is their strength and their weakness: hundreds of add-ons of uneven quality, combinations nobody tests together, and a compatibility matrix that can break on the next upgrade.</p>
+      <p>Commercial appliances like FortiGate are polished but closed, licensed per tier, and tied to one vendor. pfSense and OPNsense fix the lock-in but lean on a large catalogue of community plugins: uneven quality, untested combinations, a compatibility matrix that can break on the next upgrade.</p>
       <p>MurOS takes a third path.</p>
     </div>
   </div>
@@ -272,30 +271,6 @@
           <li>You depend on a specific community plugin.</li>
           <li>You want an HTTP proxy with TLS interception on the gateway.</li>
         </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="py-16 bg-slate-50 border-y border-slate-200">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-2xl font-bold text-slate-900">Common questions</h2>
-    <div class="mt-8 max-w-3xl space-y-6">
-      <div>
-        <h3 class="text-base font-semibold text-slate-900">Is MurOS a fork of pfSense or OPNsense?</h3>
-        <p class="mt-2 text-sm text-slate-700 leading-relaxed">No. MurOS is a fresh codebase on stock Debian 13. It drives nftables, iproute2, WireGuard, strongSwan, keepalived, dnsmasq and unbound directly, with a FastAPI backend and a React web UI. It shares no code with the BSD-based projects.</p>
-      </div>
-      <div>
-        <h3 class="text-base font-semibold text-slate-900">Why refuse a plugin system?</h3>
-        <p class="mt-2 text-sm text-slate-700 leading-relaxed">A plugin catalogue means uneven quality, untested feature combinations and a compatibility matrix that breaks on upgrade. Shipping every feature in the core keeps the product testable as a whole and the attack surface known.</p>
-      </div>
-      <div>
-        <h3 class="text-base font-semibold text-slate-900">Is MurOS really free?</h3>
-        <p class="mt-2 text-sm text-slate-700 leading-relaxed">Yes, under AGPL-3.0-or-later. No enterprise edition, no paywalled module, no per-seat or throughput subscription. You run the same package as everyone else.</p>
-      </div>
-      <div>
-        <h3 class="text-base font-semibold text-slate-900">What hardware does it run on?</h3>
-        <p class="mt-2 text-sm text-slate-700 leading-relaxed">Anything Debian 13 supports: a mini PC, a 1U server, a VM on Proxmox or VMware, or a small box with two or more NICs. No proprietary hardware required.</p>
       </div>
     </div>
   </div>

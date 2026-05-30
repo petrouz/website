@@ -20,6 +20,13 @@ code, pre, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, m
     linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px);
   background-size: 28px 28px;
 }
+/* Header and footer sit on an opaque background so the page grid does not
+   show through their thin borders. */
+body > header,
+body > footer { background-color: #ffffff; }
+html.dark body > header,
+html.dark body > footer { background-color: var(--bg); }
+
 .nav-link.active { color: #0f172a; }
 .nav-link.active::after {
   content: ''; display: block; height: 2px; background: #f59e0b; margin-top: 2px;
