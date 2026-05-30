@@ -39,6 +39,10 @@ GROUPS = [
     ('Help', ['faq']),
 ]
 
+# Clicking "Docs" lands directly on the first documentation page (the docs
+# layout with its sidebar), not on a separate landing index.
+DOCS_HOME = '/docs/quickstart.html'
+
 REPO_BLOB = 'https://github.com/murosorg/muros/blob/main/'
 HAMBURGER = ('<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" '
     'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
@@ -79,8 +83,11 @@ def header(active='docs'):
     inline, mobile = [], []
     for slug, label in NAV:
         cls = 'nav-link hover:text-slate-900' + (' active' if slug == active else '')
-        inline.append(f'<a href="/{slug}.html" class="{cls}">{label}</a>')
-        mobile.append(f'<a href="/{slug}.html" class="{cls} px-4 py-2 hover:bg-slate-50">{label}</a>')
+        # The Docs entry drops straight into the first doc page instead of a
+        # separate landing index.
+        href = DOCS_HOME if slug == 'docs' else f'/{slug}.html'
+        inline.append(f'<a href="{href}" class="{cls}">{label}</a>')
+        mobile.append(f'<a href="{href}" class="{cls} px-4 py-2 hover:bg-slate-50">{label}</a>')
     return f'''<header class="border-b border-slate-200">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="/index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
@@ -108,7 +115,7 @@ FOOTER = '''<footer class="border-t border-slate-200">
       <a href="/features.html" class="hover:text-amber-700">Features</a>
       <a href="/install.html" class="hover:text-amber-700">Install</a>
       <a href="/docs/hardware.html" class="hover:text-amber-700">Hardware</a>
-      <a href="/docs.html" class="hover:text-amber-700">Docs</a>
+      <a href="/docs/quickstart.html" class="hover:text-amber-700">Docs</a>
     </div>
   </div>
 </footer>'''
@@ -233,7 +240,7 @@ def render_doc(slug):
          'datePublished': DOCS_PUBLISHED, 'dateModified': modified},
         {'@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://muros.org/'},
-            {'@type': 'ListItem', 'position': 2, 'name': 'Docs', 'item': 'https://muros.org/docs.html'},
+            {'@type': 'ListItem', 'position': 2, 'name': 'Docs', 'item': 'https://muros.org' + DOCS_HOME},
             {'@type': 'ListItem', 'position': 3, 'name': title, 'item': canonical}]}]}
     if slug == 'faq':
         graph['@graph'].append({'@type': 'FAQPage', 'mainEntity': [
@@ -241,7 +248,7 @@ def render_doc(slug):
              'acceptedAnswer': {'@type': 'Answer', 'text': a}}
             for q, a in faq_entries(md)]})
     jsonld = json.dumps(graph, indent=2)
-    crumb = f'<a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">{slug}.md</span>'
+    crumb = f'<a href="/index.html" class="hover:text-slate-900">~</a> / <a href="{DOCS_HOME}" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">{slug}.md</span>'
     body = f'''<section>
   <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
       {sidebar(slug)}
@@ -261,33 +268,25 @@ def render_doc(slug):
 
 
 def render_landing():
-    canonical = 'https://muros.org/docs.html'
-    desc = 'MurOS documentation: quickstart, first filter rule, concepts, architecture, high availability, changelog and FAQ.'
-    jsonld = json.dumps({'@context': 'https://schema.org', '@graph': [
-        {'@type': 'WebPage', 'name': 'Documentation', 'url': canonical, 'description': desc,
-         'isPartOf': {'@type': 'WebSite', 'name': 'MurOS', 'url': 'https://muros.org/'}},
-        {'@type': 'BreadcrumbList', 'itemListElement': [
-            {'@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://muros.org/'},
-            {'@type': 'ListItem', 'position': 2, 'name': 'Docs', 'item': canonical}]}]}, indent=2)
-    cards = []
-    for group, slugs in GROUPS:
-        items = []
-        for slug in slugs:
-            title, d = DOCS[slug][0], DOCS[slug][1]
-            items.append(f'<a href="/docs/{slug}.html" class="block p-4 rounded border border-slate-200 hover:border-amber-300 hover:bg-amber-50/40 transition"><div class="font-semibold text-slate-900">{title}</div><div class="text-sm text-slate-500 mt-1">{html.escape(d)}</div></a>')
-        cards.append(f'<div><h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">{group}</h2><div class="grid sm:grid-cols-2 gap-3">' + ''.join(items) + '</div></div>')
-    body = f'''<section class="border-b border-slate-200 bg-grid">
-  <div class="max-w-6xl mx-auto px-6 py-14">
-    <h1 class="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">Documentation</h1>
-    <p class="mt-3 text-slate-600 max-w-2xl">Everything you need to install MurOS, write your first rules and run it in production. Source lives in the <a href="https://github.com/murosorg/muros/tree/main/docs" class="text-amber-700 hover:text-amber-800">muros repository</a>.</p>
-  </div>
-</section>
-<section>
-  <div class="max-w-6xl mx-auto px-6 py-12 space-y-10">
-    {''.join(cards)}
-  </div>
-</section>'''
-    (SITE / 'docs.html').write_text(shell('Docs - MurOS', desc, canonical, jsonld, body), encoding='utf-8')
+    # No separate docs landing: /docs.html redirects to the first doc page so
+    # any old link or bookmark drops straight into the docs layout.
+    redirect = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docs - MurOS</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://muros.org{DOCS_HOME}">
+<meta http-equiv="refresh" content="0; url={DOCS_HOME}">
+<script>location.replace('{DOCS_HOME}' + location.hash);</script>
+</head>
+<body>
+<p>The documentation has moved to <a href="{DOCS_HOME}">{DOCS_HOME}</a>.</p>
+</body>
+</html>
+'''
+    (SITE / 'docs.html').write_text(redirect, encoding='utf-8')
 
 
 def main():

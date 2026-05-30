@@ -54,12 +54,13 @@ def render(spec: dict) -> str:
     inline_links: list[str] = []
     mobile_links: list[str] = []
     for slug, label in NAV:
+        target = 'docs/quickstart.html' if slug == 'docs' else f'{slug}.html'
         cls = 'nav-link hover:text-slate-900'
         if slug == page:
             cls += ' active'
-        inline_links.append(f'<a href="{slug}.html" class="{cls}">{label}</a>')
+        inline_links.append(f'<a href="{target}" class="{cls}">{label}</a>')
         mobile_links.append(
-            f'<a href="{slug}.html" class="{cls} px-4 py-2 hover:bg-slate-50">{label}</a>'
+            f'<a href="{target}" class="{cls} px-4 py-2 hover:bg-slate-50">{label}</a>'
         )
     inline_nav = '\n      '.join(inline_links)
     mobile_nav = '\n        '.join(mobile_links)
