@@ -168,7 +168,7 @@
 <p><strong>Mandatory first action</strong>: top-right menu &gt; My account &gt; Change password.</p>
 <hr />
 <h2 id="step-4-configure-the-network-2-min">Step 4: configure the network (2 min)</h2>
-<p><strong>Network</strong> menu:</p>
+<p><strong>Network &gt; Interfaces</strong> menu:</p>
 <h3 id="wan-interface">WAN interface</h3>
 <ol>
 <li>Click on the interface facing the Internet (e.g. <code>eth0</code> or <code>ens3</code>)</li>
@@ -186,27 +186,30 @@
 <li>Save</li>
 </ol>
 <h3 id="apply">Apply</h3>
-<p>An orange banner appears at the top: <strong>"2 unapplied network changes"</strong>. Click <strong>Apply</strong>. A 60s countdown modal opens. Check that you still have UI access then <strong>Confirm</strong>.</p>
+<p>An orange banner appears at the top: <strong>"2 unapplied network changes"</strong>. Click <strong>Apply</strong>. A confirmation countdown modal opens (10s by default). Check that you still have UI access then <strong>Confirm</strong>.</p>
 <hr />
 <h2 id="step-5-firewall-zones-and-rules-3-min">Step 5: firewall zones and rules (3 min)</h2>
-<p><strong>Filtering &gt; Zones</strong> menu:</p>
+<p><strong>Firewall &gt; Zones</strong> menu:</p>
 <ol>
 <li>Add zone <code>wan</code>: select the WAN interface</li>
 <li>Add zone <code>lan</code>: select the LAN interface</li>
 <li>Save</li>
 </ol>
-<p><strong>Filtering &gt; Rules</strong> menu:</p>
-<p>Click <strong>Load a preset</strong> &gt; <strong>Basic firewall</strong>:</p>
+<p><strong>Firewall &gt; Filter rules</strong> menu. The default ruleset already drops
+everything in input and forward, so you add the rules that open what you
+need:</p>
 <ul>
-<li>Blocks everything in INPUT/FORWARD by default</li>
-<li>Allows LAN -&gt; WAN (Internet outbound)</li>
-<li>Allows LAN -&gt; firewall on 22 (SSH) and 443 (UI)</li>
-<li>Blocks WAN -&gt; firewall except ICMP</li>
+<li><code>forward</code> <code>lan</code> -&gt; <code>wan</code>, action accept (LAN reaches the Internet)</li>
+<li><code>input</code> <code>lan</code> -&gt; firewall, tcp ports 22 and 443, action accept (SSH + UI from the LAN)</li>
+<li><code>input</code> <code>lan</code>, protocol icmp, action accept (ping the firewall from the LAN)</li>
 </ul>
-<p>Click <strong>Apply</strong>. 60s countdown modal. <strong>Confirm</strong> once you have verified your SSH/UI still works.</p>
+<p>The WAN zone keeps no rule toward the firewall, so the box stays closed
+from the Internet.</p>
+<p>Click <strong>Apply</strong>. A confirmation countdown modal opens (10s by default).
+<strong>Confirm</strong> once you have verified your SSH/UI still works.</p>
 <hr />
 <h2 id="step-6-nat-for-internet-outbound-1-min">Step 6: NAT for Internet outbound (1 min)</h2>
-<p><strong>Filtering &gt; NAT</strong> menu:</p>
+<p><strong>Firewall &gt; NAT</strong> menu:</p>
 <p>Add a rule:
 * Type: <code>masquerade</code>
 * Egress interface: <code>&lt;your WAN interface&gt;</code>
@@ -226,11 +229,11 @@ curl https://10.0.0.1/  # UI reachable from LAN
 <h2 id="next-steps-optional">Next steps (optional)</h2>
 <ul>
 <li><strong>WireGuard VPN</strong>: VPN &gt; WireGuard, generate a server key, add a peer</li>
-<li><strong>TLS certificate</strong>: HTTP Access menu &gt; certificate, upload one or regenerate self-signed with your CN</li>
-<li><strong>Notifications</strong>: Notifications menu, configure your SMTP relay to receive alerts</li>
-<li><strong>SNMP</strong>: to monitor from LibreNMS/Zabbix</li>
-<li><strong>HA</strong>: if you have a 2nd identical firewall, pair them active/passive</li>
-<li><strong>Remote backup</strong>: System menu &gt; back up to an SFTP target</li>
+<li><strong>TLS certificate</strong>: Administration &gt; HTTP access, upload one or regenerate the self-signed cert with your CN</li>
+<li><strong>Notifications</strong>: Observability &gt; Notifications, configure your SMTP smarthost to receive alerts</li>
+<li><strong>SNMP</strong>: Observability &gt; SNMP, to monitor from LibreNMS/Zabbix</li>
+<li><strong>HA</strong>: Administration &gt; High availability, if you have a 2nd firewall, pair them active/passive</li>
+<li><strong>Remote backup</strong>: System &gt; Backups, push snapshots to an SSH/FTP target</li>
 </ul>
 <hr />
 <h2 id="problem-see-the-faq">Problem? see the FAQ</h2>

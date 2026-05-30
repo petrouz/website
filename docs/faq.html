@@ -106,7 +106,7 @@
           "name": "I lost SSH or HTTPS access after a change",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "MurOS implements automatic 60s rollback on changes that may lock you out of admin access: | Action | Auto-rollback 60s | |---|---| | Apply firewall (nft) | YES | | Apply HTTP nginx (listen + ports) | YES | | Apply SSH (port + listen) | YES | | Upload TLS cert or regen self-signed | YES | | Interface change (IP, MTU) | NO (confirm() only) | | Static route change | NO (confirm() only) | | Apply WireGuard, IPsec, SNMP, HA | NO (low risk on local admin access) | If you do not confirm in the modal that follows the apply, the previous config is restored automatically by a backend thread that scans for expired pending_apply records every 5 seconds. If you were blocked in the meantime: Wait 60-90s, the previous config is restored Reconnect with the old parameters Special case interfaces/routes: if you change the admin interface IP or the default gateway and lose access, you need serial console / IPMI / hypervisor access to revert manually. V1 plans auto-rollback on these too."
+            "text": "MurOS implements an automatic rollback on changes that may lock you out of admin access. After the apply, a confirmation modal opens with a short countdown (10s by default); if you do not confirm, the previous config is restored: | Action | Auto-rollback | |---|---| | Apply firewall (nft) | YES | | Apply HTTP nginx (listen + ports) | YES | | Apply SSH (port + listen) | YES | | Upload TLS cert or regen self-signed | YES | | Interface change (IP, MTU) | NO (confirm() only) | | Static route change | NO (confirm() only) | | Apply WireGuard, IPsec, SNMP, HA | NO (low risk on local admin access) | If you do not confirm in the modal that follows the apply, the previous config is restored automatically by a backend thread that scans for expired pending_apply records every 5 seconds. If you were blocked in the meantime: Wait for the countdown to expire (about 10s), the previous config is restored Reconnect with the old parameters Special case interfaces/routes: if you change the admin interface IP or the default gateway and lose access, you need serial console / IPMI / hypervisor access to revert manually. V1 plans auto-rollback on these too."
           }
         },
         {
@@ -122,7 +122,7 @@
           "name": "The firewall does not forward LAN -> WAN traffic",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Check in order: 1. IP forwarding enabled: sysctl net.ipv4.ip_forward must return 1. Otherwise the MurOS drop-in 99-muros-hardening.conf is not loaded. 2. NAT rule present: in Network > NAT, masquerade or SNAT rule lan -> wan egressing on the WAN interface. 3. Forward rule: in Filtering > Rules, forward lan -> wan rule with action accept. 4. Apply done: a pending \"Apply\" button means changes haven't been pushed yet. From the firewall, test ping -I eth0 8.8.8.8. From a LAN host, test traceroute 8.8.8.8 to see where it stops."
+            "text": "Check in order: 1. IP forwarding enabled: sysctl net.ipv4.ip_forward must return 1. Otherwise the MurOS drop-in 99-muros-hardening.conf is not loaded. 2. NAT rule present: in Firewall > NAT, masquerade or SNAT rule lan -> wan egressing on the WAN interface. 3. Forward rule: in Firewall > Filter rules, forward lan -> wan rule with action accept. 4. Apply done: a pending \"Apply\" button means changes haven't been pushed yet. From the firewall, test ping -I eth0 8.8.8.8. From a LAN host, test traceroute 8.8.8.8 to see where it stops."
           }
         },
         {
@@ -138,7 +138,7 @@
           "name": "Upgrading MurOS",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "While MurOS is in beta (v0.9.0-rcXX release candidate cycle), the DB schema is not frozen. Upgrades between beta releases are done via clean reinstall: If you want to keep your config across reinstalls, export a backup first (Backups menu) and restore after reinstall. Starting from the first stable release, in-place upgrades will be supported and the schema will evolve via versioned migrations."
+            "text": "While MurOS is in beta (v0.9.0-rcXX release candidate cycle), the DB schema is not frozen. Upgrades between beta releases are done via clean reinstall: If you want to keep your config across reinstalls, export a backup first (System > Backups) and restore after reinstall. Starting from the first stable release, in-place upgrades will be supported and the schema will evolve via versioned migrations."
           }
         },
         {
@@ -154,7 +154,7 @@
           "name": "How to add an SSH key for root?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Via the UI: SSH Access > \"SSH keys allowed for root\" section > paste the public key (ssh-ed25519 AAAA... comment) > Add. The key is written to /root/.ssh/authorized_keys with correct perms."
+            "text": "Via the UI: Administration > SSH access > \"SSH keys allowed for root\" section > paste the public key (ssh-ed25519 AAAA... comment) > Add. The key is written to /root/.ssh/authorized_keys with correct perms."
           }
         },
         {
@@ -162,7 +162,7 @@
           "name": "How to watch live backend requests?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "From the firewall: Or see the UI action audit log in Logs > UI actions."
+            "text": "From the firewall: Or see the UI action audit log in Logs > Web actions."
           }
         },
         {
@@ -170,7 +170,7 @@
           "name": "How to export / import MurOS config from one firewall to another?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Use backups: 1. On source firewall: Backups > Create a backup > Download 2. On destination firewall: Backups > Restore > Upload the .tar.gz The full DB config is transferred. Note: UI TLS certs and WireGuard keys are not in the DB (they live on disk), you need to regenerate or copy them separately."
+            "text": "Use backups: 1. On source firewall: System > Backups > Create a backup > Download 2. On destination firewall: System > Backups > Restore > Upload the .tar.gz The full DB config is transferred. Note: UI TLS certs and WireGuard keys are not in the DB (they live on disk), you need to regenerate or copy them separately."
           }
         },
         {
@@ -271,13 +271,15 @@ your custom port, disable the socket:</p>
 systemctl restart ssh
 </code></pre>
 <h2 id="i-lost-ssh-or-https-access-after-a-change">I lost SSH or HTTPS access after a change</h2>
-<p>MurOS implements <strong>automatic 60s rollback</strong> on changes that may lock you
-out of admin access:</p>
+<p>MurOS implements an <strong>automatic rollback</strong> on changes that may lock you
+out of admin access. After the apply, a confirmation modal opens with a
+short countdown (10s by default); if you do not confirm, the previous
+config is restored:</p>
 <table>
 <thead>
 <tr>
 <th>Action</th>
-<th>Auto-rollback 60s</th>
+<th>Auto-rollback</th>
 </tr>
 </thead>
 <tbody>
@@ -315,7 +317,7 @@ out of admin access:</p>
 config is restored automatically by a backend thread that scans for
 expired pending_apply records every 5 seconds.</p>
 <p>If you were blocked in the meantime:
-* Wait 60-90s, the previous config is restored
+* Wait for the countdown to expire (about 10s), the previous config is restored
 * Reconnect with the old parameters</p>
 <p><strong>Special case interfaces/routes</strong>: if you change the admin interface IP
 or the default gateway and lose access, you need serial console / IPMI /
@@ -333,10 +335,10 @@ password store to reset.</p>
 <ol>
 <li><strong>IP forwarding enabled</strong>: <code>sysctl net.ipv4.ip_forward</code> must return <code>1</code>.
    Otherwise the MurOS drop-in <code>99-muros-hardening.conf</code> is not loaded.</li>
-<li><strong>NAT rule present</strong>: in Network &gt; NAT, masquerade or SNAT rule
+<li><strong>NAT rule present</strong>: in Firewall &gt; NAT, masquerade or SNAT rule
    <code>lan</code> -&gt; <code>wan</code> egressing on the WAN interface.</li>
-<li><strong>Forward rule</strong>: in Filtering &gt; Rules, <code>forward</code> <code>lan</code> -&gt; <code>wan</code> rule
-   with action accept.</li>
+<li><strong>Forward rule</strong>: in Firewall &gt; Filter rules, <code>forward</code> <code>lan</code> -&gt; <code>wan</code>
+   rule with action accept.</li>
 <li><strong>Apply done</strong>: a pending "Apply" button means changes haven't been
    pushed yet.</li>
 </ol>
@@ -361,7 +363,7 @@ reinstall:</p>
 curl -fsSL https://apt.muros.org/install.sh | sudo bash
 </code></pre>
 <p>If you want to keep your config across reinstalls, export a backup first
-(Backups menu) and restore after reinstall.</p>
+(System &gt; Backups) and restore after reinstall.</p>
 <p>Starting from the first stable release, in-place upgrades will be supported and the
 schema will evolve via versioned migrations.</p>
 <h2 id="how-to-change-the-root-password">How to change the root password?</h2>
@@ -373,19 +375,19 @@ schema will evolve via versioned migrations.</p>
 this is a single password: changing it updates both the UI login and
 the SSH / console login at once.</p>
 <h2 id="how-to-add-an-ssh-key-for-root">How to add an SSH key for root?</h2>
-<p>Via the UI: <strong>SSH Access</strong> &gt; "SSH keys allowed for root" section &gt; paste
+<p>Via the UI: <strong>Administration &gt; SSH access</strong> &gt; "SSH keys allowed for root" section &gt; paste
 the public key (<code>ssh-ed25519 AAAA... comment</code>) &gt; Add.</p>
 <p>The key is written to <code>/root/.ssh/authorized_keys</code> with correct perms.</p>
 <h2 id="how-to-watch-live-backend-requests">How to watch live backend requests?</h2>
 <p>From the firewall:</p>
 <pre><code class="language-bash">sudo journalctl -u muros-backend -f
 </code></pre>
-<p>Or see the UI action audit log in <strong>Logs &gt; UI actions</strong>.</p>
+<p>Or see the UI action audit log in <strong>Logs &gt; Web actions</strong>.</p>
 <h2 id="how-to-export-import-muros-config-from-one-firewall-to-another">How to export / import MurOS config from one firewall to another?</h2>
 <p>Use <strong>backups</strong>:</p>
 <ol>
-<li>On source firewall: Backups &gt; Create a backup &gt; Download</li>
-<li>On destination firewall: Backups &gt; Restore &gt; Upload the .tar.gz</li>
+<li>On source firewall: System &gt; Backups &gt; Create a backup &gt; Download</li>
+<li>On destination firewall: System &gt; Backups &gt; Restore &gt; Upload the .tar.gz</li>
 </ol>
 <p>The full DB config is transferred. Note: UI TLS certs and WireGuard keys
 are <strong>not</strong> in the DB (they live on disk), you need to regenerate or copy

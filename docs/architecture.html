@@ -248,9 +248,9 @@ DB by <code>muros-boot.service</code> before <code>network-online.target</code>.
    target configuration file under <code>/etc/...</code>.</li>
 <li><strong>Reload.</strong> <code>systemctl reload</code> or <code>restart</code> for the relevant daemon.
    For nftables we use <code>nft -f</code> so the kernel swap is atomic.</li>
-<li><strong>Auto-rollback.</strong> Filter / NAT applies open a 30-second control
-   window. If the management session does not heartbeat back, MurOS
-   restores the previous ruleset from <code>/var/lib/muros/nftables.last</code>.</li>
+<li><strong>Auto-rollback.</strong> Filter / NAT applies open a short control window
+   (10 seconds by default). If the operator does not confirm in the modal,
+   MurOS restores the previous ruleset from <code>/var/lib/muros/nftables.last</code>.</li>
 </ol>
 <p>For read paths, no Apply is needed: the routes hit <code>/proc</code>, <code>nft</code>,
 <code>conntrack</code>, <code>journalctl</code>, <code>ip -j ...</code> directly and stream results.</p>

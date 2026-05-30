@@ -182,7 +182,7 @@
           <li><strong>Firewall logs.</strong> journalctl -k filtered on the nft prefix, action / rule id / packet columns, infinite scroll.</li>
           <li><strong>Audit log.</strong> Every UI write action recorded (user, method, path, status, source IP, payload digest).</li>
           <li><strong>System journal.</strong> Per-unit journalctl viewer, errors-only filter, auto-refresh, tail mode.</li>
-          <li><strong>Notifications.</strong> SMTP relay config, event watcher rules (HA takeover, multi-WAN failover, apt updates, conntrack exhaustion, ...). Optional Postfix smarthost.</li>
+          <li><strong>Notifications.</strong> Direct SMTP to an external smarthost (no local postfix), event watcher rules (HA takeover, multi-WAN failover, apt updates, conntrack exhaustion, ...).</li>
           <li><strong>SNMP.</strong> Standard Debian snmpd, community + CIDR ACL, sysContact, sysLocation.</li>
         </ul>
       </div>

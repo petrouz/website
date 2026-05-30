@@ -144,13 +144,13 @@ restricted admin SSH.</p>
 <li><code>eth1</code>: IP <code>192.168.1.1/24</code>, MTU 1500</li>
 </ul>
 <h2 id="step-2-zones">Step 2: Zones</h2>
-<p>Go to <strong>Network &gt; Zones</strong>, add:</p>
+<p>Go to <strong>Firewall &gt; Zones</strong>, add:</p>
 <ul>
 <li><code>wan</code>: interface <code>eth0</code></li>
 <li><code>lan</code>: interface <code>eth1</code></li>
 </ul>
 <h2 id="step-3-nat-for-internet-outbound">Step 3: NAT for Internet outbound</h2>
-<p>Go to <strong>Network &gt; NAT</strong>, add a SNAT (or masquerade) rule:</p>
+<p>Go to <strong>Firewall &gt; NAT</strong>, add a SNAT (or masquerade) rule:</p>
 <ul>
 <li>Source: zone <code>lan</code></li>
 <li>Destination: zone <code>wan</code></li>
@@ -159,7 +159,7 @@ restricted admin SSH.</p>
 </ul>
 <p>Click <strong>Apply</strong>.</p>
 <h2 id="step-4-forward-rule-lan-to-wan">Step 4: Forward rule LAN to WAN</h2>
-<p>Go to <strong>Filtering &gt; Rules</strong>, add:</p>
+<p>Go to <strong>Firewall &gt; Filter rules</strong>, add:</p>
 <ul>
 <li>Chain: <code>forward</code></li>
 <li>Source zone: <code>lan</code></li>
@@ -172,7 +172,7 @@ restricted admin SSH.</p>
 <p>The default MurOS rule is already <code>drop</code> on the <code>forward</code> chain. Traffic
 from the Internet to the LAN is therefore blocked by default.</p>
 <h2 id="step-6-restricted-admin-ssh-access">Step 6: Restricted admin SSH access</h2>
-<p>In <strong>Filtering &gt; Rules</strong>, add in order:</p>
+<p>In <strong>Firewall &gt; Filter rules</strong>, add in order:</p>
 <ol>
 <li>Chain <code>input</code>, source IP <code>203.0.113.99/32</code>, port 22 tcp, action <code>accept</code></li>
 <li>Chain <code>input</code>, port 22 tcp, action <code>drop</code></li>
@@ -186,7 +186,7 @@ are accepted.</p>
 <h2 id="step-8-restrict-muros-ui-to-lan">Step 8: Restrict MurOS UI to LAN</h2>
 <p>The web UI always listens on every interface; you decide who can reach it
 at the firewall, the same way you expose any other service. In
-<strong>Firewall &gt; Rules</strong>, make sure the <code>wan</code> zone has no rule allowing the UI
+<strong>Firewall &gt; Filter rules</strong>, make sure the <code>wan</code> zone has no rule allowing the UI
 ports (<code>80</code>/<code>443</code>) to the firewall, and keep an explicit rule allowing the
 <code>lan</code> zone to reach the firewall on those ports. The default ruleset
 already permits <code>lan -&gt; firewall</code>, so the UI is reachable from the LAN and
@@ -195,7 +195,7 @@ denied from the WAN out of the box.</p>
 still reachable. If you lose access, automatic rollback restores the
 previous ruleset.</p>
 <h2 id="step-9-backup-before-going-to-production">Step 9: Backup before going to production</h2>
-<p>In <strong>Backups</strong>, click <strong>Create a backup</strong>.</p>
+<p>In <strong>System &gt; Backups</strong>, click <strong>Create a backup</strong>.</p>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li>Add a <code>dmz</code> zone for exposed servers</li>
