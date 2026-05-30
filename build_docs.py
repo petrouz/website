@@ -106,7 +106,6 @@ FOOTER = '''<footer class="border-t border-slate-200">
     <div class="flex gap-5">
       <a href="/features.html" class="hover:text-amber-700">Features</a>
       <a href="/install.html" class="hover:text-amber-700">Install</a>
-      <a href="/download.html" class="hover:text-amber-700">Download</a>
       <a href="/hardware.html" class="hover:text-amber-700">Hardware</a>
       <a href="/docs.html" class="hover:text-amber-700">Docs</a>
     </div>

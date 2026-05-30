@@ -122,8 +122,24 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="v090-rc9-2026-05-30">[v0.9.0-rc9] - 2026-05-30</h2>
+<h2 id="v090-rc10-2026-05-30">[v0.9.0-rc10] - 2026-05-30</h2>
 <h3 id="changed">Changed</h3>
+<ul>
+<li>The root administrator now keeps its existing system password. MurOS
+  no longer resets it to <code>muros</code> at install and no longer forces a change
+  on first login: you log into the web UI with the password root already
+  has for the shell / console. (The dev-only fallback stays root/muros
+  when MUROS_APPLY is off.)</li>
+<li>NTP moved to its own Services page (<code>/services/ntp</code>, "NTP server" in the
+  sidebar) instead of a tab under System. <code>/system/time</code> redirects there.</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Documentation (README, FAQ, quickstart, packaging, site) updated for the
+  root account, Kea, chrony and the per-account web UI access model.</li>
+</ul>
+<h2 id="v090-rc9-2026-05-30">[v0.9.0-rc9] - 2026-05-30</h2>
+<h3 id="changed_1">Changed</h3>
 <ul>
 <li>Dashboard is now a live view. The summary endpoint is sampled twice
   per second (was every 3s) and the per-interface traffic and history
@@ -177,7 +193,7 @@
   account must be explicitly granted access by root to sign in.</li>
 </ul>
 <h2 id="v090-rc6-2026-05-29">[v0.9.0-rc6] - 2026-05-29</h2>
-<h3 id="changed_1">Changed</h3>
+<h3 id="changed_2">Changed</h3>
 <ul>
 <li>CI runs JavaScript actions on Node 24 (FORCE_JAVASCRIPT_ACTIONS_TO_NODE24)
   ahead of the Node 20 removal on GitHub runners.</li>
@@ -189,7 +205,7 @@
   publishing "latest".</li>
 </ul>
 <h2 id="v090-rc5-2026-05-29">[v0.9.0-rc5] - 2026-05-29</h2>
-<h3 id="changed_2">Changed</h3>
+<h3 id="changed_3">Changed</h3>
 <ul>
 <li>The in-product MurOS updater now goes through apt (apt.muros.org)
   instead of GitHub. The upgrade candidate is read from <code>apt-cache
@@ -215,7 +231,7 @@
   forced command. A git tag now publishes to GitHub and apt at once.</li>
 </ul>
 <h2 id="v090-rc3-2026-05-29">[v0.9.0-rc3] - 2026-05-29</h2>
-<h3 id="changed_3">Changed</h3>
+<h3 id="changed_4">Changed</h3>
 <ul>
 <li>install.sh is now apt-native: it registers the signed apt.muros.org
   repository and runs apt install muros, instead of downloading the .deb
@@ -235,7 +251,7 @@
   apt and unattended-upgrades. A manual setup snippet is documented in
   the README.</li>
 </ul>
-<h3 id="changed_4">Changed</h3>
+<h3 id="changed_5">Changed</h3>
 <ul>
 <li>README positioning made explicit: open source alternative to pfSense
   and OPNsense.</li>
@@ -267,7 +283,6 @@ availability, multi-WAN, DHCP / DNS, monitoring.</p>
     <div class="flex gap-5">
       <a href="/features.html" class="hover:text-amber-700">Features</a>
       <a href="/install.html" class="hover:text-amber-700">Install</a>
-      <a href="/download.html" class="hover:text-amber-700">Download</a>
       <a href="/hardware.html" class="hover:text-amber-700">Hardware</a>
       <a href="/docs.html" class="hover:text-amber-700">Docs</a>
     </div>

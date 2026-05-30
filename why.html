@@ -209,44 +209,14 @@
       </div>
       <div class="border border-slate-200 rounded p-6">
         <h3 class="text-base font-semibold text-slate-900">Out of scope, by design</h3>
-        <ul class="mt-3 space-y-2 text-sm text-slate-700">
-          <li>No third-party plugin ecosystem to bolt on niche features.</li>
-          <li>No HTTP proxy or web filter with HTTPS interception, by design.</li>
-          <li>No gateway antivirus, supplanted by endpoint EDR.</li>
-          <li>No SD-WAN application steering. Multi-WAN failover covers the real need.</li>
-          <li>Dynamic routing, IDS/IPS and external auth are on the roadmap, not shipped yet.</li>
-        </ul>
+        <p class="mt-3 text-sm text-slate-700 leading-relaxed">No plugin ecosystem, no HTTP proxy with TLS interception, no gateway antivirus, no SD-WAN. Dynamic routing, IDS/IPS and external auth are on the roadmap, not shipped yet.</p>
+        <p class="mt-3 text-sm"><a href="features.html" class="text-amber-700 hover:underline font-medium">See the full breakdown on Features &rarr;</a></p>
       </div>
     </div>
   </div>
 </section>
 
 <section class="py-16 bg-slate-50 border-y border-slate-200">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-2xl font-bold text-slate-900">How the approaches compare</h2>
-    <p class="mt-2 text-slate-600 max-w-3xl">Not a feature checklist, that lives on the features page. This is about how each product is built and licensed.</p>
-
-    <div class="mt-8 overflow-x-auto">
-      <table class="w-full text-sm border border-slate-200 rounded">
-        <thead class="bg-white text-slate-700">
-          <tr><th class="text-left font-medium px-3 py-2">Approach</th><th class="text-center font-medium px-3 py-2">FortiGate</th><th class="text-center font-medium px-3 py-2">pfSense</th><th class="text-center font-medium px-3 py-2">OPNsense</th><th class="text-center font-medium px-3 py-2 text-slate-900">MurOS</th></tr>
-        </thead>
-        <tbody class="divide-y divide-slate-200">
-          <tr><td class="px-3 py-2">License</td><td class="text-center">proprietary</td><td class="text-center">Apache 2.0</td><td class="text-center">BSD 2-clause</td><td class="text-center font-medium">AGPL-3.0+</td></tr>
-          <tr><td class="px-3 py-2">Base system</td><td class="text-center">FortiOS</td><td class="text-center">FreeBSD</td><td class="text-center">FreeBSD</td><td class="text-center font-medium">Debian 13</td></tr>
-          <tr><td class="px-3 py-2">Feature model</td><td class="text-center">licensed tiers</td><td class="text-center">packages</td><td class="text-center">plugins</td><td class="text-center font-medium">native core</td></tr>
-          <tr><td class="px-3 py-2">Third-party plugins</td><td class="text-center">no</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">none, by design</td></tr>
-          <tr><td class="px-3 py-2">Cost</td><td class="text-center">subscription</td><td class="text-center">free / paid</td><td class="text-center">free</td><td class="text-center font-medium">free</td></tr>
-          <tr><td class="px-3 py-2">Runs on any hardware</td><td class="text-center">no</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
-          <tr><td class="px-3 py-2">Scope</td><td class="text-center">full NGFW</td><td class="text-center">broad</td><td class="text-center">broad</td><td class="text-center font-medium">focused</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="mt-5 text-sm text-slate-500 max-w-3xl">MurOS is a Linux-based alternative to OPNsense, built around one native, fully tested core instead of a plugin catalogue. Everything ships and upgrades as a single unit.</p>
-  </div>
-</section>
-
-<section class="py-16">
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-2xl font-bold text-slate-900">Who it is for</h2>
     <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">

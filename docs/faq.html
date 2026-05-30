@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-05-29"
+      "dateModified": "2026-05-30"
     },
     {
       "@type": "BreadcrumbList",
@@ -111,10 +111,10 @@
         },
         {
           "@type": "Question",
-          "name": "I forgot the UI admin password",
+          "name": "I forgot the UI password",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "SSH on the firewall (as root), reset from Python: The new password must satisfy the policy (12+ chars, complexity), otherwise the mandatory change on the next login will refuse to accept it."
+            "text": "The web UI authenticates through PAM against the system root account, so the UI password is the Linux root password. Reset it from the console (or serial / IPMI / hypervisor) as root: Then log into the UI with the new password. There is no separate UI password store to reset."
           }
         },
         {
@@ -143,10 +143,10 @@
         },
         {
           "@type": "Question",
-          "name": "How to change the Linux root account password?",
+          "name": "How to change the root password?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Two ways: Via the UI: SSH Access > \"Linux root account password\" section Via SSH: sudo passwd root The Linux root account password is different from the MurOS UI password. The first is for password-based SSH login, the second is for logging into the web interface."
+            "text": "Two ways: Via the UI: change it from the UI password form (it writes the system password through chpasswd) Via the shell: passwd root Since the web UI and SSH share the system root account through PAM, this is a single password: changing it updates both the UI login and the SSH / console login at once."
           }
         },
         {
@@ -318,25 +318,14 @@ expired pending_apply records every 5 seconds.</p>
 <p><strong>Special case interfaces/routes</strong>: if you change the admin interface IP
 or the default gateway and lose access, you need serial console / IPMI /
 hypervisor access to revert manually. V1 plans auto-rollback on these too.</p>
-<h2 id="i-forgot-the-ui-admin-password">I forgot the UI admin password</h2>
-<p>SSH on the firewall (as root), reset from Python:</p>
-<pre><code class="language-bash">sudo -i
-cd /opt/muros/backend
-source .venv/bin/activate
-python -c &quot;
-from app.db import SessionLocal
-from app import models
-from app.auth import hash_password
-with SessionLocal() as db:
-    user = db.query(models.User).filter_by(username='admin').first()
-    user.password_hash = hash_password('new_temporary_password_AAbb12!!')
-    user.must_change_password = True
-    db.commit()
-    print('Password reset.')
-&quot;
+<h2 id="i-forgot-the-ui-password">I forgot the UI password</h2>
+<p>The web UI authenticates through PAM against the system <code>root</code> account,
+so the UI password <strong>is</strong> the Linux root password. Reset it from the
+console (or serial / IPMI / hypervisor) as root:</p>
+<pre><code class="language-bash">passwd root
 </code></pre>
-<p>The new password must satisfy the policy (12+ chars, complexity), otherwise
-the mandatory change on the next login will refuse to accept it.</p>
+<p>Then log into the UI with the new password. There is no separate UI
+password store to reset.</p>
 <h2 id="the-firewall-does-not-forward-lan-wan-traffic">The firewall does not forward LAN -&gt; WAN traffic</h2>
 <p>Check in order:</p>
 <ol>
@@ -373,13 +362,14 @@ curl -fsSL https://apt.muros.org/install.sh | sudo bash
 (Backups menu) and restore after reinstall.</p>
 <p>Starting from the first stable release, in-place upgrades will be supported and the
 schema will evolve via versioned migrations.</p>
-<h2 id="how-to-change-the-linux-root-account-password">How to change the Linux root account password?</h2>
+<h2 id="how-to-change-the-root-password">How to change the root password?</h2>
 <p>Two ways:
-* <strong>Via the UI</strong>: SSH Access &gt; "Linux root account password" section
-* <strong>Via SSH</strong>: <code>sudo passwd root</code></p>
-<p>The Linux root account password is <strong>different</strong> from the MurOS UI
-password. The first is for password-based SSH login, the second is for
-logging into the web interface.</p>
+* <strong>Via the UI</strong>: change it from the UI password form (it writes the
+  system password through chpasswd)
+* <strong>Via the shell</strong>: <code>passwd root</code></p>
+<p>Since the web UI and SSH share the system <code>root</code> account through PAM,
+this is a single password: changing it updates both the UI login and
+the SSH / console login at once.</p>
 <h2 id="how-to-add-an-ssh-key-for-root">How to add an SSH key for root?</h2>
 <p>Via the UI: <strong>SSH Access</strong> &gt; "SSH keys allowed for root" section &gt; paste
 the public key (<code>ssh-ed25519 AAAA... comment</code>) &gt; Add.</p>
@@ -425,7 +415,6 @@ safety, reboot the machine after uninstall).</p>
     <div class="flex gap-5">
       <a href="/features.html" class="hover:text-amber-700">Features</a>
       <a href="/install.html" class="hover:text-amber-700">Install</a>
-      <a href="/download.html" class="hover:text-amber-700">Download</a>
       <a href="/hardware.html" class="hover:text-amber-700">Hardware</a>
       <a href="/docs.html" class="hover:text-amber-700">Docs</a>
     </div>
