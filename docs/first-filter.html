@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-05-26"
+      "dateModified": "2026-05-30"
     },
     {
       "@type": "BreadcrumbList",
@@ -183,11 +183,16 @@ are accepted.</p>
 <li>Chain <code>input</code>, source zone <code>lan</code>, protocol <code>icmp</code>, action <code>accept</code></li>
 </ul>
 <h2 id="step-8-restrict-muros-ui-to-lan">Step 8: Restrict MurOS UI to LAN</h2>
-<p>In <strong>HTTP Access</strong> &gt; "Web listen interface", pick IP <code>192.168.1.1</code>
-(LAN interface). Click <strong>Apply in nginx</strong>.</p>
-<p>A modal opens with a 60s countdown. Click <strong>Confirm</strong> after checking the UI
-is still reachable. If you lose access, automatic rollback restores the
-previous listen address after 60s.</p>
+<p>The web UI always listens on every interface; you decide who can reach it
+at the firewall, the same way you expose any other service. In
+<strong>Firewall &gt; Rules</strong>, make sure the <code>wan</code> zone has no rule allowing the UI
+ports (<code>80</code>/<code>443</code>) to the firewall, and keep an explicit rule allowing the
+<code>lan</code> zone to reach the firewall on those ports. The default ruleset
+already permits <code>lan -&gt; firewall</code>, so the UI is reachable from the LAN and
+denied from the WAN out of the box.</p>
+<p>Click <strong>Apply</strong> and confirm within the countdown after checking the UI is
+still reachable. If you lose access, automatic rollback restores the
+previous ruleset.</p>
 <h2 id="step-9-backup-before-going-to-production">Step 9: Backup before going to production</h2>
 <p>In <strong>Backups</strong>, click <strong>Create a backup</strong>.</p>
 <h2 id="next-steps">Next steps</h2>

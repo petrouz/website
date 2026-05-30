@@ -123,8 +123,51 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
-<h2 id="v090-rc27-2026-05-30">[v0.9.0-rc27] - 2026-05-30</h2>
+<h2 id="v090-rc30-2026-05-30">[v0.9.0-rc30] - 2026-05-30</h2>
 <h3 id="added">Added</h3>
+<ul>
+<li>IPv6 Router Advertisements / SLAAC (lot 2 of IPv6 support). MurOS can now
+  act as the IPv6 router for a LAN interface via radvd: it advertises a /64
+  prefix derived from the interface's own IPv6 address so clients
+  autoconfigure an address and default route (SLAAC). Optional RDNSS
+  (advertise the firewall as IPv6 resolver) and the M/O flags to hand off
+  to DHCPv6. Managed from a new card on the DHCP services page (it is the
+  IPv6 counterpart of the IPv4 DHCP server). radvd ships as a held daemon,
+  started only when Router Advertisements are enabled, and the config is
+  reconciled at boot once the LAN interface is up. IPv6 forwarding is
+  enabled automatically when RA is on. New /api/ipv6/ra endpoints.</li>
+</ul>
+<h2 id="v090-rc28-2026-05-30">[v0.9.0-rc28] - 2026-05-30</h2>
+<h3 id="added_1">Added</h3>
+<ul>
+<li>CI regression coverage for the per-service config generators. The
+  backend pytest job now exercises the rendering path of WireGuard (VPN),
+  SNMP, NTP (chrony), DHCP (Kea) and DNS (Unbound) on every push and pull
+  request, so a change that breaks the VPN or SNMP config is caught in CI
+  instead of on a customer box. Tests are pure / DB-only (no systemd, no
+  netlink) and assert the key invariants: WireGuard interface and peer
+  sections, disabled peers excluded, X25519 keypair round-trip, SNMP
+  one-rocommunity-per-CIDR plus the empty-network loopback guard-rail, the
+  chrony "allow all" gating on server mode, valid idle Kea JSON, and the
+  Unbound access-control plus defensive allowlist.</li>
+</ul>
+<h2 id="v090-rc29-2026-05-30">[v0.9.0-rc29] - 2026-05-30</h2>
+<h3 id="added_2">Added</h3>
+<ul>
+<li>Unattended installer ISO builder (<code>packaging/iso/</code>). <code>build-iso.sh</code>
+  turns a stock Debian 13 (trixie) netinst image into a fully automated
+  MurOS installer: it injects the <code>preseed.cfg</code> answers into the
+  installer initrd, patches the BIOS (isolinux) and UEFI (grub) boot
+  menus for hands-off boot, and repacks a hybrid bootable ISO with
+  xorriso. The install partitions the first disk (guided LVM), lays down
+  a minimal Debian base, then runs the official <code>install.sh</code> to register
+  apt.muros.org and pull the muros package. No installer question is
+  asked, so building appliances no longer requires clicking through the
+  Debian installer by hand. Root password is configurable via
+  <code>MUROS_ROOT_PASSWORD</code>; see <code>packaging/iso/README.md</code>.</li>
+</ul>
+<h2 id="v090-rc27-2026-05-30">[v0.9.0-rc27] - 2026-05-30</h2>
+<h3 id="added_3">Added</h3>
 <ul>
 <li>IPv6 firewall filtering (lot 1 of IPv6 support). Address-based rules are
   now family-aware: the compiler emits <code>ip saddr/daddr</code> for IPv4 values
@@ -137,7 +180,7 @@
   skipped IPv6 traffic, which the drop policy then blackholed.</li>
 </ul>
 <h2 id="v090-rc25-2026-05-30">[v0.9.0-rc25] - 2026-05-30</h2>
-<h3 id="added_1">Added</h3>
+<h3 id="added_4">Added</h3>
 <ul>
 <li>First-boot setup wizard. Until the operator assigns the network
   interfaces, the UI redirects to a one-step wizard that asks which NIC is
@@ -151,7 +194,7 @@
   wizard. New /api/setup/state and /api/setup/apply endpoints.</li>
 </ul>
 <h2 id="v090-rc24-2026-05-30">[v0.9.0-rc24] - 2026-05-30</h2>
-<h3 id="added_2">Added</h3>
+<h3 id="added_5">Added</h3>
 <ul>
 <li>NTP (chrony) now appears on the dashboard service list, and can be
   turned on or off from a master enable toggle on the NTP page (like the
@@ -166,7 +209,7 @@
   on the right, instead of an arbitrary half/half split.</li>
 </ul>
 <h2 id="v090-rc22-2026-05-30">[v0.9.0-rc22] - 2026-05-30</h2>
-<h3 id="added_3">Added</h3>
+<h3 id="added_6">Added</h3>
 <ul>
 <li>Two-factor authentication (TOTP, RFC 6238) for the web UI login. When
   enabled on an account, the password step returns a short-lived token
@@ -240,7 +283,7 @@
   back on manually from the SSH page toggle.</li>
 </ul>
 <h2 id="v090-rc15-2026-05-30">[v0.9.0-rc15] - 2026-05-30</h2>
-<h3 id="added_4">Added</h3>
+<h3 id="added_7">Added</h3>
 <ul>
 <li>NTP server mode (chrony) for the LAN, enabled by default. chrony now
   emits an <code>allow &lt;subnet&gt;</code> directive for every LAN-side network (every
@@ -340,7 +383,7 @@
   fail2ban). Services that need a per-site configuration (HA, VPN) stay
   disabled until enabled from the UI.</li>
 </ul>
-<h3 id="added_5">Added</h3>
+<h3 id="added_8">Added</h3>
 <ul>
 <li>Access &gt; Users page (administrators only). The web UI and SSH share the
   PAM stack, so any Linux account could authenticate; this page controls
@@ -398,7 +441,7 @@
   (_fetch_latest_release, HTML 302 fallback, .deb download/sha256).</li>
 </ul>
 <h2 id="v090-rc4-2026-05-29">[v0.9.0-rc4] - 2026-05-29</h2>
-<h3 id="added_6">Added</h3>
+<h3 id="added_9">Added</h3>
 <ul>
 <li>CI auto-publishes every release to apt.muros.org (publish-apt job in
   build-deb.yml) through a deploy key locked server-side to a single
@@ -418,7 +461,7 @@
   tolerated.</li>
 </ul>
 <h2 id="v090-rc2-2026-05-29">[v0.9.0-rc2] - 2026-05-29</h2>
-<h3 id="added_7">Added</h3>
+<h3 id="added_10">Added</h3>
 <ul>
 <li>Signed apt repository at https://apt.muros.org. The installer now
   registers the repository and its signing key, so upgrades flow through

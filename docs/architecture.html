@@ -136,7 +136,7 @@ the UI propagates down to the kernel.</p>
 /etc/muros/unattended.json                   unattended-upgrades schedule (UI-managed)
 </code></pre>
 <p>Generated configuration files (rewritten on every Apply):</p>
-<pre><code>/etc/nftables.conf                           full ruleset (filter + NAT)
+<pre><code>/etc/muros/nftables.conf                     full ruleset (filter + NAT)
 /etc/keepalived/keepalived.conf              VRRP
 /etc/conntrackd/conntrackd.conf              state replication
 /etc/wireguard/wg0.conf                      WireGuard
@@ -264,7 +264,7 @@ The canonical tables: <code>interface</code>, <code>vlan</code>, <code>route</co
   -&gt; systemd
      -&gt; muros-boot.service (oneshot)
         - reads DB, brings interfaces / VLANs / routes up
-        - generates /etc/nftables.conf, loads it
+        - generates /etc/muros/nftables.conf, loads it
      -&gt; network-online.target
      -&gt; muros-backend.service, nginx, keepalived, conntrackd,
         kea-dhcp4-server, unbound, strongswan, wg-quick@wg0 (if enabled)
