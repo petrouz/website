@@ -123,6 +123,24 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
+<h2 id="v090-rc22-2026-05-30">[v0.9.0-rc22] - 2026-05-30</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Two-factor authentication (TOTP, RFC 6238) for the web UI login. When
+  enabled on an account, the password step returns a short-lived token
+  and the login asks for a 6-digit code from an authenticator app
+  (POST /api/auth/login/verify). Enrolment is self-service from the HTTP
+  Access page (QR code + manual secret), confirmed with one code; the
+  intermediate token is scoped so it can never be used as an access
+  token. Disabling requires a current valid code. (pyotp dependency.)</li>
+<li>DHCP &lt;-&gt; DNS integration. Unbound now publishes DHCP hostnames as local
+  DNS records under a configurable lease domain (default "lan"), so LAN
+  clients resolve each other by name (e.g. nas.lan). Static reservations
+  are DB-driven and deterministic; active dynamic leases are read from
+  the Kea lease file on apply. Manual local records take precedence, the
+  WAN is unaffected. Toggle and lease domain on the DNS server page;
+  a DHCP apply now also refreshes the DNS records.</li>
+</ul>
 <h2 id="v090-rc20-2026-05-30">[v0.9.0-rc20] - 2026-05-30</h2>
 <h3 id="changed">Changed</h3>
 <ul>
@@ -171,7 +189,7 @@
   back on manually from the SSH page toggle.</li>
 </ul>
 <h2 id="v090-rc15-2026-05-30">[v0.9.0-rc15] - 2026-05-30</h2>
-<h3 id="added">Added</h3>
+<h3 id="added_1">Added</h3>
 <ul>
 <li>NTP server mode (chrony) for the LAN, enabled by default. chrony now
   emits an <code>allow &lt;subnet&gt;</code> directive for every LAN-side network (every
@@ -271,7 +289,7 @@
   fail2ban). Services that need a per-site configuration (HA, VPN) stay
   disabled until enabled from the UI.</li>
 </ul>
-<h3 id="added_1">Added</h3>
+<h3 id="added_2">Added</h3>
 <ul>
 <li>Access &gt; Users page (administrators only). The web UI and SSH share the
   PAM stack, so any Linux account could authenticate; this page controls
@@ -329,7 +347,7 @@
   (_fetch_latest_release, HTML 302 fallback, .deb download/sha256).</li>
 </ul>
 <h2 id="v090-rc4-2026-05-29">[v0.9.0-rc4] - 2026-05-29</h2>
-<h3 id="added_2">Added</h3>
+<h3 id="added_3">Added</h3>
 <ul>
 <li>CI auto-publishes every release to apt.muros.org (publish-apt job in
   build-deb.yml) through a deploy key locked server-side to a single
@@ -349,7 +367,7 @@
   tolerated.</li>
 </ul>
 <h2 id="v090-rc2-2026-05-29">[v0.9.0-rc2] - 2026-05-29</h2>
-<h3 id="added_3">Added</h3>
+<h3 id="added_4">Added</h3>
 <ul>
 <li>Signed apt repository at https://apt.muros.org. The installer now
   registers the repository and its signing key, so upgrades flow through
