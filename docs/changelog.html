@@ -123,6 +123,18 @@
       <div class="doc-prose">
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
+<h2 id="v090-rc11-2026-05-30">[v0.9.0-rc11] - 2026-05-30</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Uninstall no longer leaves the box without working DNS. When "Unbound
+  as system resolver" was enabled, <code>/etc/resolv.conf</code> pointed at
+  127.0.0.1; after removing MurOS (and Unbound) every DNS lookup stalled
+  on the dead local resolver, so <code>apt update</code> hung at 0% and reinstalling
+  was impossible. uninstall.sh now restores the pre-Unbound resolver
+  backup and, as a safety net, replaces a loopback-only resolv.conf with
+  public resolvers. install.sh applies the same DNS preflight so a box
+  stuck in that state can still be reinstalled.</li>
+</ul>
 <h2 id="v090-rc10-2026-05-30">[v0.9.0-rc10] - 2026-05-30</h2>
 <h3 id="changed">Changed</h3>
 <ul>
@@ -134,7 +146,7 @@
 <li>NTP moved to its own Services page (<code>/services/ntp</code>, "NTP server" in the
   sidebar) instead of a tab under System. <code>/system/time</code> redirects there.</li>
 </ul>
-<h3 id="fixed">Fixed</h3>
+<h3 id="fixed_1">Fixed</h3>
 <ul>
 <li>Documentation (README, FAQ, quickstart, packaging, site) updated for the
   root account, Kea, chrony and the per-account web UI access model.</li>
