@@ -59,3 +59,99 @@ details .nav-link.active::after { display: none; }
 .doc-side a.active { color: #0f172a; font-weight: 600; border-left-color: #f59e0b; background: #fffbeb; }
 .doc-side .group-title { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.75rem 0.75rem 0.35rem; }
 .doc-side .group-title:first-child { padding-top: 0; }
+
+/* ---------------------------------------------------------------------------
+   Dark theme.
+
+   Toggled by adding the `dark` class on <html> (assets/theme.js). The site
+   markup uses a small, consistent slate/amber palette, so the dark palette is
+   defined once here by overriding that exact set of utility classes. Any new
+   page reusing the same classes gets dark mode for free, with no per-element
+   markup changes.
+   --------------------------------------------------------------------------- */
+html.dark {
+  --bg: #0b1120;
+  --bg-elev: #141d31;
+  --bg-sunken: #060c18;
+  --border: #1f2a3e;
+  --border-strong: #2c3a54;
+  --text-strong: #e7eef7;
+  --text: #cbd6e4;
+  --text-muted: #9fb0c4;
+  --text-faint: #7f8fa3;
+  --accent: #fbbf24;
+  --accent-soft: rgba(251, 191, 36, 0.12);
+  color-scheme: dark;
+}
+
+html.dark body { background-color: var(--bg); color: var(--text-strong); }
+
+/* Surfaces. */
+html.dark .bg-white { background-color: var(--bg); }
+html.dark .bg-slate-50 { background-color: var(--bg-elev); }
+html.dark .bg-slate-100 { background-color: var(--bg-elev); }
+html.dark .bg-slate-900 { background-color: var(--bg-sunken); }
+html.dark .hover\:bg-slate-50:hover { background-color: var(--bg-elev); }
+html.dark .hover\:bg-slate-800:hover { background-color: #1d2840; }
+html.dark .bg-amber-50 { background-color: var(--accent-soft); }
+html.dark .hover\:bg-amber-50:hover { background-color: var(--accent-soft); }
+html.dark .hover\:bg-amber-50\/40:hover { background-color: var(--accent-soft); }
+
+/* Text. */
+html.dark .text-slate-900 { color: var(--text-strong); }
+html.dark .text-slate-700 { color: var(--text); }
+html.dark .text-slate-600 { color: var(--text-muted); }
+html.dark .text-slate-500 { color: var(--text-faint); }
+html.dark .text-slate-400 { color: var(--text-faint); }
+html.dark .hover\:text-slate-900:hover { color: var(--text-strong); }
+html.dark .text-amber-700 { color: var(--accent); }
+html.dark .text-amber-900 { color: #fcd34d; }
+html.dark .hover\:text-amber-700:hover { color: #fcd34d; }
+html.dark .hover\:text-amber-800:hover { color: #fde68a; }
+
+/* Amber call-to-action buttons keep dark ink for contrast on the amber fill. */
+html.dark .bg-amber-400.text-slate-900,
+html.dark .bg-amber-500.text-slate-900 { color: #0f172a; }
+
+/* Borders. */
+html.dark .border-slate-200 { border-color: var(--border); }
+html.dark .border-slate-300 { border-color: var(--border-strong); }
+html.dark .border-amber-200 { border-color: rgba(251, 191, 36, 0.4); }
+html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) { border-color: var(--border); }
+
+/* Decorations. */
+html.dark .bg-grid {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+}
+html.dark .shadow-card { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.45); }
+html.dark .nav-link.active { color: var(--text-strong); }
+
+/* Theme toggle button: show the icon for the action a click performs. */
+.theme-toggle .theme-icon-sun { display: none; }
+html.dark .theme-toggle .theme-icon-moon { display: none; }
+html.dark .theme-toggle .theme-icon-sun { display: block; }
+
+/* Documentation pages. */
+html.dark .doc-prose { color: var(--text); }
+html.dark .doc-prose h1,
+html.dark .doc-prose h2,
+html.dark .doc-prose h3,
+html.dark .doc-prose h4 { color: var(--text-strong); }
+html.dark .doc-prose h2 { border-top-color: var(--border); }
+html.dark .doc-prose a { color: var(--accent); text-decoration-color: rgba(251, 191, 36, 0.5); }
+html.dark .doc-prose a:hover { text-decoration-color: var(--accent); }
+html.dark .doc-prose code { background: #1b2436; color: var(--text-strong); }
+html.dark .doc-prose pre { background: var(--bg-sunken); color: #d7e0ec; border: 1px solid var(--border); }
+html.dark .doc-prose pre code { background: transparent; color: inherit; }
+html.dark .doc-prose blockquote { background: var(--accent-soft); color: #fcd34d; border-left-color: var(--accent); }
+html.dark .doc-prose hr { border-top-color: var(--border); }
+html.dark .doc-prose th,
+html.dark .doc-prose td { border-color: var(--border); }
+html.dark .doc-prose th { background: var(--bg-elev); color: var(--text-strong); }
+html.dark .doc-prose img { border-color: var(--border); }
+html.dark .doc-side a { color: var(--text-muted); }
+html.dark .doc-side a:hover { color: var(--text-strong); background: var(--bg-elev); }
+html.dark .doc-side a.active { color: var(--text-strong); background: var(--accent-soft); border-left-color: var(--accent); }
+html.dark .doc-side .group-title { color: var(--text-faint); }
