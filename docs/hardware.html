@@ -4,20 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f172a">
-<title>High availability - MurOS Docs</title>
-<meta name="description" content="Active/passive high availability with keepalived VRRP and conntrackd state sync.">
+<title>Hardware - MurOS Docs</title>
+<meta name="description" content="Hardware sizing for MurOS: minimum specs, throughput brackets, recommended boxes and network cards.">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/app.css">
 <script>(function(){try{var t=localStorage.getItem("muros-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark");}}catch(e){}})();</script>
-<link rel="canonical" href="https://muros.org/docs/ha.html">
+<link rel="canonical" href="https://muros.org/docs/hardware.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="MurOS">
 <meta property="og:locale" content="en_US">
-<meta property="og:url" content="https://muros.org/docs/ha.html">
-<meta property="og:title" content="High availability - MurOS Docs">
-<meta property="og:description" content="Active/passive high availability with keepalived VRRP and conntrackd state sync.">
+<meta property="og:url" content="https://muros.org/docs/hardware.html">
+<meta property="og:title" content="Hardware - MurOS Docs">
+<meta property="og:description" content="Hardware sizing for MurOS: minimum specs, throughput brackets, recommended boxes and network cards.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -25,8 +25,8 @@
 <meta property="og:image:height" content="670">
 <meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="High availability - MurOS Docs">
-<meta name="twitter:description" content="Active/passive high availability with keepalived VRRP and conntrackd state sync.">
+<meta name="twitter:title" content="Hardware - MurOS Docs">
+<meta name="twitter:description" content="Hardware sizing for MurOS: minimum specs, throughput brackets, recommended boxes and network cards.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -34,9 +34,9 @@
   "@graph": [
     {
       "@type": "TechArticle",
-      "headline": "High availability",
-      "description": "Active/passive high availability with keepalived VRRP and conntrackd state sync.",
-      "url": "https://muros.org/docs/ha.html",
+      "headline": "Hardware",
+      "description": "Hardware sizing for MurOS: minimum specs, throughput brackets, recommended boxes and network cards.",
+      "url": "https://muros.org/docs/hardware.html",
       "inLanguage": "en",
       "author": {
         "@type": "Organization",
@@ -69,8 +69,8 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "High availability",
-          "item": "https://muros.org/docs/ha.html"
+          "name": "Hardware",
+          "item": "https://muros.org/docs/hardware.html"
         }
       ]
     }
@@ -109,8 +109,8 @@
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
-      <a href="/docs/hardware.html" class="">Hardware</a>
-      <a href="/docs/ha.html" class="active">High availability</a>
+      <a href="/docs/hardware.html" class="active">Hardware</a>
+      <a href="/docs/ha.html" class="">High availability</a>
       <a href="/docs/changelog.html" class="">Changelog</a>
       <div class="group-title">Help</div>
       <a href="/docs/faq.html" class="">FAQ</a>
@@ -119,97 +119,90 @@
       <a href="https://github.com/murosorg/muros/discussions">Discussions</a>
       </aside>
     <article>
-      <nav class="text-xs text-slate-500 mb-4 mono"><a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">ha.md</span></nav>
+      <nav class="text-xs text-slate-500 mb-4 mono"><a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-700">hardware.md</span></nav>
       <div class="doc-prose">
-<h1 id="high-availability">High availability</h1>
-<p>MurOS HA is a classic active/passive pair built on keepalived (VRRP
-for the VIPs) and conntrackd (state replication). On top of the
-Linux pieces, MurOS adds a DB replication so the standby always
-knows the full configuration of the master.</p>
-<h2 id="topology">Topology</h2>
-<pre><code>            VIP 203.0.113.1                   VIP 10.10.0.1
-                |                                  |
-         (WAN) eth0 -------- internet -------- eth0 (WAN)
-                                                   |
-  master ---- eth1 (LAN) ---- switch ---- eth1 (LAN) ---- backup
-                |              VRRP +              |
-                |              conntrack           |
-                |              sync                |
-         (sync) eth2 ------ direct cable ------ eth2 (sync)
-</code></pre>
-<p>The sync link can be either a dedicated NIC or a VLAN on the LAN
-switch. MurOS does not impose a topology, but a direct cable keeps
-VRRP advertisements out of the broadcast domain and survives a LAN
-switch reboot.</p>
-<h2 id="what-you-configure-in-the-ui">What you configure in the UI</h2>
-<p>The <code>/ha</code> page exposes one form:</p>
+<h1 id="hardware">Hardware</h1>
+<p>MurOS runs on anything that runs Debian 13. Below are realistic sizing
+brackets, both for bare-metal and for VMs.</p>
+<h2 id="minimum">Minimum</h2>
 <ul>
-<li><strong>Role</strong> : master or backup. The priority is computed from the
-  role (150 / 100) and is the same on every VRRP instance.</li>
-<li><strong>Authentication password</strong> : VRRP IPSEC-AH shared secret.</li>
-<li><strong>Sync interface</strong> : link used by conntrackd for the multicast
-  state replication (default group <code>225.0.0.50</code>).</li>
-<li><strong>Peer management IP</strong> : used for the inter-node DB sync over
-  HTTPS (mutual JWT, separate from the operator login).</li>
-<li><strong>VIPs</strong> : one virtual IP per interface that should fail over.
-  Each VIP carries its own VRID (10, 11, 12 ...).</li>
+<li><strong>CPU</strong>: 1 vCPU, x86_64 (amd64). No special instructions required.</li>
+<li><strong>RAM</strong>: 1 GB. The full MurOS stack (backend + nginx + nftables + monitor) uses around 250 MB idle.</li>
+<li><strong>Disk</strong>: 4 GB. Mostly Debian, MurOS itself is a 25 MB .deb.</li>
+<li><strong>NIC</strong>: 1 interface for management. 2 or more for WAN / LAN segmentation.</li>
 </ul>
-<p>Applying this page regenerates <code>/etc/keepalived/keepalived.conf</code>,
-<code>/etc/conntrackd/conntrackd.conf</code> and restarts both services. The
-DB sync agent (<code>muros-watcher</code> on the master) pushes updates over
-HTTPS as they happen.</p>
-<h2 id="what-survives-a-failover">What survives a failover</h2>
+<p>A Raspberry Pi 4 or a small thin client (Wyse 3040, Fujitsu Futro S720) is
+enough for a home lab or a small office under 50 Mbps.</p>
+<h2 id="sizing-by-throughput">Sizing by throughput</h2>
+<p>These brackets assume stateful filtering + NAT + a couple of WireGuard or
+IPsec tunnels. IDS / IPS once shipped will bump CPU requirements.</p>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>CPU</th>
+<th>RAM</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Home / 100 Mbps</td>
+<td>1 vCPU</td>
+<td>1 GB</td>
+<td>RPi 4, thin client, small VM.</td>
+</tr>
+<tr>
+<td>SMB / 500 Mbps</td>
+<td>2 vCPU</td>
+<td>2 GB</td>
+<td>Intel N5105 / N100 mini-PC.</td>
+</tr>
+<tr>
+<td>Office / 1 Gbps</td>
+<td>4 vCPU</td>
+<td>4 GB</td>
+<td>i3 / Ryzen 3 with Intel i225 / i226 NICs.</td>
+</tr>
+<tr>
+<td>Datacenter / 10 Gbps</td>
+<td>8+ vCPU</td>
+<td>8 GB+</td>
+<td>Xeon / EPYC, Intel X710 / Mellanox ConnectX-4, AES-NI for VPN.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="recommended-boxes">Recommended boxes</h2>
+<p>Hardware that has been tested or that follows known-good designs:</p>
 <ul>
-<li>All TCP and UDP connections tracked in conntrack (web sessions,
-  SSH from the LAN to a DMZ host, IPsec SAs replicated by charon).</li>
-<li>The active WireGuard interface : peers reconnect within their
-  persistent keepalive interval (default 25 s).</li>
-<li>DHCP leases : Kea writes them to disk in a path that is part
-  of the replicated MurOS DB snapshot.</li>
+<li><strong>Mini-PC fanless Intel N100 / N305 with 4x Intel i226-V</strong>: the sweet spot for home and small office, ~150 euros, gigabit-class.</li>
+<li><strong>Protectli FW4B / VP2410 / VP4670</strong>: turnkey Intel-NIC firewall boxes, well documented under Debian.</li>
+<li><strong>Generic 1U rack server with 2-4x Intel X710-DA</strong>: when you need 10 Gbps and PCIe SR-IOV for HA pairs.</li>
+<li><strong>VMware / Proxmox / KVM VM</strong>: virtio-net works out of the box, virtio-vsock is not required.</li>
 </ul>
-<h2 id="what-does-not-survive-a-failover">What does NOT survive a failover</h2>
+<h2 id="network-cards">Network cards</h2>
 <ul>
-<li>Live diagnostic streams (tcpdump, traceroute) in the UI. The
-  operator restarts them after takeover.</li>
-<li>The current SSH session to the master IP : reconnect to the VIP
-  to land on the new master.</li>
+<li><strong>Intel i210 / i225 / i226 / X710</strong>: first choice. Mature kernel driver, robust under load.</li>
+<li><strong>Mellanox ConnectX-4 / 5</strong>: 10 / 25 / 40 Gbps, great offloads.</li>
+<li><strong>Realtek r8168 / r8125</strong>: works, but proprietary driver quirks under heavy load. Avoid in production.</li>
 </ul>
-<h2 id="asymmetric-pairs">Asymmetric pairs</h2>
-<p>Identical hardware is recommended but not required. As long as the
-logical interfaces (zone names + roles) match on both sides,
-keepalived owns the VIPs and conntrackd replays sessions. Two valid
-patterns:</p>
-<ul>
-<li><strong>Same vendor, same NIC count</strong>, identical cabling. Simplest.</li>
-<li><strong>Different boxes</strong> (e.g. master = 1U Xeon, backup = mini-PC).
-  The backup needs enough CPU and RAM to terminate the same
-  encrypted tunnels at the actual traffic rate or it will become
-  the bottleneck during a takeover.</li>
-</ul>
-<h2 id="verifying-the-pair-is-healthy">Verifying the pair is healthy</h2>
-<p>From either node:</p>
-<pre><code>ip -br addr | grep -E 'vrrp|UP'
-journalctl -u keepalived -n 50 --no-pager
-conntrackd -i | head -20
-curl -sk https://&lt;peer-ip&gt;/api/health -H &quot;Authorization: Bearer $TOK&quot;
-</code></pre>
-<p>The dashboard tile <strong>Cluster status</strong> consolidates the above into
-one page: local role, peer role, last failover, sync state.</p>
-<h2 id="common-pitfalls">Common pitfalls</h2>
-<ul>
-<li><strong>VRID collision</strong> with another VRRP cluster on the same L2.
-  Each MurOS VIP picks 10..19 by default; change them if you
-  already run keepalived elsewhere.</li>
-<li><strong>Asymmetric ruleset</strong> : the DB sync prevents this in normal use,
-  but if you ever edit <code>/etc/nftables.conf</code> by hand on the backup,
-  the next failover will surprise you. Trust the UI.</li>
-<li><strong>Anti-spoof filters upstream</strong> : some carriers drop a packet
-  sourced from the VIP if it arrives from the backup right after a
-  takeover. Set sticky source NAT on the upstream if observed.</li>
-</ul>
+<h2 id="high-availability">High availability</h2>
+<p>Active / passive HA needs <strong>two MurOS nodes</strong> running the same package
+version, with matching interface names and a dedicated link (or VLAN)
+between them for VRRP advertisements and conntrack sync. Identical
+hardware is recommended but not required: keepalived handles VIP failover
+and conntrackd replays sessions on the slave so existing TCP connections
+survive a takeover. Asymmetric pairs (different vendors, different NIC
+counts) work as long as enabled interfaces line up on both sides. See the
+<a href="/docs/ha.html">High availability</a> page for the full setup.</p>
+<h2 id="power-and-form-factor">Power and form factor</h2>
+<p>A typical N100 mini-PC pulls 7-12 W under load, fits a DIN rail or a shelf,
+runs silent. A 1U appliance with two Xeon and 25 GbE pulls 80-150 W. Pick
+the form factor that matches your physical environment first, then size up
+if needed.</p>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-500 flex items-center justify-between">
-        <a href="https://github.com/murosorg/muros/blob/main/docs/ha.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <a href="https://github.com/murosorg/muros/blob/main/docs/hardware.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
         <span class="mono text-xs">muros/docs</span>
       </div>
     </article>

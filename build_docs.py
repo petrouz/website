@@ -27,6 +27,7 @@ DOCS = {
     'concepts':     ('Concepts', 'Core MurOS concepts: zones, stage in database, apply, and automatic rollback.', DOCS_SRC / 'concepts.md', 'docs/concepts.md'),
     'architecture': ('Architecture', 'How MurOS is built: database model, boot sequence and kernel push.', DOCS_SRC / 'architecture.md', 'docs/architecture.md'),
     'ha':           ('High availability', 'Active/passive high availability with keepalived VRRP and conntrackd state sync.', DOCS_SRC / 'ha.md', 'docs/ha.md'),
+    'hardware':     ('Hardware', 'Hardware sizing for MurOS: minimum specs, throughput brackets, recommended boxes and network cards.', DOCS_SRC / 'hardware.md', 'docs/hardware.md'),
     'changelog':    ('Changelog', 'Release history and notable changes in MurOS.', REPO / 'CHANGELOG.md', 'CHANGELOG.md'),
     'faq':          ('FAQ', 'Frequently asked questions and troubleshooting for MurOS.', DOCS_SRC / 'faq.md', 'docs/faq.md'),
 }
@@ -34,7 +35,7 @@ DOCS = {
 # Sidebar grouping, in order.
 GROUPS = [
     ('Getting started', ['quickstart', 'first-filter']),
-    ('Reference', ['concepts', 'architecture', 'ha', 'changelog']),
+    ('Reference', ['concepts', 'architecture', 'hardware', 'ha', 'changelog']),
     ('Help', ['faq']),
 ]
 
@@ -106,7 +107,7 @@ FOOTER = '''<footer class="border-t border-slate-200">
     <div class="flex gap-5">
       <a href="/features.html" class="hover:text-amber-700">Features</a>
       <a href="/install.html" class="hover:text-amber-700">Install</a>
-      <a href="/hardware.html" class="hover:text-amber-700">Hardware</a>
+      <a href="/docs/hardware.html" class="hover:text-amber-700">Hardware</a>
       <a href="/docs.html" class="hover:text-amber-700">Docs</a>
     </div>
   </div>
