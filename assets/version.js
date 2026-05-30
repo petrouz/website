@@ -7,8 +7,9 @@
  */
 (function () {
   var TAGS = document.querySelectorAll('[data-muros-tag]');
+  var VERS = document.querySelectorAll('[data-muros-version]');
   var DATES = document.querySelectorAll('[data-muros-date]');
-  if (!TAGS.length && !DATES.length) return;
+  if (!TAGS.length && !VERS.length && !DATES.length) return;
   fetch('https://api.github.com/repos/murosorg/muros/releases?per_page=10', {
     headers: { 'Accept': 'application/vnd.github+json' },
   })
@@ -37,6 +38,10 @@
       }
       if (!pick) return;
       TAGS.forEach(function (n) { n.textContent = pick.tag_name; });
+      // Bare version (no leading "v"), for places like the
+      // MUROS_VERSION=<version> pin example.
+      var bare = String(pick.tag_name || '').replace(/^v/, '');
+      VERS.forEach(function (n) { n.textContent = bare; });
       var months = ['January','February','March','April','May','June',
                     'July','August','September','October','November','December'];
       if (pick.published_at) {
