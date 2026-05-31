@@ -134,23 +134,29 @@
 <section class="py-16">
   <div class="max-w-3xl mx-auto px-6">
     <h1 class="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">Download MurOS</h1>
-    <p class="mt-3 text-slate-600">Two ways to get MurOS. Most people want the installer ISO: a turnkey appliance. If you already run Debian 13, install the package on top.</p>
+    <p class="mt-3 text-slate-600">Two ways to get MurOS. Most people want the installer ISO: it boots and installs itself, with no Linux to assemble. If you already run Debian 13, install the package on top.</p>
 
-    <div class="mt-8 border border-slate-200 bg-slate-50 rounded shadow-card p-6">
-      <div class="text-xs text-amber-700 font-medium uppercase tracking-wide">Recommended</div>
-      <h2 class="mt-1 text-xl font-semibold text-slate-900">The installer ISO</h2>
-      <p class="mt-2 text-sm text-slate-600">Boot it on a machine or a VM, pick your keyboard and the LAN IP, and MurOS installs itself offline. No Linux assembly, no command line.</p>
-      <div class="mt-4 flex flex-wrap items-center gap-3">
-        <a href="https://apt.muros.org/iso/muros-installer-amd64.iso" class="inline-flex items-center px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded">Download the ISO (amd64)</a>
-        <span class="text-xs text-slate-500">Debian 13 (Trixie) &middot; amd64 &middot; ~2 GB &middot; offline install</span>
+    <div class="mt-8 rounded-lg bg-slate-900 text-white shadow-card overflow-hidden">
+      <div class="p-6 sm:p-8">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div>
+            <div class="text-xs text-amber-400 font-semibold uppercase tracking-wide">Recommended</div>
+            <h2 class="mt-1 text-2xl font-bold">The installer ISO</h2>
+            <p class="mt-2 text-sm text-slate-300 max-w-xl">Boot it on a machine or a VM, pick your keyboard and the LAN IP, and MurOS installs itself offline. No Linux assembly, no command line.</p>
+          </div>
+          <div class="shrink-0">
+            <a href="https://apt.muros.org/iso/muros-installer-amd64.iso" class="inline-flex items-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded">Download the ISO (amd64)</a>
+            <div class="mt-2 text-xs text-slate-400">Debian 13 (Trixie) &middot; amd64 &middot; ~2 GB &middot; offline install</div>
+            <div class="mt-1 text-xs text-slate-400">Verify: <a href="https://apt.muros.org/iso/muros-installer-amd64.iso.sha256" class="text-amber-400 hover:underline">SHA-256</a> &middot; <a href="https://apt.muros.org/iso/muros-installer-amd64.iso.asc" class="text-amber-400 hover:underline">GPG signature</a></div>
+          </div>
+        </div>
+        <ol class="mt-6 space-y-1.5 text-sm text-slate-200 list-decimal list-inside border-t border-white/10 pt-5">
+          <li>Write it to a USB key (<code class="bg-white/10 px-1 rounded">dd</code>, Rufus, balenaEtcher) or attach it to a VM.</li>
+          <li>Boot and pick <strong>Install MurOS</strong>. Choose your keyboard layout, then the LAN interface and its static IP.</li>
+          <li>After reboot, open <code class="bg-white/10 px-1 rounded">https://&lt;the-LAN-IP&gt;</code> and log in as <code class="bg-white/10 px-1 rounded">root</code> / <code class="bg-white/10 px-1 rounded">root</code>, then change the password.</li>
+        </ol>
+        <p class="mt-4 text-xs text-slate-400">A firewall LAN is static, never DHCP: the address you set during install is what MurOS uses, configured once and not again in the UI. Want to build the ISO yourself? See the <a href="https://github.com/murosorg/muros/tree/main/packaging/iso" class="text-amber-400 hover:underline">packaging/iso</a> guide.</p>
       </div>
-      <p class="mt-3 text-xs text-slate-500">Verify it: <a href="https://apt.muros.org/iso/muros-installer-amd64.iso.sha256" class="text-amber-700 hover:underline">SHA-256</a> &middot; <a href="https://apt.muros.org/iso/muros-installer-amd64.iso.asc" class="text-amber-700 hover:underline">GPG signature</a> (same key as the apt repository).</p>
-      <ol class="mt-5 space-y-1.5 text-sm text-slate-700 list-decimal list-inside">
-        <li>Write it to a USB key (<code class="bg-slate-100 px-1 rounded">dd</code>, Rufus, balenaEtcher) or attach it to a VM.</li>
-        <li>Boot and pick <strong>Install MurOS</strong>. Choose your keyboard layout, then the LAN interface and its static IP.</li>
-        <li>After reboot, open <code class="bg-slate-100 px-1 rounded">https://&lt;the-LAN-IP&gt;</code> and log in as <code class="bg-slate-100 px-1 rounded">root</code> / <code class="bg-slate-100 px-1 rounded">root</code>, then change the password.</li>
-      </ol>
-      <p class="mt-4 text-xs text-slate-500">A firewall LAN is static, never DHCP: the address you set during install is what MurOS uses, configured once and not again in the UI. Want to build the ISO yourself? See the <a href="https://github.com/murosorg/muros/tree/main/packaging/iso" class="text-amber-700 hover:underline">packaging/iso</a> guide.</p>
     </div>
 
     <h2 id="debian-install" class="mt-12 text-xl font-semibold text-slate-900">Install on an existing Debian 13 (advanced)</h2>
