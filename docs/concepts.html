@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-05-26"
+      "dateModified": "2026-05-31"
     },
     {
       "@type": "BreadcrumbList",
@@ -112,6 +112,7 @@
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="active">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
+      <a href="/docs/services.html" class="">Services</a>
       <a href="/docs/hardware.html" class="">Hardware</a>
       <a href="/docs/ha.html" class="">High availability</a>
       <a href="/docs/changelog.html" class="">Changelog</a>
@@ -168,7 +169,7 @@ a 2nd interface to the LAN tomorrow, the rules keep working.</p>
 * <strong>Log</strong>: if enabled, matched packets are written to journalctl</p>
 <p>Rules are ordered: the first one that matches takes the decision. A default
 <code>drop</code> rule is appended at the end by MurOS.</p>
-<p>Rules are managed in <strong>Filtering &gt; Rules</strong>. Click <strong>Apply</strong> after editing to
+<p>Rules are managed in <strong>Firewall &gt; Filter rules</strong>. Click <strong>Apply</strong> after editing to
 push into nftables.</p>
 <h2 id="nat-network-address-translation">NAT (Network Address Translation)</h2>
 <p><strong>NAT</strong> lets you modify packet addresses:</p>
@@ -178,7 +179,7 @@ push into nftables.</p>
 <li><strong>DNAT</strong>: replaces the destination IP. Use case: expose an internal web
   server by redirecting traffic arriving on port 443 of the public IP.</li>
 </ul>
-<p>Managed in <strong>Network &gt; NAT</strong>.</p>
+<p>Managed in <strong>Firewall &gt; NAT</strong>.</p>
 <h2 id="vpn">VPN</h2>
 <p>Two technologies available:</p>
 <h3 id="wireguard">WireGuard</h3>
@@ -204,7 +205,7 @@ Configured in <strong>VPN &gt; IPsec</strong>:
 <p>A node is either <strong>MASTER</strong> or <strong>BACKUP</strong> at a given moment. The MASTER
 holds the VIPs, the BACKUP waits silently. If the MASTER goes down, the
 BACKUP takes over the VIP and keeps serving traffic.</p>
-<p>Managed in <strong>HA</strong>.</p>
+<p>Managed in <strong>Administration &gt; High availability</strong>.</p>
 <h2 id="audit-log">Audit log</h2>
 <p>All UI-driven changes (rule creation, peer deletion, config apply...) are
 logged in <strong>Logs &gt; UI actions</strong>. This lets you trace who did what and when.</p>

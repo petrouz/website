@@ -26,6 +26,7 @@ DOCS = {
     'first-filter': ('First filter rule', 'Create your first stateful filter rule from the MurOS web UI.', DOCS_SRC / 'first-filter.md', 'docs/first-filter.md'),
     'concepts':     ('Concepts', 'Core MurOS concepts: zones, stage in database, apply, and automatic rollback.', DOCS_SRC / 'concepts.md', 'docs/concepts.md'),
     'architecture': ('Architecture', 'How MurOS is built: database model, boot sequence and kernel push.', DOCS_SRC / 'architecture.md', 'docs/architecture.md'),
+    'services':     ('Services', 'Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.', DOCS_SRC / 'services.md', 'docs/services.md'),
     'ha':           ('High availability', 'Active/passive high availability with keepalived VRRP and conntrackd state sync.', DOCS_SRC / 'ha.md', 'docs/ha.md'),
     'hardware':     ('Hardware', 'Hardware sizing for MurOS: minimum specs, throughput brackets, recommended boxes and network cards.', DOCS_SRC / 'hardware.md', 'docs/hardware.md'),
     'changelog':    ('Changelog', 'Release history and notable changes in MurOS.', REPO / 'CHANGELOG.md', 'CHANGELOG.md'),
@@ -35,7 +36,7 @@ DOCS = {
 # Sidebar grouping, in order.
 GROUPS = [
     ('Getting started', ['quickstart', 'first-filter']),
-    ('Reference', ['concepts', 'architecture', 'hardware', 'ha', 'changelog']),
+    ('Reference', ['concepts', 'architecture', 'services', 'hardware', 'ha', 'changelog']),
     ('Help', ['faq']),
 ]
 

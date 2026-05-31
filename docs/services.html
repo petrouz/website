@@ -4,20 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f172a">
-<title>Quickstart - MurOS Docs</title>
-<meta name="description" content="Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.">
+<title>Services - MurOS Docs</title>
+<meta name="description" content="Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/app.css">
 <script>(function(){try{var t=localStorage.getItem("muros-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark");}}catch(e){}})();</script>
-<link rel="canonical" href="https://muros.org/docs/quickstart.html">
+<link rel="canonical" href="https://muros.org/docs/services.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="MurOS">
 <meta property="og:locale" content="en_US">
-<meta property="og:url" content="https://muros.org/docs/quickstart.html">
-<meta property="og:title" content="Quickstart - MurOS Docs">
-<meta property="og:description" content="Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.">
+<meta property="og:url" content="https://muros.org/docs/services.html">
+<meta property="og:title" content="Services - MurOS Docs">
+<meta property="og:description" content="Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -25,8 +25,8 @@
 <meta property="og:image:height" content="670">
 <meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Quickstart - MurOS Docs">
-<meta name="twitter:description" content="Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.">
+<meta name="twitter:title" content="Services - MurOS Docs">
+<meta name="twitter:description" content="Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -34,9 +34,9 @@
   "@graph": [
     {
       "@type": "TechArticle",
-      "headline": "Quickstart",
-      "description": "Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.",
-      "url": "https://muros.org/docs/quickstart.html",
+      "headline": "Services",
+      "description": "Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.",
+      "url": "https://muros.org/docs/services.html",
       "inLanguage": "en",
       "author": {
         "@type": "Organization",
@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-05-30"
+      "dateModified": "2026-05-31"
     },
     {
       "@type": "BreadcrumbList",
@@ -69,8 +69,8 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Quickstart",
-          "item": "https://muros.org/docs/quickstart.html"
+          "name": "Services",
+          "item": "https://muros.org/docs/services.html"
         }
       ]
     }
@@ -107,12 +107,12 @@
   <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
       <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
       <div class="group-title">Getting started</div>
-      <a href="/docs/quickstart.html" class="active">Quickstart</a>
+      <a href="/docs/quickstart.html" class="">Quickstart</a>
       <a href="/docs/first-filter.html" class="">First filter rule</a>
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
-      <a href="/docs/services.html" class="">Services</a>
+      <a href="/docs/services.html" class="active">Services</a>
       <a href="/docs/hardware.html" class="">Hardware</a>
       <a href="/docs/ha.html" class="">High availability</a>
       <a href="/docs/changelog.html" class="">Changelog</a>
@@ -123,151 +123,65 @@
       <a href="https://github.com/murosorg/muros/discussions">Discussions</a>
       </aside>
     <article>
-      <nav class="text-xs text-slate-900 mb-4 mono"><a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs/quickstart.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-900">quickstart.md</span></nav>
+      <nav class="text-xs text-slate-900 mb-4 mono"><a href="/index.html" class="hover:text-slate-900">~</a> / <a href="/docs/quickstart.html" class="hover:text-slate-900">docs</a> / <span class="text-slate-900">services.md</span></nav>
       <div class="doc-prose">
-<h1 id="muros-first-deployment-in-15-minutes">MurOS - First deployment in 15 minutes</h1>
-<p>This guide walks you from a fresh Debian install to a working firewall.</p>
-<p>There are two ways to install:</p>
-<ul>
-<li><strong>Option A (recommended): the MurOS installer ISO.</strong> Boot it and walk
-  away. It installs Debian and MurOS unattended, no questions asked. The
-  installed system logs in with <strong><code>root</code> / <code>root</code></strong> by default (a value
-  that types the same on AZERTY and QWERTY, so the first console login is
-  never blocked by a keyboard layout mismatch). Change it right after the
-  first login. Build instructions: <code>packaging/iso/README.md</code>.</li>
-<li><strong>Option B: install on an existing Debian.</strong> Run the one-line installer
-  on a machine you already provisioned. This is the path detailed below;
-  here MurOS keeps your existing root password unchanged.</li>
-</ul>
-<h2 id="prerequisites">Prerequisites</h2>
-<ul>
-<li>An x86_64 machine (VM or bare metal):</li>
-<li>1 vCPU minimum, 2 vCPU recommended</li>
-<li>2 GB RAM minimum, 4 GB recommended</li>
-<li>8 GB disk minimum</li>
-<li><strong>2 network interfaces</strong>: 1 for WAN (Internet/uplink), 1 for LAN (internal network)</li>
-<li><strong>Debian 13 (trixie) netinst</strong> ISO: https://www.debian.org/distrib/netinst</li>
-<li>Root access via console or SSH</li>
-</ul>
-<p>MurOS also works on Ubuntu 22.04+ but the official V1 target is Debian 13.</p>
-<hr />
-<h2 id="step-1-install-debian-13-minimal-10-min">Step 1: install Debian 13 minimal (10 min)</h2>
-<p>Boot the netinst, standard install:</p>
-<ul>
-<li>Locale: your choice</li>
-<li>Hostname: <code>firewall</code> (or whatever you like)</li>
-<li>Domain: <code>local</code> or your domain</li>
-<li>Root user: set a password (you can change it later from the UI)</li>
-<li>Normal user: you can skip it</li>
-<li><strong>Partitioning</strong>: auto LVM, everything on one partition</li>
-<li><strong>Software selection</strong>: uncheck EVERYTHING except <code>SSH server</code> and <code>standard system utilities</code>. <strong>No desktop</strong>.</li>
-</ul>
-<p>Reboot. Login as root via console or SSH.</p>
-<hr />
-<h2 id="step-2-install-muros-2-min">Step 2: install MurOS (2 min)</h2>
-<p>From the firewall, as root:</p>
-<pre><code class="language-bash">curl -fsSL https://apt.muros.org/install.sh | sudo bash
-</code></pre>
-<p>At the end of the script you will see something like:</p>
-<pre><code>MurOS v0.9.0-rcXX installed.
-
-  UI     : http://192.168.1.10/
-  Login  : root  (use the existing root password, unchanged by MurOS)
-  Log    : /var/log/muros-install.log
-</code></pre>
-<p>Note the IP and the credentials.</p>
-<hr />
-<h2 id="step-3-first-ui-connection-1-min">Step 3: first UI connection (1 min)</h2>
-<p>Open <code>https://&lt;IP&gt;/</code> in your browser. Accept the self-signed certificate (generated by MurOS, you will replace it with a real one later).</p>
-<p>Log in as <code>root</code> with the existing system root password (MurOS does not change it).</p>
-<p><strong>Mandatory first action</strong>: top-right menu &gt; My account &gt; Change password.</p>
-<hr />
-<h2 id="step-4-configure-the-network-2-min">Step 4: configure the network (2 min)</h2>
-<p><strong>Network &gt; Interfaces</strong> menu:</p>
-<h3 id="wan-interface">WAN interface</h3>
-<ol>
-<li>Click on the interface facing the Internet (e.g. <code>eth0</code> or <code>ens3</code>)</li>
-<li>IP mode: <code>static</code> or <code>dhcp</code> depending on your uplink</li>
-<li>If static: IP + CIDR mask (e.g. <code>192.168.1.10/24</code>), gateway, DNS</li>
-<li>Description: <code>WAN</code></li>
-<li>Save</li>
-</ol>
-<h3 id="lan-interface">LAN interface</h3>
-<ol>
-<li>Click on the interface facing the internal network (e.g. <code>eth1</code>)</li>
-<li>IP mode: <code>static</code></li>
-<li>IP: e.g. <code>10.0.0.1/24</code></li>
-<li>Description: <code>LAN</code></li>
-<li>Save</li>
-</ol>
-<h3 id="apply">Apply</h3>
-<p>An orange banner appears at the top: <strong>"2 unapplied network changes"</strong>. Click <strong>Apply</strong>. A confirmation countdown modal opens (60s by default). Check that you still have UI access then <strong>Confirm</strong>.</p>
-<hr />
-<h2 id="step-5-firewall-zones-and-rules-3-min">Step 5: firewall zones and rules (3 min)</h2>
-<p><strong>Firewall &gt; Zones</strong> menu:</p>
-<ol>
-<li>Add zone <code>wan</code>: select the WAN interface</li>
-<li>Add zone <code>lan</code>: select the LAN interface</li>
-<li>Save</li>
-</ol>
-<p><strong>Firewall &gt; Filter rules</strong> menu. The default ruleset already drops
-everything in input and forward, so you add the rules that open what you
-need:</p>
-<ul>
-<li><code>forward</code> <code>lan</code> -&gt; <code>wan</code>, action accept (LAN reaches the Internet)</li>
-<li><code>input</code> <code>lan</code> -&gt; firewall, tcp ports 22 and 443, action accept (SSH + UI from the LAN)</li>
-<li><code>input</code> <code>lan</code>, protocol icmp, action accept (ping the firewall from the LAN)</li>
-</ul>
-<p>The WAN zone keeps no rule toward the firewall, so the box stays closed
-from the Internet.</p>
-<p>Click <strong>Apply</strong>. A confirmation countdown modal opens (60s by default).
-<strong>Confirm</strong> once you have verified your SSH/UI still works.</p>
-<hr />
-<h2 id="step-6-nat-for-internet-outbound-1-min">Step 6: NAT for Internet outbound (1 min)</h2>
-<p><strong>Firewall &gt; NAT</strong> menu:</p>
-<p>Add a rule:
-* Type: <code>masquerade</code>
-* Egress interface: <code>&lt;your WAN interface&gt;</code>
-* Source: <code>10.0.0.0/24</code> (your LAN network)</p>
-<p>Save + Apply.</p>
-<p>Now the LAN can reach the Internet through the firewall.</p>
-<hr />
-<h2 id="step-7-test-from-a-lan-host-1-min">Step 7: test from a LAN host (1 min)</h2>
-<p>Plug a PC into the LAN interface, static IP <code>10.0.0.50/24</code> gateway <code>10.0.0.1</code> DNS <code>1.1.1.1</code>.</p>
-<p>From the PC:</p>
-<pre><code class="language-bash">ping 10.0.0.1     # firewall reachable
-ping 1.1.1.1      # Internet OK
-curl https://10.0.0.1/  # UI reachable from LAN
-</code></pre>
-<p>If everything responds, <strong>your firewall is running.</strong></p>
-<hr />
-<h2 id="next-steps-optional">Next steps (optional)</h2>
-<ul>
-<li><strong>WireGuard VPN</strong>: VPN &gt; WireGuard, generate a server key, add a peer</li>
-<li><strong>TLS certificate</strong>: Administration &gt; HTTP access, upload one or regenerate the self-signed cert with your CN</li>
-<li><strong>Notifications</strong>: Observability &gt; Notifications, configure your SMTP smarthost to receive alerts</li>
-<li><strong>SNMP</strong>: Observability &gt; SNMP, to monitor from LibreNMS/Zabbix</li>
-<li><strong>HA</strong>: Administration &gt; High availability, if you have a 2nd firewall, pair them active/passive</li>
-<li><strong>Remote backup</strong>: System &gt; Backups, push snapshots to an SSH/FTP target</li>
-</ul>
-<hr />
-<h2 id="problem-see-the-faq">Problem? see the FAQ</h2>
-<p><code>docs/faq.md</code> covers the classic traps:</p>
-<ul>
-<li>UI access blocked after apply</li>
-<li>SSH does not change port</li>
-<li>SMTP rejects recipients</li>
-<li>HA backup fails</li>
-<li>Conntrack out of sync</li>
-</ul>
-<p>And if you find yourself locked out (rollback failure, too strict nft rule), the console always keeps root access. One command to reset all rules:</p>
-<pre><code class="language-bash">nft flush ruleset
-systemctl restart muros-backend
-</code></pre>
-<p>The UI will be reachable again.</p>
+<h1 id="muros-services">MurOS services</h1>
+<p>Besides filtering, NAT and VPN, MurOS runs the infrastructure services a
+firewall is usually expected to provide. Each one has its own page in the UI
+and is only written to the system when you click <strong>Apply</strong>.</p>
+<h2 id="dhcp-server-ipv4">DHCP server (IPv4)</h2>
+<p>Hands out IPv4 addresses to LAN hosts using <strong>ISC Kea</strong>. Per interface you
+define a pool (range), the lease time, and the options pushed to clients
+(gateway, DNS, domain). Static leases bind a fixed address to a MAC so a host
+always gets the same IP.</p>
+<p>Managed in <strong>Services &gt; DHCP server</strong>.</p>
+<h2 id="dhcpv6-server">DHCPv6 server</h2>
+<p>Stateful IPv6 address assignment, also through <strong>Kea</strong>. You hand out addresses
+from a per-interface IPv6 pool, the IPv6 equivalent of the DHCP server above.</p>
+<p>Managed in <strong>Services &gt; DHCPv6 server</strong>.</p>
+<h2 id="dns-server">DNS server</h2>
+<p>A recursive DNS resolver for the LAN, backed by <strong>Unbound</strong>. It resolves names
+for your internal clients and can serve local records (name to IP) for hosts
+on your network. It is enabled by default.</p>
+<p>This is the resolver MurOS offers to the LAN. It is not the same thing as the
+appliance's own resolver (the one apt, curl or ntp use on the firewall
+itself), which is managed separately. By default the firewall keeps its own
+upstream resolver; an opt-in option can point the appliance at its local
+Unbound instead.</p>
+<p>Managed in <strong>Services &gt; DNS server</strong>.</p>
+<h2 id="ntp-server">NTP server</h2>
+<p>Time synchronization through <strong>chrony</strong>. The firewall keeps its own clock in
+sync with upstream time sources and can serve time to the LAN. A correct clock
+matters for logs, certificates and VPN.</p>
+<p>Managed in <strong>Services &gt; NTP server</strong>.</p>
+<h2 id="dynamic-dns">Dynamic DNS</h2>
+<p>Keeps one or more hostnames pointed at the firewall's current public IP. Useful
+when the WAN address is dynamic and you need a stable name to reach a VPN
+endpoint or a published service from the outside.</p>
+<p>Managed in <strong>Network &gt; Dynamic DNS</strong>.</p>
+<h2 id="qos-traffic-shaping">QoS / traffic shaping</h2>
+<p>Egress bandwidth prioritisation per interface, using the kernel's <strong>HTB</strong> with
+<strong>fq_codel</strong>. You cap the total egress rate of an interface, split it into
+classes with guaranteed and ceiling rates, and assign traffic to a class with
+match rules (by protocol, port or address). This keeps interactive traffic
+responsive when the link is saturated.</p>
+<p>Managed in <strong>Network &gt; QoS / Shaping</strong>.</p>
+<h2 id="remote-syslog">Remote syslog</h2>
+<p>Forwards the firewall's journald / syslog messages to a central syslog server
+or SIEM, over UDP or TCP, through <strong>rsyslog</strong>. Use it to keep logs off the box
+and to centralise them with the rest of your fleet.</p>
+<p>Managed in <strong>Observability &gt; Remote syslog</strong>.</p>
+<h2 id="snmp">SNMP</h2>
+<p>Exposes read-only metrics for monitoring tools. Both SNMP <strong>v2c</strong> (community
+string) and <strong>v3</strong> (USM, with authentication and privacy) are supported.</p>
+<p>Managed in <strong>Observability &gt; SNMP</strong>.</p>
+<h2 id="email-notifications">Email notifications</h2>
+<p>Sends email alerts on critical events. Configure the SMTP relay and the
+recipients so the firewall can warn you when something needs attention.</p>
+<p>Managed in <strong>Observability &gt; Notifications</strong>.</p>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
-        <a href="https://github.com/murosorg/muros/blob/main/docs/quickstart.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <a href="https://github.com/murosorg/muros/blob/main/docs/services.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
         <span class="mono text-xs">muros/docs</span>
       </div>
     </article>

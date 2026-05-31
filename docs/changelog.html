@@ -112,6 +112,7 @@
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
+      <a href="/docs/services.html" class="">Services</a>
       <a href="/docs/hardware.html" class="">Hardware</a>
       <a href="/docs/ha.html" class="">High availability</a>
       <a href="/docs/changelog.html" class="active">Changelog</a>
@@ -133,7 +134,10 @@
   splash image used by the ISO installer boot menu. The package ships the
   splash at <code>/usr/share/muros/grub-splash.png</code> and the postinst points
   <code>GRUB_BACKGROUND</code> at it through <code>/etc/default/grub.d/99-muros.cfg</code>, then
-  runs <code>update-grub</code>. The snippet is removed and the stock menu restored on
+  runs <code>update-grub</code>. The snippet also forces the menu to show for 3
+  seconds at every boot (<code>GRUB_TIMEOUT_STYLE=menu</code>, <code>GRUB_TIMEOUT=3</code>) so
+  the splash is visible even on a single-entry install where GRUB would
+  otherwise hide it. The snippet is removed and the stock menu restored on
   purge. Grub-less systems (containers) are skipped.</li>
 </ul>
 <h3 id="changed">Changed</h3>
@@ -146,6 +150,25 @@
 </ul>
 <h3 id="fixed">Fixed</h3>
 <ul>
+<li>On a fresh install the DHCP server page showed the toggle as "Disabled"
+  while the service pill read "active". The Kea daemon is intentionally kept
+  running at all times (idle, serving nothing until a pool is defined), but
+  the <code>DhcpConfig</code> singleton defaulted to <code>enabled=False</code>, so the master
+  toggle did not match the default-on stack (postinst runs <code>enable --now
+  kea-dhcp4-server</code>, kea-dhcp4 is flagged default_on, and the dashboard
+  advertises DHCP as default-on). <code>DhcpConfig.enabled</code> now defaults to
+  <code>True</code>, consistent with <code>DnsConfig</code> (Unbound). Without a pool the daemon
+  still hands out no lease, so a fresh install stays safe.</li>
+<li>The DHCP server (Kea DHCPv4) was inactive after a reboot of a fresh
+  install. When no pool is configured (the default), the rendered config
+  is idle, but it emitted an empty interface list (<code>interfaces: []</code>).
+  Several Kea/systemd combinations treat "no interface to listen on" as a
+  startup failure, so the daemon landed inactive/failed after the reboot
+  instead of idling. The idle config now binds the loopback over a UDP
+  socket (<code>interfaces: ["lo"]</code>, <code>dhcp-socket-type: udp</code>), the documented
+  idle pattern, so the service stays genuinely active and serves nothing
+  until a pool is configured. Real interfaces keep the default raw socket.
+  The postinst ships the same loopback idle config for the first boot.</li>
 <li>The recursive DNS server (Unbound) was inactive after the first reboot
   of a fresh install. The package postinst enables and starts Unbound as
   part of the default-on stack, but the <code>DnsConfig</code> singleton defaulted to
