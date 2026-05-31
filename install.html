@@ -141,9 +141,10 @@
       <h2 class="mt-1 text-xl font-semibold text-slate-900">The installer ISO</h2>
       <p class="mt-2 text-sm text-slate-600">Boot it on a machine or a VM, pick your keyboard and the LAN IP, and MurOS installs itself offline. No Linux assembly, no command line.</p>
       <div class="mt-4 flex flex-wrap items-center gap-3">
-        <a href="https://github.com/murosorg/muros/releases/latest" class="inline-flex items-center px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded">Download the ISO (amd64)</a>
+        <a href="https://apt.muros.org/iso/muros-installer-amd64.iso" class="inline-flex items-center px-5 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded">Download the ISO (amd64)</a>
         <span class="text-xs text-slate-500">Debian 13 (Trixie) &middot; amd64 &middot; ~2 GB &middot; offline install</span>
       </div>
+      <p class="mt-3 text-xs text-slate-500">Verify it: <a href="https://apt.muros.org/iso/muros-installer-amd64.iso.sha256" class="text-amber-700 hover:underline">SHA-256</a> &middot; <a href="https://apt.muros.org/iso/muros-installer-amd64.iso.asc" class="text-amber-700 hover:underline">GPG signature</a> (same key as the apt repository).</p>
       <ol class="mt-5 space-y-1.5 text-sm text-slate-700 list-decimal list-inside">
         <li>Write it to a USB key (<code class="bg-slate-100 px-1 rounded">dd</code>, Rufus, balenaEtcher) or attach it to a VM.</li>
         <li>Boot and pick <strong>Install MurOS</strong>. Choose your keyboard layout, then the LAN interface and its static IP.</li>
@@ -249,7 +250,17 @@ ls -la artifacts/</code></pre>
           <tr>
             <td class="px-3 py-2 mono">muros-installer-amd64.iso</td>
             <td class="px-3 py-2 hidden sm:table-cell">Installer ISO, offline. Recommended.</td>
-            <td class="px-3 py-2 text-right"><a href="https://github.com/murosorg/muros/releases/latest" class="text-amber-700 font-medium hover:underline">Get</a></td>
+            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/iso/muros-installer-amd64.iso" class="text-amber-700 font-medium hover:underline">Get</a></td>
+          </tr>
+          <tr>
+            <td class="px-3 py-2 mono">muros-installer-amd64.iso.sha256</td>
+            <td class="px-3 py-2 hidden sm:table-cell">SHA-256 sum of the ISO.</td>
+            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/iso/muros-installer-amd64.iso.sha256" class="text-amber-700 font-medium hover:underline">Get</a></td>
+          </tr>
+          <tr>
+            <td class="px-3 py-2 mono">muros-installer-amd64.iso.asc</td>
+            <td class="px-3 py-2 hidden sm:table-cell">Detached GPG signature of the ISO.</td>
+            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/iso/muros-installer-amd64.iso.asc" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
             <td class="px-3 py-2 mono">muros_<i>VERSION</i>_all.deb</td>
