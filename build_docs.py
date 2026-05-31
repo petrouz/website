@@ -186,7 +186,7 @@ def shell(title, desc, canonical, jsonld, body):
 
 {FOOTER}
 
-<script src="/assets/theme.js" defer></script>
+<script src="/assets/theme.js?v=2" defer></script>
 </body>
 </html>
 '''

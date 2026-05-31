@@ -47,14 +47,17 @@
     syncLogos();
   }
 
-  // Re-assert the resolved theme on load. The inline head snippet can
-  // evaluate matchMedia before the OS color-scheme signal is ready (race
-  // observed on some Linux/Chromium setups), which leaves a dark-OS visitor
-  // on the light theme. Recompute here once matchMedia is reliable.
-  if (!stored()) {
-    apply(mq.matches, false);
+  // Re-assert the resolved theme on load. This script is authoritative: an
+  // explicit stored choice always wins, and we fall back to the OS only when
+  // the visitor has not chosen yet. Recomputing here also covers two cases the
+  // inline head snippet can miss: matchMedia evaluating before the OS
+  // color-scheme signal is ready (race seen on some Linux/Chromium setups),
+  // and a stale cached page whose inline snippet predates localStorage support.
+  var saved = stored();
+  if (saved === 'dark' || saved === 'light') {
+    apply(saved === 'dark', false);
   } else {
-    syncLogos();
+    apply(mq.matches, false);
   }
 
   // Follow the OS theme while the visitor has not chosen one explicitly.
