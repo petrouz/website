@@ -130,6 +130,16 @@
 <h2 id="unreleased">[Unreleased]</h2>
 <h3 id="added">Added</h3>
 <ul>
+<li>The functional test suite now asserts the default service state after an
+  install, closing the gap that let the Kea (DHCPv4) "inactive after a
+  reboot" bug ship. <code>smoke-test.sh</code> now checks that the default-on stack
+  (kea-dhcp4-server, unbound, chrony, fail2ban) is enabled at boot and
+  running, that the opt-in daemons (snmpd, ssh) are closed by default
+  (neither enabled nor active), and that the idle daemons survive a restart
+  (the boot transition that exposed the Kea bug). <code>is-enabled</code> checks are
+  hard everywhere; <code>is-active</code>/restart checks are hard on a real appliance
+  and soft in a container. This runs in CI via the existing deb-smoke
+  functional gate (branch and release pipelines).</li>
 <li>The installed appliance now shows the MurOS-branded boot menu, the same
   splash image used by the ISO installer boot menu. The package ships the
   splash at <code>/usr/share/muros/grub-splash.png</code> and the postinst points
@@ -142,6 +152,16 @@
 </ul>
 <h3 id="changed">Changed</h3>
 <ul>
+<li>SNMP is now disabled by default (opt-in) instead of enabled out of the
+  box. It exposes system information and carries a long security track
+  record, so MurOS no longer runs an snmpd daemon unless the admin asks,
+  the same stance already taken for SSH. On a fresh install the postinst
+  stops and disables the stock snmpd that its Debian package auto-starts;
+  <code>SnmpConfig.enabled</code> defaults to <code>False</code>, the seed creates the row
+  disabled, and the service is flagged optional (not default-on) in the
+  monitoring catalog. Enabling SNMP from Observability &gt; SNMP re-enables
+  and starts snmpd with the MurOS drop-in (read-only community, listening
+  restricted to private LANs).</li>
 <li>The download and apt host moved from <code>apt.muros.org</code> to
   <code>download.muros.org</code> (served at the root: <code>deb [...]
   https://download.muros.org stable main</code>, ISO under
