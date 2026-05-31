@@ -145,9 +145,9 @@
             <p class="mt-2 text-sm text-white max-w-xl">Boot it on a machine or a VM, pick your keyboard and the LAN IP, and MurOS installs itself offline. No Linux assembly, no command line.</p>
           </div>
           <div class="shrink-0">
-            <a href="https://apt.muros.org/iso/muros-installer-amd64.iso" class="inline-flex items-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded">Download the ISO (amd64)</a>
+            <a href="https://download.muros.org/iso/muros-installer-amd64.iso" class="inline-flex items-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded">Download the ISO (amd64)</a>
             <div class="mt-2 text-xs text-white">Debian 13 (Trixie) &middot; amd64 &middot; ~2 GB &middot; offline install</div>
-            <div class="mt-1 text-xs text-white">Verify: <a href="https://apt.muros.org/iso/muros-installer-amd64.iso.sha256" class="text-amber-400 hover:underline">SHA-256</a> &middot; <a href="https://apt.muros.org/iso/muros-installer-amd64.iso.asc" class="text-amber-400 hover:underline">GPG signature</a></div>
+            <div class="mt-1 text-xs text-white">Verify: <a href="https://download.muros.org/iso/muros-installer-amd64.iso.sha256" class="text-amber-400 hover:underline">SHA-256</a> &middot; <a href="https://download.muros.org/iso/muros-installer-amd64.iso.asc" class="text-amber-400 hover:underline">GPG signature</a></div>
           </div>
         </div>
         <ol class="mt-6 space-y-1.5 text-sm text-white list-decimal list-inside border-t border-white/10 pt-5">
@@ -167,13 +167,13 @@
       <li>A clean <strong>Debian 13 (Trixie)</strong> install, server profile (no desktop).</li>
       <li>Root access (the install script must run as root).</li>
       <li>At least one network interface reachable from the management subnet.</li>
-      <li>Outbound HTTPS to <code class="bg-slate-100 px-1 rounded">apt.muros.org</code> for the repository and package.</li>
+      <li>Outbound HTTPS to <code class="bg-slate-100 px-1 rounded">download.muros.org</code> for the repository and package.</li>
     </ul>
     <p class="mt-3 text-sm text-slate-900">Other distributions (Ubuntu, Rocky, RHEL) are not supported. MurOS uses Debian-specific drop-in paths.</p>
 
     <h2 id="install" class="mt-10 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">2. Install</h2>
     <p class="mt-3 text-sm text-slate-900">Run as root on the target machine:</p>
-    <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://apt.muros.org/install.sh | sudo bash</code></pre>
+    <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://download.muros.org/install.sh | sudo bash</code></pre>
     <p class="mt-3 text-sm text-slate-900">The script:</p>
     <ol class="mt-2 space-y-1 text-sm text-slate-900 list-decimal list-inside">
       <li>Imports the repository signing key and writes <code class="bg-slate-100 px-1 rounded">/etc/apt/sources.list.d/muros.list</code> (signed-by keyring).</li>
@@ -201,7 +201,7 @@ Password : your existing root password</code></pre>
     </table>
 
     <h2 class="mt-10 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">5. Uninstall</h2>
-    <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://apt.muros.org/uninstall.sh | sudo bash</code></pre>
+    <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://download.muros.org/uninstall.sh | sudo bash</code></pre>
     <p class="mt-3 text-sm text-slate-900">The uninstall script stashes the SQLite DB under <code class="bg-slate-100 px-1 rounded">/var/backups/muros/data-&lt;timestamp&gt;</code> before removing the package. A reinstall restores it automatically.</p>
 
     <h2 class="mt-10 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">6. Where things live</h2>
@@ -223,11 +223,11 @@ Password : your existing root password</code></pre>
 
     <h2 id="other-methods" class="mt-12 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Other install methods</h2>
     <p class="mt-3 text-sm text-slate-900">If you do not want to pipe a remote script into a shell, register the signed repository yourself:</p>
-    <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://apt.muros.org/muros.asc | sudo gpg --dearmor -o /usr/share/keyrings/muros-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/muros-archive-keyring.gpg] https://apt.muros.org stable main" | sudo tee /etc/apt/sources.list.d/muros.list
+    <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://download.muros.org/muros.asc | sudo gpg --dearmor -o /usr/share/keyrings/muros-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/muros-archive-keyring.gpg] https://download.muros.org stable main" | sudo tee /etc/apt/sources.list.d/muros.list
 sudo apt update
 sudo apt install muros</code></pre>
-    <p class="mt-3 text-sm text-slate-900">Browse the repository, signing key and package index at <a href="https://apt.muros.org" class="text-amber-700 font-medium hover:underline">apt.muros.org</a>.</p>
+    <p class="mt-3 text-sm text-slate-900">Browse the repository, signing key and package index at <a href="https://download.muros.org" class="text-amber-700 font-medium hover:underline">download.muros.org</a>.</p>
     <p class="mt-3 text-sm text-slate-900">A plain <code class="bg-slate-100 px-1 rounded">.deb</code> is attached to each <a href="https://github.com/murosorg/muros/releases/latest" class="text-amber-700 hover:underline">GitHub release</a> if you prefer a manual <code class="bg-slate-100 px-1 rounded">apt install ./muros_*_all.deb</code>.</p>
     <p class="mt-5 text-sm font-semibold text-slate-900">Build from source</p>
     <p class="mt-2 text-sm text-slate-900">On a Debian 13 build host:</p>
@@ -238,7 +238,7 @@ ls -la artifacts/</code></pre>
     <p class="mt-3 text-sm text-slate-900">The script vendors the frontend build (via npm) and runs <code class="bg-slate-100 px-1 rounded">dpkg-buildpackage</code>. Output is identical to the GitHub Actions artifact.</p>
 
     <h2 id="releases" class="mt-12 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Releases and files</h2>
-    <p class="mt-3 text-sm text-slate-900">All releases are built by GitHub Actions and published to the signed apt repository at <a href="https://apt.muros.org" class="text-amber-700 hover:underline">apt.muros.org</a>. The individual files stay on the GitHub Releases page.</p>
+    <p class="mt-3 text-sm text-slate-900">All releases are built by GitHub Actions and published to the signed apt repository at <a href="https://download.muros.org" class="text-amber-700 hover:underline">download.muros.org</a>. The individual files stay on the GitHub Releases page.</p>
     <div class="mt-4 border border-slate-200 rounded shadow-card p-6">
       <div class="flex items-baseline justify-between gap-4 flex-wrap">
         <div>
@@ -256,17 +256,17 @@ ls -la artifacts/</code></pre>
           <tr>
             <td class="px-3 py-2 mono">muros-installer-amd64.iso</td>
             <td class="px-3 py-2 hidden sm:table-cell">Installer ISO, offline. Recommended.</td>
-            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/iso/muros-installer-amd64.iso" class="text-amber-700 font-medium hover:underline">Get</a></td>
+            <td class="px-3 py-2 text-right"><a href="https://download.muros.org/iso/muros-installer-amd64.iso" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
             <td class="px-3 py-2 mono">muros-installer-amd64.iso.sha256</td>
             <td class="px-3 py-2 hidden sm:table-cell">SHA-256 sum of the ISO.</td>
-            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/iso/muros-installer-amd64.iso.sha256" class="text-amber-700 font-medium hover:underline">Get</a></td>
+            <td class="px-3 py-2 text-right"><a href="https://download.muros.org/iso/muros-installer-amd64.iso.sha256" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
             <td class="px-3 py-2 mono">muros-installer-amd64.iso.asc</td>
             <td class="px-3 py-2 hidden sm:table-cell">Detached GPG signature of the ISO.</td>
-            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/iso/muros-installer-amd64.iso.asc" class="text-amber-700 font-medium hover:underline">Get</a></td>
+            <td class="px-3 py-2 text-right"><a href="https://download.muros.org/iso/muros-installer-amd64.iso.asc" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
             <td class="px-3 py-2 mono">muros_<i>VERSION</i>_all.deb</td>
@@ -281,12 +281,12 @@ ls -la artifacts/</code></pre>
           <tr>
             <td class="px-3 py-2 mono">install.sh</td>
             <td class="px-3 py-2 hidden sm:table-cell">Registers the apt repository and installs the package.</td>
-            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/install.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
+            <td class="px-3 py-2 text-right"><a href="https://download.muros.org/install.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
           </tr>
           <tr>
             <td class="px-3 py-2 mono">uninstall.sh</td>
             <td class="px-3 py-2 hidden sm:table-cell">Stashes DB, then apt-removes the package.</td>
-            <td class="px-3 py-2 text-right"><a href="https://apt.muros.org/uninstall.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
+            <td class="px-3 py-2 text-right"><a href="https://download.muros.org/uninstall.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
           </tr>
         </tbody>
       </table>

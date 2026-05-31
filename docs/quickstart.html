@@ -143,7 +143,7 @@ comfortable. See the Hardware page for sizing by throughput.</p>
 <hr />
 <h2 id="option-a-the-installer-iso-recommended">Option A: the installer ISO (recommended)</h2>
 <ol>
-<li>Download the ISO from the Install page (or <code>https://apt.muros.org/iso/</code>)
+<li>Download the ISO from the Install page (or <code>https://download.muros.org/iso/</code>)
    and write it to a USB key (<code>dd</code>, Rufus, balenaEtcher), or attach it to a
    VM.</li>
 <li>Boot the machine and pick <strong>Install MurOS</strong>. Choose your keyboard
@@ -165,10 +165,10 @@ from the UI. Your LAN interface is therefore already done; jump to
 <li>A clean Debian 13 (Trixie) install, server profile (no desktop).</li>
 <li>Root access (the install script must run as root).</li>
 <li>At least one network interface reachable from the management subnet.</li>
-<li>Outbound HTTPS to <code>apt.muros.org</code> for the repository and package.</li>
+<li>Outbound HTTPS to <code>download.muros.org</code> for the repository and package.</li>
 </ul>
 <p>Run as root on the target machine:</p>
-<pre><code class="language-bash">curl -fsSL https://apt.muros.org/install.sh | sudo bash
+<pre><code class="language-bash">curl -fsSL https://download.muros.org/install.sh | sudo bash
 </code></pre>
 <p>The script imports the repository signing key, writes
 <code>/etc/apt/sources.list.d/muros.list</code>, removes competing network managers
