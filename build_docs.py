@@ -163,7 +163,7 @@ def shell(title, desc, canonical, jsonld, body):
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="670">
-<meta property="og:image:alt" content="MurOS - turn any Linux into a firewall">
+<meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
