@@ -14,7 +14,6 @@ rsync -az --delete \
   --exclude '.git' \
   --exclude 'node_modules' \
   --exclude 'src' \
-  --exclude '_template.py' \
   --exclude 'build_docs.py' \
   --exclude 'deploy.sh' \
   --exclude 'README.md' \

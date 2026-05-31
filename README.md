@@ -14,7 +14,6 @@ static files; the stylesheet is compiled once with the Tailwind CLI into
 - `src/input.css` - Tailwind entry point and custom CSS
 - `tailwind.config.js` - scans `*.html` and `assets/*.js` for classes
 - `robots.txt`, `sitemap.xml` - SEO
-- `_template.py` - shared header/footer renderer
 
 ## Build the CSS
 
