@@ -187,3 +187,9 @@ html.dark .doc-side a { color: var(--text-muted); }
 html.dark .doc-side a:hover { color: var(--text-strong); background: var(--bg-elev); }
 html.dark .doc-side a.active { color: var(--text-strong); background: var(--accent-soft); border-left-color: var(--accent); }
 html.dark .doc-side .group-title { color: var(--text-faint); }
+
+/* Footer social icons: brand colors, kept visible in dark mode. */
+.ico-gh { color: #181717; }
+.ico-li { color: #0A66C2; }
+html.dark .ico-gh { color: #e6edf3; }
+html.dark .ico-li { color: #4aa3df; }
