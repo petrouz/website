@@ -165,8 +165,8 @@
     <h2 class="text-2xl font-bold text-slate-900">The web UI</h2>
     <p class="mt-2 text-slate-600 max-w-2xl">Every page follows the same pattern: stage in DB, click Apply, kernel push happens. Auto-rollback if the new ruleset breaks reachability.</p>
 
-    <figure class="mt-8" data-tour>
-      <div class="rounded-lg border border-slate-300 shadow-card overflow-hidden bg-white">
+    <figure class="mt-8">
+      <a href="assets/dashboard.png" data-lightbox data-title="MurOS dashboard" class="block rounded-lg border border-slate-300 shadow-card overflow-hidden bg-white">
         <div class="flex items-center gap-2 px-3 py-2 bg-slate-100 border-b border-slate-200">
           <span class="flex gap-1.5 shrink-0">
             <span class="w-3 h-3 rounded-full bg-red-400"></span>
@@ -174,37 +174,12 @@
             <span class="w-3 h-3 rounded-full bg-green-400"></span>
           </span>
           <div class="flex-1 min-w-0 mx-1 px-3 py-1 rounded bg-white border border-slate-200 text-xs text-slate-500 font-mono truncate">
-            <span class="text-slate-400">https://muros.lan</span><span data-tour-url>/</span>
+            <span class="text-slate-400">https://muros.lan</span>/
           </div>
-          <button type="button" data-tour-toggle aria-label="Pause the tour" class="shrink-0 text-slate-400 hover:text-slate-700 text-xs px-1.5 py-0.5 leading-none">&#10074;&#10074;</button>
         </div>
-        <div class="relative aspect-[1600/1000] bg-white">
-          <a data-slide data-url="/" data-title="Dashboard" data-desc="Live system and traffic counters: CPU, memory, conntrack and per-interface throughput, refreshed every 3 seconds." href="assets/ui-01-dashboard.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-100"><img width="1600" height="1000" decoding="async" src="assets/ui-01-dashboard.webp" alt="MurOS - Dashboard" class="w-full h-full object-cover object-top"></a>
-          <a data-slide data-url="/network" data-title="Network interfaces" data-desc="Addressing, link state and per-interface details, all in one place." href="assets/ui-02-network.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none"><img width="1600" height="1000" loading="lazy" decoding="async" src="assets/ui-02-network.webp" alt="MurOS - Network interfaces" class="w-full h-full object-cover object-top"></a>
-          <a data-slide data-url="/firewall/rules" data-title="Filter rules" data-desc="Zone-based rules, evaluated top to bottom, first match wins." href="assets/ui-03-firewall-rules.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none"><img width="1600" height="1000" loading="lazy" decoding="async" src="assets/ui-03-firewall-rules.webp" alt="MurOS - Filter rules" class="w-full h-full object-cover object-top"></a>
-          <a data-slide data-url="/nat" data-title="NAT" data-desc="Source and destination NAT with live packet counters." href="assets/ui-04-nat.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none"><img width="1600" height="1000" loading="lazy" decoding="async" src="assets/ui-04-nat.webp" alt="MurOS - NAT" class="w-full h-full object-cover object-top"></a>
-          <a data-slide data-url="/routes" data-title="Routing" data-desc="Static routes and the live kernel routing table." href="assets/ui-05-routes.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none"><img width="1600" height="1000" loading="lazy" decoding="async" src="assets/ui-05-routes.webp" alt="MurOS - Routing" class="w-full h-full object-cover object-top"></a>
-          <a data-slide data-url="/vpn/wireguard" data-title="WireGuard" data-desc="Peers, keys and tunnel status, generated in a click." href="assets/ui-06-wireguard.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none"><img width="1600" height="1000" loading="lazy" decoding="async" src="assets/ui-06-wireguard.webp" alt="MurOS - WireGuard" class="w-full h-full object-cover object-top"></a>
-          <a data-slide data-url="/ha" data-title="High availability" data-desc="VRRP roles, state sync and automatic failover between two nodes." href="assets/ui-07-ha.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none"><img width="1600" height="1000" loading="lazy" decoding="async" src="assets/ui-07-ha.webp" alt="MurOS - High availability" class="w-full h-full object-cover object-top"></a>
-          <a data-slide data-url="/services/dhcp" data-title="DHCP server" data-desc="Pools, static reservations and active leases." href="assets/ui-08-dhcp.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none"><img width="1600" height="1000" loading="lazy" decoding="async" src="assets/ui-08-dhcp.webp" alt="MurOS - DHCP server" class="w-full h-full object-cover object-top"></a>
-          <a data-slide data-url="/services/dns" data-title="DNS server" data-desc="Recursive resolver and local DNS records." href="assets/ui-09-dns.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none"><img width="1600" height="1000" loading="lazy" decoding="async" src="assets/ui-09-dns.webp" alt="MurOS - DNS server" class="w-full h-full object-cover object-top"></a>
-          <a data-slide data-url="/logs" data-title="Logs" data-desc="Live system and service logs, filtered and searchable." href="assets/ui-10-logs.webp" data-lightbox class="absolute inset-0 transition-opacity duration-700 opacity-0 pointer-events-none"><img width="1600" height="1000" loading="lazy" decoding="async" src="assets/ui-10-logs.webp" alt="MurOS - Logs" class="w-full h-full object-cover object-top"></a>
-          <div class="absolute bottom-0 left-0 h-1 bg-amber-400 transition-[width] duration-150 ease-linear" data-tour-progress style="width:0%"></div>
-        </div>
-      </div>
-      <figcaption class="mt-3 text-sm text-slate-600 text-center"><strong class="text-slate-900" data-tour-title>Dashboard</strong> <span data-tour-desc>Live system and traffic counters: CPU, memory, conntrack and per-interface throughput, refreshed every 3 seconds.</span></figcaption>
-      <div class="mt-3 flex justify-center gap-2" data-tour-dots>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-amber-400" aria-label="Go to slide 1"></button>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-slate-300" aria-label="Go to slide 2"></button>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-slate-300" aria-label="Go to slide 3"></button>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-slate-300" aria-label="Go to slide 4"></button>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-slate-300" aria-label="Go to slide 5"></button>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-slate-300" aria-label="Go to slide 6"></button>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-slate-300" aria-label="Go to slide 7"></button>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-slate-300" aria-label="Go to slide 8"></button>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-slate-300" aria-label="Go to slide 9"></button>
-        <button type="button" data-tour-dot class="w-2 h-2 rounded-full bg-slate-300" aria-label="Go to slide 10"></button>
-      </div>
+        <img width="1856" height="894" decoding="async" fetchpriority="high" src="assets/dashboard.png" alt="MurOS dashboard: live system and traffic counters, with the navigation menu on the left" class="w-full block">
+      </a>
+      <figcaption class="mt-3 text-sm text-slate-600 text-center">The MurOS dashboard: live system and traffic counters, with every feature one click away in the left-hand menu.</figcaption>
     </figure>
 
     <div class="mt-8 text-center">
@@ -261,7 +236,6 @@
 </footer>
 
 <script src="assets/lightbox.js" defer></script>
-<script src="assets/tour.js" defer></script>
 <script src="assets/copy.js" defer></script>
 <script src="assets/version.js" defer></script>
 <script src="assets/theme.js" defer></script>
