@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-05-30"
+      "dateModified": "2026-05-31"
     },
     {
       "@type": "BreadcrumbList",
@@ -146,6 +146,7 @@ the UI propagates down to the kernel.</p>
 /etc/wireguard/wg0.conf                      WireGuard
 /etc/swanctl/conf.d/muros.conf               StrongSwan
 /etc/kea/kea-dhcp4.conf                      DHCP server (Kea)
+/etc/kea/kea-dhcp6.conf                      DHCPv6 server (Kea)
 /etc/unbound/unbound.conf.d/muros.conf       recursive DNS
 /etc/ssh/sshd_config.d/muros.conf            SSH drop-in
 /etc/fail2ban/{filter.d,jail.d}/muros*       fail2ban
@@ -212,6 +213,11 @@ DB by <code>muros-boot.service</code> before <code>network-online.target</code>.
 <td>restart on DHCP Apply</td>
 </tr>
 <tr>
+<td>kea-dhcp6-server</td>
+<td>stateful DHCPv6</td>
+<td>restart on DHCPv6 Apply</td>
+</tr>
+<tr>
 <td>unbound</td>
 <td>recursive DNS</td>
 <td>restart on DNS Apply</td>
@@ -237,6 +243,11 @@ DB by <code>muros-boot.service</code> before <code>network-online.target</code>.
 <td>restart on SNMP Apply</td>
 </tr>
 <tr>
+<td>rsyslog</td>
+<td>remote syslog forwarding</td>
+<td>restart on Remote syslog Apply</td>
+</tr>
+<tr>
 <td>chrony</td>
 <td>NTP (enabled by default)</td>
 <td>restart on Time Apply</td>
@@ -259,11 +270,13 @@ DB by <code>muros-boot.service</code> before <code>network-online.target</code>.
 <p>For read paths, no Apply is needed: the routes hit <code>/proc</code>, <code>nft</code>,
 <code>conntrack</code>, <code>journalctl</code>, <code>ip -j ...</code> directly and stream results.</p>
 <h2 id="database-schema">Database schema</h2>
-<p>SQLite with SQLAlchemy ORM. Schemas live under <code>backend/app/models/</code>.
-The canonical tables: <code>interface</code>, <code>vlan</code>, <code>route</code>, <code>wan_gateway</code>,
-<code>zone</code>, <code>firewall_rule</code>, <code>nat_rule</code>, <code>dhcp_pool</code>, <code>dhcp_static_lease</code>,
-<code>dns_record</code>, <code>wg_peer</code>, <code>ipsec_connection</code>, <code>ipsec_certificate</code>,
-<code>ha_config</code>, <code>user</code>, <code>audit_log</code>, <code>notification_rule</code>.</p>
+<p>SQLite with SQLAlchemy ORM. The models live in <code>backend/app/models.py</code>.
+The main tables: <code>interfaces</code>, <code>static_routes</code>, <code>wan_gateways</code>, <code>zones</code>,
+<code>firewall_rules</code>, <code>nat_rules</code>, <code>service_groups</code>, <code>address_groups</code>,
+<code>dhcp_pools</code>, <code>dhcp6_pools</code>, <code>dns_local_records</code>, <code>qos_shapers</code>,
+<code>qos_classes</code>, <code>dyndns_entry</code>, <code>wireguard_peers</code>, <code>ipsec_connections</code>,
+<code>ipsec_certs</code>, <code>ha_config</code>, <code>syslog_config</code>, <code>snmp_config</code>, <code>ntp_config</code>,
+<code>notification_rules</code>, <code>users</code>, <code>audit_log</code>.</p>
 <h2 id="boot-sequence">Boot sequence</h2>
 <pre><code>systemd-boot
   -&gt; systemd

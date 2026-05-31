@@ -208,7 +208,8 @@ BACKUP takes over the VIP and keeps serving traffic.</p>
 <p>Managed in <strong>Administration &gt; High availability</strong>.</p>
 <h2 id="audit-log">Audit log</h2>
 <p>All UI-driven changes (rule creation, peer deletion, config apply...) are
-logged in <strong>Logs &gt; UI actions</strong>. This lets you trace who did what and when.</p>
+logged in <strong>Observability &gt; Logs</strong>, "Web actions" tab. This lets you trace
+who did what and when.</p>
 <p>Read operations (GET) are not logged to avoid noise (otherwise UI polling
 would saturate the table).</p>
 <h2 id="backups">Backups</h2>
@@ -218,7 +219,7 @@ rules, zones, peers, etc.). Backups can be:
 * Remote via rclone, FTP, or SSH (depending on what is configured)</p>
 <p>A backup is created automatically before every HA sync (so you can roll
 back if the sync breaks something).</p>
-<p>Managed in <strong>Backups</strong>.</p>
+<p>Managed in <strong>Administration &gt; System</strong>, Backups tab.</p>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
         <a href="https://github.com/murosorg/muros/blob/main/docs/concepts.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
