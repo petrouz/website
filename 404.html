@@ -11,7 +11,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/app.css">
-<script>(function(){try{if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.classList.add("dark");}}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem("muros-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark");}}catch(e){}})();</script>
 </head>
 <body class="bg-white text-slate-900 antialiased">
 <a href="#main" class="skip-link">Skip to content</a>
@@ -21,6 +21,7 @@
       <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-11 w-auto">
       <span class="mono text-base font-bold text-amber-700 -ml-2">[BETA]</span>
     </a>
+    <button type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded border border-slate-300 text-slate-600 hover:text-slate-900 hover:bg-slate-50"><svg class="theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><svg class="theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v1M12 21v1M4.22 4.22l.7.7M19.08 19.08l.7.7M2 12h1M21 12h1M4.22 19.78l.7-.7M19.08 4.92l.7-.7"/></svg></button>
   </div>
 </header>
 <main id="main" tabindex="-1" class="max-w-6xl mx-auto px-6 py-24 text-center">

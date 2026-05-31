@@ -43,6 +43,11 @@ html.dark body > footer { background-color: var(--bg); }
   content: ''; display: block; height: 2px; background: #f59e0b; margin-top: 2px;
 }
 
+/* Theme toggle button: show the icon for the action a click performs. */
+.theme-toggle .theme-icon-sun { display: none; }
+html.dark .theme-toggle .theme-icon-moon { display: none; }
+html.dark .theme-toggle .theme-icon-sun { display: block; }
+
 /* Strip the native disclosure triangle from the mobile hamburger trigger. */
 details > summary { list-style: none; }
 details > summary::-webkit-details-marker { display: none; }
@@ -101,10 +106,10 @@ html.dark {
   --bg-sunken: #060c18;
   --border: #1f2a3e;
   --border-strong: #2c3a54;
-  --text-strong: #e7eef7;
-  --text: #cbd6e4;
-  --text-muted: #9fb0c4;
-  --text-faint: #7f8fa3;
+  --text-strong: #ffffff;
+  --text: #ffffff;
+  --text-muted: #cbd5e1;
+  --text-faint: #94a3b8;
   --accent: #fbbf24;
   --accent-soft: rgba(251, 191, 36, 0.12);
   color-scheme: dark;
