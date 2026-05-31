@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-05-30"
+      "dateModified": "2026-05-31"
     },
     {
       "@type": "BreadcrumbList",
@@ -127,8 +127,25 @@
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
 <h2 id="unreleased">[Unreleased]</h2>
-<h2 id="v090-rc107-2026-05-30">[v0.9.0-rc107] - 2026-05-30</h2>
 <h3 id="changed">Changed</h3>
+<ul>
+<li>The NTP (chrony) page now follows the same header layout as every other
+  managed service page: the enable/disable toggle, the live status pill
+  (tri-state dot, active/inactive label and chrony version) and the amber
+  Apply button all sit in the page header. The status state and chrony
+  version are exposed through <code>/api/ntp/status</code>.</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>The DHCPv6 server package (<code>kea-dhcp6-server</code>) was never declared as a
+  dependency, so a fresh install reported "kea-dhcp6 is not installed on
+  this node" on the DHCPv6 page and the feature could not start. Added it
+  to the package <code>Depends</code> alongside <code>kea-dhcp4-server</code>, and the postinst
+  now drops an idle, always-valid <code>/etc/kea/kea-dhcp6.conf</code> and enables
+  <code>kea-dhcp6-server</code> from install, mirroring the DHCPv4 handling.</li>
+</ul>
+<h2 id="v090-rc107-2026-05-30">[v0.9.0-rc107] - 2026-05-30</h2>
+<h3 id="changed_1">Changed</h3>
 <ul>
 <li>Best-effort error handling no longer swallows exceptions silently in the
   WAN routes, the IPsec staging path and the legacy-rule DB migration.
@@ -169,7 +186,7 @@
   DHCPv6) versus OPNsense for the typical SMB deployment.</li>
 </ul>
 <h2 id="v090-rc101-2026-05-30">[v0.9.0-rc101] - 2026-05-30</h2>
-<h3 id="changed_1">Changed</h3>
+<h3 id="changed_2">Changed</h3>
 <ul>
 <li>Removed direct competitor product references (OPNsense, pfSense,
   FortiGate, Cisco) from the shipped software. The user-facing default
@@ -200,7 +217,7 @@
   <code>/api/dyndns</code>, and a pure URL-builder / response-classifier test suite.</li>
 </ul>
 <h2 id="v090-rc94-2026-05-30">[v0.9.0-rc94] - 2026-05-30</h2>
-<h3 id="changed_2">Changed</h3>
+<h3 id="changed_3">Changed</h3>
 <ul>
 <li>CI/release workflows moved to Node 24 native action majors and dropped
   the <code>FORCE_JAVASCRIPT_ACTIONS_TO_NODE24</code> opt-in. Bumped
@@ -226,7 +243,7 @@
   pure rendering/validation test suite.</li>
 </ul>
 <h2 id="v090-rc90-2026-05-30">[v0.9.0-rc90] - 2026-05-30</h2>
-<h3 id="changed_3">Changed</h3>
+<h3 id="changed_4">Changed</h3>
 <ul>
 <li>TLS module: replaced an inline <code>__import__("...hashes").SHA256()</code> hack
   with a normal top-level <code>from cryptography.hazmat.primitives import
@@ -258,7 +275,7 @@
   relies on.</li>
 </ul>
 <h2 id="v090-rc84-2026-05-30">[v0.9.0-rc84] - 2026-05-30</h2>
-<h3 id="changed_4">Changed</h3>
+<h3 id="changed_5">Changed</h3>
 <ul>
 <li>New filter rules are now inserted at the top of their chain (lowest
   position, evaluated first) instead of being appended at the bottom.
@@ -286,7 +303,7 @@
   REST API under <code>/api/qos</code>, and a pure compiler test suite.</li>
 </ul>
 <h2 id="v090-rc82-2026-05-30">[v0.9.0-rc82] - 2026-05-30</h2>
-<h3 id="fixed">Fixed</h3>
+<h3 id="fixed_1">Fixed</h3>
 <ul>
 <li>Rollback confirmation countdown stuck at 0s for any client not on UTC.
   The backend stores naive UTC datetimes and serialized <code>expires_at</code>
@@ -307,14 +324,14 @@
   it was a leftover from a removed concept, silently allowed by an
   <code>as unknown as FirewallRule</code> cast.</li>
 </ul>
-<h3 id="changed_5">Changed</h3>
+<h3 id="changed_6">Changed</h3>
 <ul>
 <li>The synthetic "Default policy" row is now a fully type-checked
   <code>FirewallRule</code> (the unsafe double cast is gone), so any future field
   drift is caught at compile time instead of slipping through.</li>
 </ul>
 <h2 id="v090-rc78-2026-05-30">[v0.9.0-rc78] - 2026-05-30</h2>
-<h3 id="changed_6">Changed</h3>
+<h3 id="changed_7">Changed</h3>
 <ul>
 <li>Filter rule form redesigned around a plain "From -&gt; To" traffic flow.
   Each endpoint is now a single dropdown that can be a zone, "any zone" or
@@ -332,7 +349,7 @@
   (accept on the output chain, drop elsewhere).</li>
 </ul>
 <h2 id="v090-rc77-2026-05-30">[v0.9.0-rc77] - 2026-05-30</h2>
-<h3 id="changed_7">Changed</h3>
+<h3 id="changed_8">Changed</h3>
 <ul>
 <li>Dashboard "Manage updates" now deep-links to the System Updates tab
   (<code>/system/updates</code>) instead of the default General tab.</li>
@@ -341,7 +358,7 @@
   left open (reads cached apt metadata, no <code>apt-get update</code>).</li>
 </ul>
 <h2 id="v090-rc76-2026-05-30">[v0.9.0-rc76] - 2026-05-30</h2>
-<h3 id="fixed_1">Fixed</h3>
+<h3 id="fixed_2">Fixed</h3>
 <ul>
 <li>Firewall rule form: creating a rule from the Input or Output tab no
   longer falls back to the Forward layout. The form opened with two zone
@@ -365,7 +382,7 @@
 <li>Tests for the changelog parser (parsing, version matching, fallback to
   the latest released section, and missing-file handling).</li>
 </ul>
-<h3 id="changed_8">Changed</h3>
+<h3 id="changed_9">Changed</h3>
 <ul>
 <li>Release notes are now rendered with a small built-in formatter (headings
   and bullet lists) instead of raw text, shared between the dashboard
@@ -391,7 +408,7 @@
   updates. The changelog is read from the <code>CHANGELOG.md</code> shipped with the
   package and exposed by <code>GET /api/updates/muros</code> (<code>release_notes</code>).</li>
 </ul>
-<h3 id="changed_9">Changed</h3>
+<h3 id="changed_10">Changed</h3>
 <ul>
 <li>Firewall apply now honors the configurable <code>apply_confirm_timeout</code>
   setting (60s by default) instead of a hardcoded 10s countdown.</li>
@@ -421,7 +438,7 @@
   on a physical interface and serves DHCP on it via Kea, so the UI stays
   reachable from a directly attached laptop without a shell.</li>
 </ul>
-<h3 id="changed_10">Changed</h3>
+<h3 id="changed_11">Changed</h3>
 <ul>
 <li>Installer ISO default credentials are now <strong><code>root</code> / <code>root</code></strong>. The
   password is deliberately AZERTY/QWERTY-safe so the first console login
@@ -430,7 +447,7 @@
   preinstalls <code>kbd</code> and <code>console-setup</code> so <code>loadkeys</code> works at the
   console.</li>
 </ul>
-<h3 id="fixed_2">Fixed</h3>
+<h3 id="fixed_3">Fixed</h3>
 <ul>
 <li>Installer ISO: the unattended install no longer fails with apt exit
   code 100. The preseed now disables the CD-ROM apt source (a lingering
@@ -517,7 +534,7 @@
   other service pages). Disabling stops chrony and keeps it down across
   reboots, after a confirmation prompt.</li>
 </ul>
-<h3 id="changed_11">Changed</h3>
+<h3 id="changed_12">Changed</h3>
 <ul>
 <li>Dashboard service list is now split by install state: services enabled
   out of the box (backend, nginx, fail2ban, SNMP, NTP, DHCP, DNS) sit in
@@ -543,7 +560,7 @@
   a DHCP apply now also refreshes the DNS records.</li>
 </ul>
 <h2 id="v090-rc21-2026-05-30">[v0.9.0-rc21] - 2026-05-30</h2>
-<h3 id="fixed_3">Fixed</h3>
+<h3 id="fixed_4">Fixed</h3>
 <ul>
 <li>Logs: removed the phantom "muros-nft.service" entry from the System
   journal viewer dropdown. There is no such systemd unit (nftables is
@@ -552,7 +569,7 @@
   now realigned with the service catalog.</li>
 </ul>
 <h2 id="v090-rc20-2026-05-30">[v0.9.0-rc20] - 2026-05-30</h2>
-<h3 id="changed_12">Changed</h3>
+<h3 id="changed_13">Changed</h3>
 <ul>
 <li>Frontend: page components are now code-split with React.lazy and loaded
   on demand. The initial JavaScript bundle dropped from ~577 kB to
@@ -562,7 +579,7 @@
   sidebar visible during navigation. No functional change.</li>
 </ul>
 <h2 id="v090-rc19-2026-05-30">[v0.9.0-rc19] - 2026-05-30</h2>
-<h3 id="changed_13">Changed</h3>
+<h3 id="changed_14">Changed</h3>
 <ul>
 <li>Dashboard: removed the redundant "Per-interface traffic" table, which
   duplicated the per-interface "Traffic <iface>" charts already shown in
@@ -572,7 +589,7 @@
   moved to the bottom.</li>
 </ul>
 <h2 id="v090-rc18-2026-05-30">[v0.9.0-rc18] - 2026-05-30</h2>
-<h3 id="changed_14">Changed</h3>
+<h3 id="changed_15">Changed</h3>
 <ul>
 <li>Internal: migrated the Pydantic schemas from the deprecated class-based
   <code>Config</code> to <code>model_config = ConfigDict(...)</code> (removes the Pydantic V2
@@ -580,7 +597,7 @@
   remaining lint findings. No functional change.</li>
 </ul>
 <h2 id="v090-rc17-2026-05-30">[v0.9.0-rc17] - 2026-05-30</h2>
-<h3 id="changed_15">Changed</h3>
+<h3 id="changed_16">Changed</h3>
 <ul>
 <li>Default firewall rules now follow the OPNsense model: the LAN is the
   trusted zone and gets an "allow LAN to firewall" (input) plus an "allow
@@ -591,7 +608,7 @@
   "restrict once configured" comment and can be tightened from the UI.</li>
 </ul>
 <h2 id="v090-rc16-2026-05-30">[v0.9.0-rc16] - 2026-05-30</h2>
-<h3 id="fixed_4">Fixed</h3>
+<h3 id="fixed_5">Fixed</h3>
 <ul>
 <li>The dashboard no longer shows SSH as "disabled by admin". SSH is now
   treated like every other service and simply shows as inactive when it
@@ -618,7 +635,7 @@
   restrictive).</li>
 </ul>
 <h2 id="v090-rc13-2026-05-30">[v0.9.0-rc13] - 2026-05-30</h2>
-<h3 id="fixed_5">Fixed</h3>
+<h3 id="fixed_6">Fixed</h3>
 <ul>
 <li>Login still broken even with python-pam present: python-pam 2.0.2
   imports <code>six</code> at import time but does not declare it as a dependency,
@@ -629,7 +646,7 @@
   real exception so a missing library or dependency is diagnosable.</li>
 </ul>
 <h2 id="v090-rc12-2026-05-30">[v0.9.0-rc12] - 2026-05-30</h2>
-<h3 id="fixed_6">Fixed</h3>
+<h3 id="fixed_7">Fixed</h3>
 <ul>
 <li>Login broken after a reinstall/upgrade ("python-pam is not available").
   The postinst only installed the Python requirements when the venv had
@@ -644,7 +661,7 @@
   the Debian defaults.</li>
 </ul>
 <h2 id="v090-rc11-2026-05-30">[v0.9.0-rc11] - 2026-05-30</h2>
-<h3 id="fixed_7">Fixed</h3>
+<h3 id="fixed_8">Fixed</h3>
 <ul>
 <li>Uninstall no longer leaves the box without working DNS. When "Unbound
   as system resolver" was enabled, <code>/etc/resolv.conf</code> pointed at
@@ -656,7 +673,7 @@
   stuck in that state can still be reinstalled.</li>
 </ul>
 <h2 id="v090-rc10-2026-05-30">[v0.9.0-rc10] - 2026-05-30</h2>
-<h3 id="changed_16">Changed</h3>
+<h3 id="changed_17">Changed</h3>
 <ul>
 <li>The root administrator now keeps its existing system password. MurOS
   no longer resets it to <code>muros</code> at install and no longer forces a change
@@ -666,13 +683,13 @@
 <li>NTP moved to its own Services page (<code>/services/ntp</code>, "NTP server" in the
   sidebar) instead of a tab under System. <code>/system/time</code> redirects there.</li>
 </ul>
-<h3 id="fixed_8">Fixed</h3>
+<h3 id="fixed_9">Fixed</h3>
 <ul>
 <li>Documentation (README, FAQ, quickstart, packaging, site) updated for the
   root account, Kea, chrony and the per-account web UI access model.</li>
 </ul>
 <h2 id="v090-rc9-2026-05-30">[v0.9.0-rc9] - 2026-05-30</h2>
-<h3 id="changed_17">Changed</h3>
+<h3 id="changed_18">Changed</h3>
 <ul>
 <li>Dashboard is now a live view. The summary endpoint is sampled twice
   per second (was every 3s) and the per-interface traffic and history
@@ -726,7 +743,7 @@
   account must be explicitly granted access by root to sign in.</li>
 </ul>
 <h2 id="v090-rc6-2026-05-29">[v0.9.0-rc6] - 2026-05-29</h2>
-<h3 id="changed_18">Changed</h3>
+<h3 id="changed_19">Changed</h3>
 <ul>
 <li>CI runs JavaScript actions on Node 24 (FORCE_JAVASCRIPT_ACTIONS_TO_NODE24)
   ahead of the Node 20 removal on GitHub runners.</li>
@@ -738,7 +755,7 @@
   publishing "latest".</li>
 </ul>
 <h2 id="v090-rc5-2026-05-29">[v0.9.0-rc5] - 2026-05-29</h2>
-<h3 id="changed_19">Changed</h3>
+<h3 id="changed_20">Changed</h3>
 <ul>
 <li>The in-product MurOS updater now goes through apt (apt.muros.org)
   instead of GitHub. The upgrade candidate is read from <code>apt-cache
@@ -764,7 +781,7 @@
   forced command. A git tag now publishes to GitHub and apt at once.</li>
 </ul>
 <h2 id="v090-rc3-2026-05-29">[v0.9.0-rc3] - 2026-05-29</h2>
-<h3 id="changed_20">Changed</h3>
+<h3 id="changed_21">Changed</h3>
 <ul>
 <li>install.sh is now apt-native: it registers the signed apt.muros.org
   repository and runs apt install muros, instead of downloading the .deb
@@ -784,7 +801,7 @@
   apt and unattended-upgrades. A manual setup snippet is documented in
   the README.</li>
 </ul>
-<h3 id="changed_21">Changed</h3>
+<h3 id="changed_22">Changed</h3>
 <ul>
 <li>README positioning made explicit: open source alternative to pfSense
   and OPNsense.</li>
