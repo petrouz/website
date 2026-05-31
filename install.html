@@ -174,13 +174,12 @@
     <h2 id="install" class="mt-10 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">2. Install</h2>
     <p class="mt-3 text-sm text-slate-900">Run as root on the target machine:</p>
     <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://download.muros.org/install.sh | sudo bash</code></pre>
-    <p class="mt-3 text-sm text-slate-900">The script:</p>
+    <p class="mt-3 text-sm text-slate-900">It logs everything to <code class="bg-slate-100 px-1 rounded">/var/log/muros-install.log</code> and runs in four steps:</p>
     <ol class="mt-2 space-y-1 text-sm text-slate-900 list-decimal list-inside">
-      <li>Imports the repository signing key and writes <code class="bg-slate-100 px-1 rounded">/etc/apt/sources.list.d/muros.list</code> (signed-by keyring).</li>
-      <li>Removes competing network managers (NetworkManager, ifupdown, netplan, systemd-resolved, ...) that conflict with the MurOS control plane.</li>
-      <li>Drops a selective <code class="bg-slate-100 px-1 rounded">policy-rc.d</code> so feature daemons (Kea, unbound, etc.) do not auto-start during package configure.</li>
-      <li>Runs <code class="bg-slate-100 px-1 rounded">apt-get install muros</code> from the repository.</li>
-      <li>Enables <code class="bg-slate-100 px-1 rounded">muros-backend</code>, <code class="bg-slate-100 px-1 rounded">nginx</code> and <code class="bg-slate-100 px-1 rounded">muros-boot</code>.</li>
+      <li>Prepares apt: repairs a loopback-only <code class="bg-slate-100 px-1 rounded">/etc/resolv.conf</code> left by a previous install, disables any leftover CD-ROM apt source, clears a half-configured dpkg state, then installs <code class="bg-slate-100 px-1 rounded">curl</code>, <code class="bg-slate-100 px-1 rounded">ca-certificates</code> and <code class="bg-slate-100 px-1 rounded">gnupg</code>.</li>
+      <li>Imports the repository signing key into <code class="bg-slate-100 px-1 rounded">/usr/share/keyrings/muros-archive-keyring.gpg</code> and writes <code class="bg-slate-100 px-1 rounded">/etc/apt/sources.list.d/muros.list</code> (signed-by keyring).</li>
+      <li>Removes competing network managers (NetworkManager, ifupdown, resolvconf, netplan, dhcpcd, isc-dhcp-client, systemd-resolved, connman) that conflict with the MurOS control plane.</li>
+      <li>Installs the <code class="bg-slate-100 px-1 rounded">muros</code> package, restoring a data snapshot if a previous uninstall stashed one. A selective <code class="bg-slate-100 px-1 rounded">policy-rc.d</code> keeps per-site feature daemons (Kea, Unbound, VPN, HA) from auto-starting during configure; the package then brings up the core services and the always-on stack, and leaves config-required daemons inactive until you enable them from the UI.</li>
     </ol>
     <p class="mt-3 text-sm text-slate-900">Later upgrades flow through apt: <code class="bg-slate-100 px-1 rounded">apt update &amp;&amp; apt install --only-upgrade muros</code>.</p>
 

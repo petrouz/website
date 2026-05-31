@@ -170,11 +170,13 @@ from the UI. Your LAN interface is therefore already done; jump to
 <p>Run as root on the target machine:</p>
 <pre><code class="language-bash">curl -fsSL https://download.muros.org/install.sh | sudo bash
 </code></pre>
-<p>The script imports the repository signing key, writes
+<p>The script prepares apt (repairs a loopback-only <code>/etc/resolv.conf</code>,
+disables any leftover CD-ROM apt source, clears a half-configured dpkg state),
+imports the repository signing key, writes
 <code>/etc/apt/sources.list.d/muros.list</code>, removes competing network managers
-(NetworkManager, ifupdown, netplan, systemd-resolved) that conflict with
-the MurOS control plane, installs the <code>muros</code> package and enables
-<code>muros-backend</code>, <code>nginx</code> and <code>muros-boot</code>. At the end it prints something
+(NetworkManager, ifupdown, netplan, dhcpcd, systemd-resolved) that conflict with
+the MurOS control plane, then installs the <code>muros</code> package. Per-site feature
+daemons stay dormant until you enable them from the UI. At the end it prints something
 like:</p>
 <pre><code>MurOS installed.
 
