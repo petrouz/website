@@ -127,6 +127,15 @@
 <h1 id="changelog">Changelog</h1>
 <p>Format: <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.</p>
 <h2 id="unreleased">[Unreleased]</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>The installed appliance now shows the MurOS-branded boot menu, the same
+  splash image used by the ISO installer boot menu. The package ships the
+  splash at <code>/usr/share/muros/grub-splash.png</code> and the postinst points
+  <code>GRUB_BACKGROUND</code> at it through <code>/etc/default/grub.d/99-muros.cfg</code>, then
+  runs <code>update-grub</code>. The snippet is removed and the stock menu restored on
+  purge. Grub-less systems (containers) are skipped.</li>
+</ul>
 <h3 id="changed">Changed</h3>
 <ul>
 <li>The NTP (chrony) page now follows the same header layout as every other
@@ -184,7 +193,7 @@
   module to English, in line with the English-only repository policy.</li>
 </ul>
 <h2 id="v090-rc105-2026-05-30">[v0.9.0-rc105] - 2026-05-30</h2>
-<h3 id="added">Added</h3>
+<h3 id="added_1">Added</h3>
 <ul>
 <li>End-to-end integration test <code>packaging/tests/integration-services.sh</code>.
   Run on a real Debian 13 VM (backend with <code>MUROS_APPLY=1</code>), it logs into
@@ -196,7 +205,7 @@
   <code>smoke-test.sh</code> with live apply-path coverage.</li>
 </ul>
 <h2 id="v090-rc103-2026-05-30">[v0.9.0-rc103] - 2026-05-30</h2>
-<h3 id="added_1">Added</h3>
+<h3 id="added_2">Added</h3>
 <ul>
 <li>Stateful DHCPv6 server. A new "DHCPv6 server" page (Services section)
   hands out IPv6 addresses from a per-interface pool using ISC Kea
@@ -228,7 +237,7 @@
   passwords), and README positioning is unchanged.</li>
 </ul>
 <h2 id="v090-rc96-2026-05-30">[v0.9.0-rc96] - 2026-05-30</h2>
-<h3 id="added_2">Added</h3>
+<h3 id="added_3">Added</h3>
 <ul>
 <li>Dynamic DNS client. A new "Dynamic DNS" page (Network section) keeps
   one or more hostnames pointed at the firewall public IP, so VPN
@@ -255,7 +264,7 @@
   the Node 20 runtime. No input changes for the options we use.</li>
 </ul>
 <h2 id="v090-rc93-2026-05-30">[v0.9.0-rc93] - 2026-05-30</h2>
-<h3 id="added_3">Added</h3>
+<h3 id="added_4">Added</h3>
 <ul>
 <li>Remote syslog forwarding. A new "Remote syslog" page (Observability
   section) ships every journald/syslog message to a central syslog
@@ -292,7 +301,7 @@
   them drops unreachable code without any behaviour change.</li>
 </ul>
 <h2 id="v090-rc86-2026-05-30">[v0.9.0-rc86] - 2026-05-30</h2>
-<h3 id="added_4">Added</h3>
+<h3 id="added_5">Added</h3>
 <ul>
 <li>Regression tests for the compiler chain/zone match clause
   (<code>test_compiler_zones.py</code>): forward matches both interfaces, input keeps
@@ -313,7 +322,7 @@
   can still be refined with drag-and-drop.</li>
 </ul>
 <h2 id="v090-rc83-2026-05-30">[v0.9.0-rc83] - 2026-05-30</h2>
-<h3 id="added_5">Added</h3>
+<h3 id="added_6">Added</h3>
 <ul>
 <li>QoS / traffic shaping. A new "QoS / Shaping" page (Network section)
   caps and prioritises egress bandwidth per interface using the kernel's
@@ -404,7 +413,7 @@
   filter also matches the source port and the chain name.</li>
 </ul>
 <h2 id="v090-rc74-2026-05-30">[v0.9.0-rc74] - 2026-05-30</h2>
-<h3 id="added_6">Added</h3>
+<h3 id="added_7">Added</h3>
 <ul>
 <li>Tests for the changelog parser (parsing, version matching, fallback to
   the latest released section, and missing-file handling).</li>
@@ -416,7 +425,7 @@
   version card and the System updates page.</li>
 </ul>
 <h2 id="v090-rc70-2026-05-30">[v0.9.0-rc70] - 2026-05-30</h2>
-<h3 id="added_7">Added</h3>
+<h3 id="added_8">Added</h3>
 <ul>
 <li>Management-lockout guard on firewall applies. Before applying, MurOS
   statically evaluates the input chain against a new connection from the
@@ -454,7 +463,7 @@
   <code>ipsec.py</code>, audit labels and API messages).</li>
 </ul>
 <h2 id="v090-rc53-2026-05-30">[v0.9.0-rc53] - 2026-05-30</h2>
-<h3 id="added_8">Added</h3>
+<h3 id="added_9">Added</h3>
 <ul>
 <li>System settings page (hostname, timezone, locale, console keymap),
   applied live and persisted through systemd (hostnamectl / timedatectl /
@@ -484,7 +493,7 @@
   pinned to an outdated version, and the hybrid ISO repack was fixed.</li>
 </ul>
 <h2 id="v090-rc30-2026-05-30">[v0.9.0-rc30] - 2026-05-30</h2>
-<h3 id="added_9">Added</h3>
+<h3 id="added_10">Added</h3>
 <ul>
 <li>IPv6 Router Advertisements / SLAAC (lot 2 of IPv6 support). MurOS can now
   act as the IPv6 router for a LAN interface via radvd: it advertises a /64
@@ -498,7 +507,7 @@
   enabled automatically when RA is on. New /api/ipv6/ra endpoints.</li>
 </ul>
 <h2 id="v090-rc28-2026-05-30">[v0.9.0-rc28] - 2026-05-30</h2>
-<h3 id="added_10">Added</h3>
+<h3 id="added_11">Added</h3>
 <ul>
 <li>CI regression coverage for the per-service config generators. The
   backend pytest job now exercises the rendering path of WireGuard (VPN),
@@ -512,7 +521,7 @@
   Unbound access-control plus defensive allowlist.</li>
 </ul>
 <h2 id="v090-rc29-2026-05-30">[v0.9.0-rc29] - 2026-05-30</h2>
-<h3 id="added_11">Added</h3>
+<h3 id="added_12">Added</h3>
 <ul>
 <li>Unattended installer ISO builder (<code>packaging/iso/</code>). <code>build-iso.sh</code>
   turns a stock Debian 13 (trixie) netinst image into a fully automated
@@ -527,7 +536,7 @@
   <code>MUROS_ROOT_PASSWORD</code>; see <code>packaging/iso/README.md</code>.</li>
 </ul>
 <h2 id="v090-rc27-2026-05-30">[v0.9.0-rc27] - 2026-05-30</h2>
-<h3 id="added_12">Added</h3>
+<h3 id="added_13">Added</h3>
 <ul>
 <li>IPv6 firewall filtering (lot 1 of IPv6 support). Address-based rules are
   now family-aware: the compiler emits <code>ip saddr/daddr</code> for IPv4 values
@@ -540,7 +549,7 @@
   skipped IPv6 traffic, which the drop policy then blackholed.</li>
 </ul>
 <h2 id="v090-rc25-2026-05-30">[v0.9.0-rc25] - 2026-05-30</h2>
-<h3 id="added_13">Added</h3>
+<h3 id="added_14">Added</h3>
 <ul>
 <li>First-boot setup wizard. Until the operator assigns the network
   interfaces, the UI redirects to a one-step wizard that asks which NIC is
@@ -554,7 +563,7 @@
   wizard. New /api/setup/state and /api/setup/apply endpoints.</li>
 </ul>
 <h2 id="v090-rc24-2026-05-30">[v0.9.0-rc24] - 2026-05-30</h2>
-<h3 id="added_14">Added</h3>
+<h3 id="added_15">Added</h3>
 <ul>
 <li>NTP (chrony) now appears on the dashboard service list, and can be
   turned on or off from a master enable toggle on the NTP page (like the
@@ -569,7 +578,7 @@
   on the right, instead of an arbitrary half/half split.</li>
 </ul>
 <h2 id="v090-rc22-2026-05-30">[v0.9.0-rc22] - 2026-05-30</h2>
-<h3 id="added_15">Added</h3>
+<h3 id="added_16">Added</h3>
 <ul>
 <li>Two-factor authentication (TOTP, RFC 6238) for the web UI login. When
   enabled on an account, the password step returns a short-lived token
@@ -643,7 +652,7 @@
   back on manually from the SSH page toggle.</li>
 </ul>
 <h2 id="v090-rc15-2026-05-30">[v0.9.0-rc15] - 2026-05-30</h2>
-<h3 id="added_16">Added</h3>
+<h3 id="added_17">Added</h3>
 <ul>
 <li>NTP server mode (chrony) for the LAN, enabled by default. chrony now
   emits an <code>allow &lt;subnet&gt;</code> directive for every LAN-side network (every
@@ -743,7 +752,7 @@
   fail2ban). Services that need a per-site configuration (HA, VPN) stay
   disabled until enabled from the UI.</li>
 </ul>
-<h3 id="added_17">Added</h3>
+<h3 id="added_18">Added</h3>
 <ul>
 <li>Access &gt; Users page (administrators only). The web UI and SSH share the
   PAM stack, so any Linux account could authenticate; this page controls
@@ -801,7 +810,7 @@
   (_fetch_latest_release, HTML 302 fallback, .deb download/sha256).</li>
 </ul>
 <h2 id="v090-rc4-2026-05-29">[v0.9.0-rc4] - 2026-05-29</h2>
-<h3 id="added_18">Added</h3>
+<h3 id="added_19">Added</h3>
 <ul>
 <li>CI auto-publishes every release to apt.muros.org (publish-apt job in
   build-deb.yml) through a deploy key locked server-side to a single
@@ -821,7 +830,7 @@
   tolerated.</li>
 </ul>
 <h2 id="v090-rc2-2026-05-29">[v0.9.0-rc2] - 2026-05-29</h2>
-<h3 id="added_19">Added</h3>
+<h3 id="added_20">Added</h3>
 <ul>
 <li>Signed apt repository at https://apt.muros.org. The installer now
   registers the repository and its signing key, so upgrades flow through
