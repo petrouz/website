@@ -126,7 +126,7 @@ html.dark .bg-slate-900 { background-color: var(--bg-sunken); }
 /* The "installer ISO" card is a dark navy panel on light pages; in dark mode
    that sinks into the background, so lift it onto the elevated grey surface
    with a hairline border, the way the header reads on light pages. */
-html.dark .iso-card { background-color: var(--bg-elev); border: 1px solid var(--border); }
+html.dark .iso-card { background-color: #334155; border: 1px solid var(--border); }
 html.dark .hover\:bg-slate-50:hover { background-color: var(--bg-elev); }
 html.dark .hover\:bg-slate-800:hover { background-color: #1d2840; }
 html.dark .bg-amber-50 { background-color: var(--accent-soft); }
@@ -168,6 +168,21 @@ html.dark .nav-link.active { color: var(--text-strong); }
 .theme-toggle .theme-label-light { display: none; }
 html.dark .theme-toggle .theme-label-dark { display: none; }
 html.dark .theme-toggle .theme-label-light { display: inline; }
+
+/* Header toggle: filled in the opposite colour of the active theme, so it
+   reads dark on light pages and light on dark pages. */
+.theme-toggle-pill {
+  background-color: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+}
+.theme-toggle-pill:hover { background-color: #1e293b; border-color: #1e293b; }
+html.dark .theme-toggle-pill {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #0f172a;
+}
+html.dark .theme-toggle-pill:hover { background-color: #e2e8f0; border-color: #e2e8f0; }
 
 /* Documentation pages. */
 html.dark .doc-prose { color: var(--text); }
