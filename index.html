@@ -118,7 +118,7 @@
         <p class="mt-4 text-base lg:text-lg text-slate-600 leading-relaxed">An open source firewall appliance on Debian 13, managed entirely from a web UI. Stateful filtering, NAT, routing, VPN and high availability, all native in the core. The capabilities of pfSense, OPNsense or FortiGate, free, on any hardware Linux runs on.</p>
 
         <div class="mt-6 flex flex-col sm:flex-row gap-3">
-          <a href="install.html" class="inline-flex items-center justify-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-medium rounded">Install guide</a>
+          <a href="install.html" class="inline-flex items-center justify-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded">Download the ISO</a>
           <a href="https://github.com/murosorg/muros" class="inline-flex items-center justify-center px-5 py-3 border border-slate-300 text-slate-900 font-medium rounded hover:bg-slate-50">View on GitHub</a>
         </div>
 
@@ -134,15 +134,8 @@
       </div>
     </div>
 
-    <div class="mt-12">
-      <div class="text-xs font-medium text-slate-500 mb-1.5">Install on a fresh Debian 13:</div>
-      <div class="relative group">
-        <pre class="bg-slate-900 text-slate-100 rounded px-4 py-3 pr-24 text-sm mono leading-relaxed overflow-x-auto"><code id="install-cmd">curl -fsSL https://apt.muros.org/install.sh | sudo bash</code></pre>
-        <button type="button" data-copy="#install-cmd" class="absolute top-1.5 right-1.5 inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700">
-          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span class="copy-label">Copy</span>
-        </button>
-      </div>
+    <div class="mt-10 text-sm text-slate-500">
+      Write the installer ISO to a USB key or a VM, boot it, and pick your keyboard and LAN IP. Already on Debian 13? <a href="install.html#debian-install" class="text-amber-700 hover:underline font-medium">Install the package instead</a>.
     </div>
 
     <h2 class="sr-only">What MurOS gives you</h2>
