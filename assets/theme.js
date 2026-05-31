@@ -1,24 +1,15 @@
 // MurOS site theme handling.
 //
-// The inline snippet in each page <head> sets the initial `dark` class on
-// <html> before first paint (no flash). This script wires the toggle
-// buttons, keeps the logo variant in sync, and keeps following the system
-// preference until the visitor makes an explicit choice.
+// The site follows the operating system colour scheme; there is no manual
+// toggle. The inline snippet in each page <head> sets the initial `dark` class
+// on <html> before first paint (no flash). This script keeps the logo variant
+// in sync and re-applies the resolved theme when the OS preference changes.
 (function () {
   var root = document.documentElement;
-  var KEY = 'muros-theme';
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
 
   function isDark() {
     return root.classList.contains('dark');
-  }
-
-  function stored() {
-    try {
-      return localStorage.getItem(KEY);
-    } catch (e) {
-      return null;
-    }
   }
 
   // The wordmark ships in two files: logo-dark.svg (dark ink, light pages)
@@ -37,37 +28,18 @@
     }
   }
 
-  function apply(dark, persist) {
+  function apply(dark) {
     root.classList.toggle('dark', dark);
-    if (persist) {
-      try {
-        localStorage.setItem(KEY, dark ? 'dark' : 'light');
-      } catch (e) {}
-    }
     syncLogos();
   }
 
-  // Re-assert the resolved theme on load. The inline head snippet can
-  // evaluate matchMedia before the OS color-scheme signal is ready (race
-  // observed on some Linux/Chromium setups), which leaves a dark-OS visitor
-  // on the light theme. Recompute here once matchMedia is reliable.
-  if (!stored()) {
-    apply(mq.matches, false);
-  } else {
-    syncLogos();
-  }
+  // Re-assert the resolved theme on load: the inline head snippet can evaluate
+  // matchMedia before the OS colour-scheme signal is ready (race seen on some
+  // Linux/Chromium setups), leaving a dark-OS visitor on the light theme.
+  apply(mq.matches);
 
-  // Follow the OS theme while the visitor has not chosen one explicitly.
+  // Follow the OS theme as it changes.
   mq.addEventListener('change', function (e) {
-    if (!stored()) {
-      apply(e.matches, false);
-    }
-  });
-
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest && e.target.closest('[data-theme-toggle]');
-    if (btn) {
-      apply(!isDark(), true);
-    }
+    apply(e.matches);
   });
 })();

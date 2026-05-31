@@ -11,7 +11,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/app.css">
-<script>(function(){try{var t=localStorage.getItem("muros-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark");}}catch(e){}})();</script>
+<script>(function(){try{if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.classList.add("dark");}}catch(e){}})();</script>
 </head>
 <body class="bg-white text-slate-900 antialiased">
 <a href="#main" class="skip-link">Skip to content</a>
@@ -21,7 +21,6 @@
       <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-11 w-auto">
       <span class="mono text-base font-bold text-amber-700 -ml-2">[BETA]</span>
     </a>
-    <button type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme" class="theme-toggle theme-toggle-pill inline-flex items-center justify-center h-8 px-3 rounded border text-sm font-medium"><span class="theme-label-dark">Dark</span><span class="theme-label-light">Light</span></button>
   </div>
 </header>
 <main id="main" tabindex="-1" class="max-w-6xl mx-auto px-6 py-24 text-center">
