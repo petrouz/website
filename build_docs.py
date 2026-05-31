@@ -76,7 +76,7 @@ THEME_HEAD = ('<script>(function(){try{var t=localStorage.getItem("muros-theme")
     'if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){'
     'document.documentElement.classList.add("dark");}}catch(e){}})();</script>')
 
-NAV = [('why', 'Why MurOS'), ('features', 'Features'), ('install', 'Install'),
+NAV = [('why', 'Why MurOS'), ('features', 'Features'),
        ('docs', 'Docs')]
 
 
@@ -97,12 +97,14 @@ def header(active='docs'):
     </a>
     <nav class="hidden md:flex items-center gap-6 text-sm text-slate-600">
       {' '.join(inline)}
-      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+      <a href="/install.html" class="inline-flex items-center bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-3 py-1 rounded">Install</a>
+      <a href="https://github.com/murosorg/muros" class="inline-flex items-center bg-slate-900 hover:bg-slate-800 text-white font-medium px-3 py-1 rounded">GitHub</a>
       {THEME_TOGGLE_DESKTOP}
     </nav>
     <details class="md:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu">{HAMBURGER}</summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
       {' '.join(mobile)}
-      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+      <a href="/install.html" class="px-4 py-2 mt-1 mx-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded text-center">Install</a>
+      <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded text-center">GitHub</a>
       {THEME_TOGGLE_MOBILE}
     </div></details>
   </div>

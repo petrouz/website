@@ -41,7 +41,6 @@ THEME_HEAD = ('<script>(function(){try{var t=localStorage.getItem("muros-theme")
 
 NAV = [
     ('features', 'Features'),
-    ('install',  'Install'),
     ('docs',     'Docs'),
 ]
 
@@ -109,7 +108,8 @@ def render(spec: dict) -> str:
     </a>
     <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-600">
       {inline_nav}
-      <a href="https://github.com/murosorg/muros" class="text-slate-900 font-medium border border-slate-300 px-3 py-1 rounded hover:bg-slate-50">GitHub</a>
+      <a href="install.html" class="inline-flex items-center bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-3 py-1 rounded">Install</a>
+      <a href="https://github.com/murosorg/muros" class="inline-flex items-center bg-slate-900 hover:bg-slate-800 text-white font-medium px-3 py-1 rounded">GitHub</a>
       {THEME_TOGGLE_DESKTOP}
     </nav>
     <details class="sm:hidden relative">
@@ -118,7 +118,8 @@ def render(spec: dict) -> str:
       </summary>
       <div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
         {mobile_nav}
-        <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 text-slate-900 font-medium border border-slate-300 rounded text-center hover:bg-slate-50">GitHub</a>
+        <a href="install.html" class="px-4 py-2 mt-1 mx-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded text-center">Install</a>
+        <a href="https://github.com/murosorg/muros" class="px-4 py-2 mt-1 mx-3 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded text-center">GitHub</a>
         {THEME_TOGGLE_MOBILE}
       </div>
     </details>
