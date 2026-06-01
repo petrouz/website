@@ -130,6 +130,56 @@
 <h2 id="unreleased">[Unreleased]</h2>
 <h3 id="added">Added</h3>
 <ul>
+<li>CI now validates the generated Kea and Unbound configs against each
+  daemon's own offline checker. A new <code>configs</code> job renders a representative
+  DHCPv4, DHCPv6 and recursive-DNS configuration via
+  <code>backend/tools/gen_sample_configs.py</code> and feeds them to <code>kea-dhcp4 -t</code>,
+  <code>kea-dhcp6 -t</code> and <code>unbound-checkconf</code>. Like the nftables check, the
+  renderers are an apply-time path the unit tests only cover with substring
+  assertions, so a malformed config that would keep the daemon from starting
+  is now caught in CI.</li>
+<li>CI now validates the generated nftables ruleset against the real <code>nft</code>
+  parser. A new <code>nft</code> job builds a deliberately exhaustive firewall
+  configuration (multi-family rules, nested address/service groups,
+  negation, port sets and ranges, accept and drop rate limits, every NAT
+  mode including reflection and the optional auto forward-accept, the
+  WireGuard auto rules, policy-based routing, martian drops and quoted
+  VLAN/bridge interface names) via <code>backend/tools/gen_sample_ruleset.py</code>
+  and feeds the output to <code>nft -c -f</code> (a full parse + evaluate dry-run).
+  The compiler is the security-critical path: a malformed ruleset bricks
+  the firewall on apply, and the unit tests only assert substrings, so this
+  catches a syntax or semantics regression before it reaches a box.</li>
+<li>Browser end-to-end tests (Playwright) now gate the web UI in CI. A new
+  <code>e2e</code> workflow builds the .deb, installs it on a systemd Debian 13
+  container, publishes the HTTPS port and drives Chromium against the live
+  appliance: it logs in through the real UI, then opens every operator page
+  (dashboard, firewall rules, NAT, interfaces, routing, WAN, QoS, DHCP/v6,
+  DNS, NTP, VPN, HA, SNMP, SSH, diagnostics, system, HTTP access, users) and
+  asserts each one stays authenticated, renders its header and raises no
+  uncaught JavaScript error. This closes the gap where nothing exercised the
+  browser UI: the backend and functional suites covered the API and the
+  applied config, but a broken render or a bad data binding could ship
+  unnoticed. Tests live in <code>frontend/e2e</code>; run locally with
+  <code>BASE_URL=... MUROS_PASS=... npm run e2e</code> from <code>frontend</code>. Beyond the
+  per-page smoke, an interaction test drives a full create-verify-delete
+  lifecycle of a firewall zone through the UI (creation modal, form submit,
+  table refresh, and the type-to-confirm destructive delete), exercising the
+  write path and the confirm modals rather than just rendering.</li>
+<li>The DNAT auto forward-accept is now optional. A new "Add the forward rule
+  automatically" switch on each port-forward (default on, akin to pfSense's
+  "add associated filter rule") lets an operator opt out and manage the
+  forward rule by hand in Filter rules. When off, the compiler emits the
+  DNAT without the auto forward accept (<code>auto_forward</code> column on
+  <code>nat_rules</code>, additive migration defaulting to on).</li>
+<li>Publishing a port (DNAT) now works on its own. A DNAT only rewrites the
+  destination in prerouting; the packet then crosses the default-drop
+  forward chain, so without a matching forward rule the published service
+  was silently unreachable, a classic footgun for an appliance driven from
+  the UI without a shell. MurOS now auto-emits a tightly scoped forward
+  accept for every enabled DNAT (translated internal host + translated
+  port + protocol), injected ahead of the user forward rules like the
+  WireGuard auto rules. It opens exactly the published service, nothing
+  more.</li>
 <li>The functional test suite now asserts the default service state after an
   install, closing the gap that let the Kea (DHCPv4) "inactive after a
   reboot" bug ship. <code>smoke-test.sh</code> now checks that the default-on stack
@@ -177,8 +227,35 @@
   Apply button all sit in the page header. The status state and chrony
   version are exposed through <code>/api/ntp/status</code>.</li>
 </ul>
+<h3 id="added_1">Added</h3>
+<ul>
+<li>Publishing a port (DNAT) now works on its own. A DNAT only rewrites the
+  destination in prerouting; the packet then crosses the default-drop
+  forward chain, so without a matching forward rule the published service
+  was silently unreachable, a classic footgun for an appliance driven from
+  the UI without a shell. MurOS now auto-emits a tightly scoped forward
+  accept for every enabled DNAT (translated internal host + translated
+  port + protocol), injected ahead of the user forward rules like the
+  WireGuard auto rules. It opens exactly the published service, nothing
+  more.</li>
+</ul>
 <h3 id="fixed">Fixed</h3>
 <ul>
+<li>A rate limit on a drop/reject rule now sheds the excess instead of the
+  normal traffic. The rule emitted a plain <code>limit rate</code>, which matches
+  packets UNDER the threshold, so a rate-limited drop rule dropped only the
+  under-limit traffic and let the flood through, the exact opposite of the
+  intent. Drop/reject rules now emit <code>limit rate over ...</code> (match and drop
+  the excess), while accept rules keep matching under the limit (accept up
+  to the rate, the excess falls through to the default-drop policy).</li>
+<li>NAT reflection (hairpin) no longer hides the real client IP from the
+  published backend. The hairpin masquerade added for a reflected DNAT had
+  no source restriction, so it also rewrote the source of internet clients
+  reaching the published service, making every external client appear as
+  the firewall. The masquerade is now scoped to private (RFC1918) LAN
+  sources, which is all hairpin needs; external flows keep their real
+  source address (conntrack already routes their replies back through the
+  firewall).</li>
 <li>On a fresh install the DHCP server page showed the toggle as "Disabled"
   while the service pill read "active". The Kea daemon is intentionally kept
   running at all times (idle, serving nothing until a pool is defined), but
@@ -245,7 +322,7 @@
   module to English, in line with the English-only repository policy.</li>
 </ul>
 <h2 id="v090-rc105-2026-05-30">[v0.9.0-rc105] - 2026-05-30</h2>
-<h3 id="added_1">Added</h3>
+<h3 id="added_2">Added</h3>
 <ul>
 <li>End-to-end integration test <code>packaging/tests/integration-services.sh</code>.
   Run on a real Debian 13 VM (backend with <code>MUROS_APPLY=1</code>), it logs into
@@ -257,7 +334,7 @@
   <code>smoke-test.sh</code> with live apply-path coverage.</li>
 </ul>
 <h2 id="v090-rc103-2026-05-30">[v0.9.0-rc103] - 2026-05-30</h2>
-<h3 id="added_2">Added</h3>
+<h3 id="added_3">Added</h3>
 <ul>
 <li>Stateful DHCPv6 server. A new "DHCPv6 server" page (Services section)
   hands out IPv6 addresses from a per-interface pool using ISC Kea
@@ -289,7 +366,7 @@
   passwords), and README positioning is unchanged.</li>
 </ul>
 <h2 id="v090-rc96-2026-05-30">[v0.9.0-rc96] - 2026-05-30</h2>
-<h3 id="added_3">Added</h3>
+<h3 id="added_4">Added</h3>
 <ul>
 <li>Dynamic DNS client. A new "Dynamic DNS" page (Network section) keeps
   one or more hostnames pointed at the firewall public IP, so VPN
@@ -316,7 +393,7 @@
   the Node 20 runtime. No input changes for the options we use.</li>
 </ul>
 <h2 id="v090-rc93-2026-05-30">[v0.9.0-rc93] - 2026-05-30</h2>
-<h3 id="added_4">Added</h3>
+<h3 id="added_5">Added</h3>
 <ul>
 <li>Remote syslog forwarding. A new "Remote syslog" page (Observability
   section) ships every journald/syslog message to a central syslog
@@ -353,7 +430,7 @@
   them drops unreachable code without any behaviour change.</li>
 </ul>
 <h2 id="v090-rc86-2026-05-30">[v0.9.0-rc86] - 2026-05-30</h2>
-<h3 id="added_5">Added</h3>
+<h3 id="added_6">Added</h3>
 <ul>
 <li>Regression tests for the compiler chain/zone match clause
   (<code>test_compiler_zones.py</code>): forward matches both interfaces, input keeps
@@ -374,7 +451,7 @@
   can still be refined with drag-and-drop.</li>
 </ul>
 <h2 id="v090-rc83-2026-05-30">[v0.9.0-rc83] - 2026-05-30</h2>
-<h3 id="added_6">Added</h3>
+<h3 id="added_7">Added</h3>
 <ul>
 <li>QoS / traffic shaping. A new "QoS / Shaping" page (Network section)
   caps and prioritises egress bandwidth per interface using the kernel's
@@ -465,7 +542,7 @@
   filter also matches the source port and the chain name.</li>
 </ul>
 <h2 id="v090-rc74-2026-05-30">[v0.9.0-rc74] - 2026-05-30</h2>
-<h3 id="added_7">Added</h3>
+<h3 id="added_8">Added</h3>
 <ul>
 <li>Tests for the changelog parser (parsing, version matching, fallback to
   the latest released section, and missing-file handling).</li>
@@ -477,7 +554,7 @@
   version card and the System updates page.</li>
 </ul>
 <h2 id="v090-rc70-2026-05-30">[v0.9.0-rc70] - 2026-05-30</h2>
-<h3 id="added_8">Added</h3>
+<h3 id="added_9">Added</h3>
 <ul>
 <li>Management-lockout guard on firewall applies. Before applying, MurOS
   statically evaluates the input chain against a new connection from the
@@ -515,7 +592,7 @@
   <code>ipsec.py</code>, audit labels and API messages).</li>
 </ul>
 <h2 id="v090-rc53-2026-05-30">[v0.9.0-rc53] - 2026-05-30</h2>
-<h3 id="added_9">Added</h3>
+<h3 id="added_10">Added</h3>
 <ul>
 <li>System settings page (hostname, timezone, locale, console keymap),
   applied live and persisted through systemd (hostnamectl / timedatectl /
@@ -545,7 +622,7 @@
   pinned to an outdated version, and the hybrid ISO repack was fixed.</li>
 </ul>
 <h2 id="v090-rc30-2026-05-30">[v0.9.0-rc30] - 2026-05-30</h2>
-<h3 id="added_10">Added</h3>
+<h3 id="added_11">Added</h3>
 <ul>
 <li>IPv6 Router Advertisements / SLAAC (lot 2 of IPv6 support). MurOS can now
   act as the IPv6 router for a LAN interface via radvd: it advertises a /64
@@ -559,7 +636,7 @@
   enabled automatically when RA is on. New /api/ipv6/ra endpoints.</li>
 </ul>
 <h2 id="v090-rc28-2026-05-30">[v0.9.0-rc28] - 2026-05-30</h2>
-<h3 id="added_11">Added</h3>
+<h3 id="added_12">Added</h3>
 <ul>
 <li>CI regression coverage for the per-service config generators. The
   backend pytest job now exercises the rendering path of WireGuard (VPN),
@@ -573,7 +650,7 @@
   Unbound access-control plus defensive allowlist.</li>
 </ul>
 <h2 id="v090-rc29-2026-05-30">[v0.9.0-rc29] - 2026-05-30</h2>
-<h3 id="added_12">Added</h3>
+<h3 id="added_13">Added</h3>
 <ul>
 <li>Unattended installer ISO builder (<code>packaging/iso/</code>). <code>build-iso.sh</code>
   turns a stock Debian 13 (trixie) netinst image into a fully automated
@@ -588,7 +665,7 @@
   <code>MUROS_ROOT_PASSWORD</code>; see <code>packaging/iso/README.md</code>.</li>
 </ul>
 <h2 id="v090-rc27-2026-05-30">[v0.9.0-rc27] - 2026-05-30</h2>
-<h3 id="added_13">Added</h3>
+<h3 id="added_14">Added</h3>
 <ul>
 <li>IPv6 firewall filtering (lot 1 of IPv6 support). Address-based rules are
   now family-aware: the compiler emits <code>ip saddr/daddr</code> for IPv4 values
@@ -601,7 +678,7 @@
   skipped IPv6 traffic, which the drop policy then blackholed.</li>
 </ul>
 <h2 id="v090-rc25-2026-05-30">[v0.9.0-rc25] - 2026-05-30</h2>
-<h3 id="added_14">Added</h3>
+<h3 id="added_15">Added</h3>
 <ul>
 <li>First-boot setup wizard. Until the operator assigns the network
   interfaces, the UI redirects to a one-step wizard that asks which NIC is
@@ -615,7 +692,7 @@
   wizard. New /api/setup/state and /api/setup/apply endpoints.</li>
 </ul>
 <h2 id="v090-rc24-2026-05-30">[v0.9.0-rc24] - 2026-05-30</h2>
-<h3 id="added_15">Added</h3>
+<h3 id="added_16">Added</h3>
 <ul>
 <li>NTP (chrony) now appears on the dashboard service list, and can be
   turned on or off from a master enable toggle on the NTP page (like the
@@ -630,7 +707,7 @@
   on the right, instead of an arbitrary half/half split.</li>
 </ul>
 <h2 id="v090-rc22-2026-05-30">[v0.9.0-rc22] - 2026-05-30</h2>
-<h3 id="added_16">Added</h3>
+<h3 id="added_17">Added</h3>
 <ul>
 <li>Two-factor authentication (TOTP, RFC 6238) for the web UI login. When
   enabled on an account, the password step returns a short-lived token
@@ -704,7 +781,7 @@
   back on manually from the SSH page toggle.</li>
 </ul>
 <h2 id="v090-rc15-2026-05-30">[v0.9.0-rc15] - 2026-05-30</h2>
-<h3 id="added_17">Added</h3>
+<h3 id="added_18">Added</h3>
 <ul>
 <li>NTP server mode (chrony) for the LAN, enabled by default. chrony now
   emits an <code>allow &lt;subnet&gt;</code> directive for every LAN-side network (every
@@ -804,7 +881,7 @@
   fail2ban). Services that need a per-site configuration (HA, VPN) stay
   disabled until enabled from the UI.</li>
 </ul>
-<h3 id="added_18">Added</h3>
+<h3 id="added_19">Added</h3>
 <ul>
 <li>Access &gt; Users page (administrators only). The web UI and SSH share the
   PAM stack, so any Linux account could authenticate; this page controls
@@ -862,7 +939,7 @@
   (_fetch_latest_release, HTML 302 fallback, .deb download/sha256).</li>
 </ul>
 <h2 id="v090-rc4-2026-05-29">[v0.9.0-rc4] - 2026-05-29</h2>
-<h3 id="added_19">Added</h3>
+<h3 id="added_20">Added</h3>
 <ul>
 <li>CI auto-publishes every release to apt.muros.org (publish-apt job in
   build-deb.yml) through a deploy key locked server-side to a single
@@ -882,7 +959,7 @@
   tolerated.</li>
 </ul>
 <h2 id="v090-rc2-2026-05-29">[v0.9.0-rc2] - 2026-05-29</h2>
-<h3 id="added_20">Added</h3>
+<h3 id="added_21">Added</h3>
 <ul>
 <li>Signed apt repository at https://apt.muros.org. The installer now
   registers the repository and its signing key, so upgrades flow through
@@ -917,7 +994,7 @@ availability, multi-WAN, DHCP / DNS, monitoring.</p>
 
 <footer class="border-t border-slate-200 bg-slate-100">
   <div class="max-w-6xl mx-auto px-6 py-6 text-sm text-slate-900 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
-    <div>MurOS &middot; AGPL v3</div>
+    <div>MurOS &middot; GPL v3</div>
     <div class="flex items-center gap-6"><a href="https://github.com/murosorg/muros" aria-label="GitHub" title="GitHub" class="ico-gh hover:opacity-70"><svg width="30" height="30" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a><a href="https://www.linkedin.com/company/muros-firewall/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" class="ico-li hover:opacity-70"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a></div>
     <div class="flex items-center gap-5">
       <a href="/features.html" class="hover:text-amber-700">Features</a>
