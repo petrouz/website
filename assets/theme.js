@@ -37,6 +37,16 @@
     }
   }
 
+  // The mobile toggle carries a text label inside a <span>. Keep it in sync
+  // with the action a click performs, mirroring the moon/sun icon swap.
+  function syncLabels() {
+    var dark = isDark();
+    var labels = document.querySelectorAll('[data-theme-toggle] span');
+    for (var i = 0; i < labels.length; i++) {
+      labels[i].textContent = dark ? 'Light mode' : 'Dark mode';
+    }
+  }
+
   function apply(dark, persist) {
     root.classList.toggle('dark', dark);
     if (persist) {
@@ -45,6 +55,7 @@
       } catch (e) {}
     }
     syncLogos();
+    syncLabels();
   }
 
   // Re-assert the resolved theme on load. This script is authoritative: an
@@ -71,6 +82,12 @@
     var btn = e.target.closest && e.target.closest('[data-theme-toggle]');
     if (btn) {
       apply(!isDark(), true);
+      // On mobile the toggle sits inside the <details> dropdown menu. Close it
+      // after the choice so the visitor sees the page reflect the new theme.
+      var menu = btn.closest('details');
+      if (menu) {
+        menu.removeAttribute('open');
+      }
     }
   });
 })();
