@@ -101,15 +101,15 @@ details .nav-link.active::after { display: none; }
    markup changes.
    --------------------------------------------------------------------------- */
 html.dark {
-  --bg: #0b1120;
-  --bg-elev: #141d31;
-  --bg-sunken: #060c18;
-  --border: #1f2a3e;
-  --border-strong: #2c3a54;
-  --text-strong: #ffffff;
-  --text: #ffffff;
-  --text-muted: #cbd5e1;
-  --text-faint: #94a3b8;
+  --bg: #151a28;
+  --bg-elev: #1f2638;
+  --bg-sunken: #0e131e;
+  --border: #2a3344;
+  --border-strong: #3a4660;
+  --text-strong: #f5f7fa;
+  --text: #e8ecf2;
+  --text-muted: #b8c2d0;
+  --text-faint: #8b97a8;
   --accent: #fbbf24;
   --accent-soft: rgba(251, 191, 36, 0.12);
   color-scheme: dark;
