@@ -131,7 +131,7 @@ html.dark .bg-slate-900 { background-color: var(--bg-sunken); }
 /* The "installer ISO" card is a dark navy panel on light pages; in dark mode
    that sinks into the background, so lift it onto the elevated grey surface
    with a hairline border, the way the header reads on light pages. */
-html.dark .iso-card { background-color: #64748b; border: 1px solid var(--border); }
+html.dark .iso-card { background-color: #8090a4; border: 1px solid var(--border); }
 html.dark .hover\:bg-slate-50:hover { background-color: var(--bg-elev); }
 html.dark .hover\:bg-slate-800:hover { background-color: #1d2840; }
 html.dark .bg-amber-50 { background-color: var(--accent-soft); }
