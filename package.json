@@ -5,8 +5,9 @@
   "description": "MurOS marketing site (muros.org)",
   "scripts": {
     "build:docs": "python3 build_docs.py",
+    "build:chrome": "python3 build_chrome.py",
     "build:css": "tailwindcss -i ./src/input.css -o ./assets/app.css --minify",
-    "build": "npm run build:docs && npm run build:css",
+    "build": "npm run build:docs && npm run build:chrome && npm run build:css",
     "watch:css": "tailwindcss -i ./src/input.css -o ./assets/app.css --watch"
   },
   "devDependencies": {

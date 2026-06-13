@@ -15,7 +15,8 @@ SSH="ssh $SSH_OPTS"
 $SSH "$SERVER" "sudo mkdir -p $SITE_TARGET"
 rsync -az -e "$SSH" --rsync-path="sudo rsync" --delete \
   --exclude '.git' --exclude 'node_modules' --exclude 'src' \
-  --exclude 'build_docs.py' --exclude 'deploy.sh' --exclude 'README.md' \
+  --exclude 'build_docs.py' --exclude 'build_chrome.py' --exclude 'partials' \
+  --exclude 'deploy.sh' --exclude 'README.md' \
   --exclude 'package.json' --exclude 'package-lock.json' \
   --exclude 'tailwind.config.js' --exclude '.gitignore' --exclude 'download' \
   "$HERE"/ "$SERVER:$SITE_TARGET/"
