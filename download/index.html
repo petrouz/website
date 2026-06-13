@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>MurOS - Download (installer ISO and Debian package)</title>
+<meta name="description" content="Download MurOS, the open source firewall: the offline installer ISO, and the signed Debian 13 (Trixie) package repository.">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/app.css">
+<script>(function(){try{var t=localStorage.getItem("muros-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark");}}catch(e){}})();</script>
+<link rel="canonical" href="https://download.muros.org/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MurOS">
+<meta property="og:url" content="https://download.muros.org/">
+<meta property="og:title" content="MurOS - Download (installer ISO and Debian package)">
+<meta property="og:description" content="Download MurOS, the open source firewall: the offline installer ISO, and the signed Debian 13 (Trixie) package repository.">
+<meta property="og:image" content="/assets/og-cover.jpg">
+</head>
+<body class="bg-white text-slate-900 antialiased">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="border-b border-slate-200 bg-slate-100">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="https://muros.org/" class="flex items-center gap-2.5" aria-label="MurOS home">
+      <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-12 w-auto">
+      <span class="mono text-base font-bold text-amber-700 -ml-2">[BETA]</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 text-base text-slate-900">
+      <a href="https://muros.org/why.html" class="nav-link hover:text-slate-900">Why MurOS</a>
+      <a href="https://muros.org/features.html" class="nav-link hover:text-slate-900">Features</a>
+      <a href="https://muros.org/docs/quickstart.html" class="nav-link hover:text-slate-900">Docs</a>
+      <a href="https://muros.org/install.html" class="inline-flex items-center bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-3.5 py-1.5 rounded">Install</a>
+      <a href="https://github.com/murosorg/muros" class="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-medium px-3.5 py-1.5 rounded"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" class="-ml-0.5"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+      <button type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded border border-slate-300 text-slate-900 hover:text-slate-900 hover:bg-slate-50"><svg class="theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><svg class="theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v1M12 21v1M4.22 4.22l.7.7M19.08 19.08l.7.7M2 12h1M21 12h1M4.22 19.78l.7-.7M19.08 4.92l.7-.7"/></svg></button>
+    </nav><details class="md:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
+      <a href="https://muros.org/why.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-100">Why MurOS</a>
+      <a href="https://muros.org/features.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-100">Features</a>
+      <a href="https://muros.org/docs/quickstart.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-100">Docs</a>
+      <a href="https://muros.org/install.html" class="px-4 py-2 mt-1 mx-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded text-center">Install</a>
+      <a href="https://github.com/murosorg/muros" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 mt-1 mx-3 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded text-center">GitHub</a>
+      <button type="button" data-theme-toggle class="theme-toggle flex items-center gap-2 px-4 py-2 mt-1 mx-3 text-left text-slate-900 hover:text-slate-900 hover:bg-slate-100 rounded"><svg class="theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><svg class="theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v1M12 21v1M4.22 4.22l.7.7M19.08 19.08l.7.7M2 12h1M21 12h1M4.22 19.78l.7-.7M19.08 4.92l.7-.7"/></svg><span>Dark mode</span></button>
+    </div></details>
+  </div>
+</header>
+
+<main id="main" tabindex="-1" class="max-w-3xl mx-auto px-6 pt-10 pb-16">
+  <p class="text-base text-slate-900 leading-relaxed">Everything to install and update <a href="https://muros.org" class="text-amber-700 hover:underline font-medium">MurOS</a>, the open source firewall: the offline installer ISO, and the signed Debian 13 (Trixie) package repository.</p>
+
+  <div class="mt-8 rounded-lg border border-slate-200 overflow-hidden mono text-sm">
+    <a href="iso/" class="flex items-center justify-between gap-4 px-4 py-2.5 border-t border-slate-200 first:border-t-0 hover:bg-slate-100"><span class="text-amber-700">iso/</span><span class="text-slate-500 text-xs">installer images (.iso, .sha256, .asc)</span></a>
+    <a href="dists/" class="flex items-center justify-between gap-4 px-4 py-2.5 border-t border-slate-200 first:border-t-0 hover:bg-slate-100"><span class="text-amber-700">dists/</span><span class="text-slate-500 text-xs">release metadata</span></a>
+    <a href="pool/" class="flex items-center justify-between gap-4 px-4 py-2.5 border-t border-slate-200 first:border-t-0 hover:bg-slate-100"><span class="text-amber-700">pool/</span><span class="text-slate-500 text-xs">package files</span></a>
+    <a href="install.sh" class="flex items-center justify-between gap-4 px-4 py-2.5 border-t border-slate-200 first:border-t-0 hover:bg-slate-100"><span class="text-amber-700">install.sh</span><span class="text-slate-500 text-xs">setup script</span></a>
+    <a href="uninstall.sh" class="flex items-center justify-between gap-4 px-4 py-2.5 border-t border-slate-200 first:border-t-0 hover:bg-slate-100"><span class="text-amber-700">uninstall.sh</span><span class="text-slate-500 text-xs">removal script</span></a>
+    <a href="muros.asc" class="flex items-center justify-between gap-4 px-4 py-2.5 border-t border-slate-200 first:border-t-0 hover:bg-slate-100"><span class="text-amber-700">muros.asc</span><span class="text-slate-500 text-xs">signing key, armored</span></a>
+    <a href="muros-archive-keyring.gpg" class="flex items-center justify-between gap-4 px-4 py-2.5 border-t border-slate-200 first:border-t-0 hover:bg-slate-100"><span class="text-amber-700">muros-archive-keyring.gpg</span><span class="text-slate-500 text-xs">signing key, binary</span></a>
+  </div>
+  <p class="mt-6 text-xs text-slate-500">Key fingerprint: <code class="bg-slate-100 border border-slate-200 rounded px-1.5 py-0.5">17DE 4892 C0D3 70BB 4FC4  AA9A 8699 CDDB EA8D 4B22</code></p>
+
+  <h2 class="mt-12 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Install from the ISO <span class="ml-1 align-middle text-xs font-semibold uppercase tracking-wide text-amber-700">recommended</span></h2>
+  <p class="mt-3 text-sm text-slate-900">Boot it on a machine or a VM, pick your keyboard and the LAN IP, and MurOS installs itself offline. <a href="iso/" class="text-amber-700 hover:underline font-medium">Browse the images</a>, or get amd64 and write it to a USB key:</p>
+  <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>wget https://download.muros.org/iso/muros-installer-amd64.iso
+
+# verify (optional)
+wget https://download.muros.org/iso/muros-installer-amd64.iso.sha256
+sha256sum -c muros-installer-amd64.iso.sha256
+
+# write to a USB key (replace sdX with your device)
+sudo dd if=muros-installer-amd64.iso of=/dev/sdX bs=4M status=progress oflag=sync</code></pre>
+  <p class="mt-3 text-sm text-slate-900">Then boot and pick <code class="bg-slate-100 border border-slate-200 rounded px-1 mono">Install MurOS</code>. After reboot, open <code class="bg-slate-100 border border-slate-200 rounded px-1 mono">https://&lt;the-LAN-IP&gt;</code> and log in as <code class="bg-slate-100 border border-slate-200 rounded px-1 mono">root</code> / <code class="bg-slate-100 border border-slate-200 rounded px-1 mono">root</code>, then change the password. Full walkthrough on <a href="https://muros.org/install.html" class="text-amber-700 hover:underline font-medium">muros.org</a>.</p>
+
+  <h2 class="mt-12 text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Add the package repository</h2>
+  <p class="mt-3 text-sm text-slate-900">Already on Debian 13, or automating with Ansible? Install the package on top. This is also the upgrade channel for every install, the ISO included.</p>
+  <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://download.muros.org/install.sh | sudo bash</code></pre>
+  <p class="mt-3 text-sm text-slate-900">Or register the signed repository by hand:</p>
+  <pre class="mt-3 bg-slate-900 text-white rounded p-4 text-sm overflow-x-auto mono"><code>curl -fsSL https://download.muros.org/muros.asc | sudo gpg --dearmor -o /usr/share/keyrings/muros-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/muros-archive-keyring.gpg] https://download.muros.org stable main" | sudo tee /etc/apt/sources.list.d/muros.list
+sudo apt update && sudo apt install muros</code></pre>
+</main>
+
+<footer class="border-t border-slate-200 bg-slate-100 py-6">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-900">
+    <div class="flex items-center gap-2">
+      <img src="/assets/logo-dark.svg" alt="MurOS" class="block h-12 w-auto">
+      <span>GPL v3</span>
+    </div>
+    <div class="flex items-center gap-6"><a href="https://github.com/murosorg/muros" aria-label="GitHub" title="GitHub" class="ico-gh hover:opacity-70"><svg width="30" height="30" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a><a href="https://www.linkedin.com/company/muros-firewall/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" class="ico-li hover:opacity-70"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a></div>
+    <div class="flex items-center gap-5">
+      <a href="https://muros.org/legal.html" class="hover:text-slate-900">Legal</a>
+      <a href="https://github.com/murosorg/muros/issues" class="hover:text-slate-900">Issues</a>
+      <a href="https://github.com/murosorg/muros/blob/main/LICENSE" class="hover:text-slate-900">License</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/copy.js" defer></script>
+<script src="/assets/theme.js?v=2" defer></script>
+</body>
+</html>

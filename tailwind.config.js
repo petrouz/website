@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: ['./*.html', './docs/*.html', './assets/*.js', './build_docs.py', './_template.py'],
+  content: ['./*.html', './download/*.html', './docs/*.html', './assets/*.js', './build_docs.py', './_template.py'],
   theme: {
     extend: {
       // The whole site is built on the slate scale. Nudge every shade a step
