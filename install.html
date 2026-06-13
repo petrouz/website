@@ -195,7 +195,7 @@ Password : your existing root password</code></pre>
         <tr><th class="text-left font-medium px-3 py-2">Env variable</th><th class="text-left font-medium px-3 py-2">Effect</th></tr>
       </thead>
       <tbody class="divide-y divide-slate-200">
-        <tr><td class="px-3 py-2 mono">MUROS_VERSION</td><td class="px-3 py-2">Pin a specific version, e.g. <code class="bg-slate-100 px-1 rounded">MUROS_VERSION=<span data-muros-version>0.9.0-rc</span></code>. The repository keeps only the latest version, so this works for the current release.</td></tr>
+        <tr><td class="px-3 py-2 mono break-all">MUROS_VERSION</td><td class="px-3 py-2">Pin a specific version, e.g. <code class="bg-slate-100 px-1 rounded">MUROS_VERSION=<span data-muros-version>0.9.0-rc</span></code>. The repository keeps only the latest version, so this works for the current release.</td></tr>
       </tbody>
     </table>
 
@@ -247,48 +247,50 @@ ls -la artifacts/</code></pre>
         </div>
         <a href="https://github.com/murosorg/muros/releases/latest" class="inline-flex items-center px-4 py-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-medium rounded text-sm">All releases on GitHub &rarr;</a>
       </div>
-      <table class="mt-6 w-full text-sm border border-slate-200 rounded overflow-hidden">
+      <div class="mt-6 overflow-x-auto">
+      <table class="w-full text-sm border border-slate-200 rounded overflow-hidden">
         <thead class="bg-slate-100 text-slate-900">
           <tr><th class="text-left font-medium px-3 py-2">File</th><th class="text-left font-medium px-3 py-2 hidden sm:table-cell">Description</th><th class="text-right font-medium px-3 py-2"></th></tr>
         </thead>
         <tbody class="divide-y divide-slate-200 bg-white">
           <tr>
-            <td class="px-3 py-2 mono">muros-installer-amd64.iso</td>
+            <td class="px-3 py-2 mono break-all">muros-installer-amd64.iso</td>
             <td class="px-3 py-2 hidden sm:table-cell">Installer ISO, offline. Recommended.</td>
             <td class="px-3 py-2 text-right"><a href="https://download.muros.org/iso/muros-installer-amd64.iso" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
-            <td class="px-3 py-2 mono">muros-installer-amd64.iso.sha256</td>
+            <td class="px-3 py-2 mono break-all">muros-installer-amd64.iso.sha256</td>
             <td class="px-3 py-2 hidden sm:table-cell">SHA-256 sum of the ISO.</td>
             <td class="px-3 py-2 text-right"><a href="https://download.muros.org/iso/muros-installer-amd64.iso.sha256" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
-            <td class="px-3 py-2 mono">muros-installer-amd64.iso.asc</td>
+            <td class="px-3 py-2 mono break-all">muros-installer-amd64.iso.asc</td>
             <td class="px-3 py-2 hidden sm:table-cell">Detached GPG signature of the ISO.</td>
             <td class="px-3 py-2 text-right"><a href="https://download.muros.org/iso/muros-installer-amd64.iso.asc" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
-            <td class="px-3 py-2 mono">muros_<i>VERSION</i>_all.deb</td>
+            <td class="px-3 py-2 mono break-all">muros_<i>VERSION</i>_all.deb</td>
             <td class="px-3 py-2 hidden sm:table-cell">Main package, ~25 MB.</td>
             <td class="px-3 py-2 text-right"><a href="https://github.com/murosorg/muros/releases/latest" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
-            <td class="px-3 py-2 mono">muros_<i>VERSION</i>_all.deb.sha256</td>
+            <td class="px-3 py-2 mono break-all">muros_<i>VERSION</i>_all.deb.sha256</td>
             <td class="px-3 py-2 hidden sm:table-cell">SHA-256 sum of the .deb.</td>
             <td class="px-3 py-2 text-right"><a href="https://github.com/murosorg/muros/releases/latest" class="text-amber-700 font-medium hover:underline">Get</a></td>
           </tr>
           <tr>
-            <td class="px-3 py-2 mono">install.sh</td>
+            <td class="px-3 py-2 mono break-all">install.sh</td>
             <td class="px-3 py-2 hidden sm:table-cell">Registers the apt repository and installs the package.</td>
             <td class="px-3 py-2 text-right"><a href="https://download.muros.org/install.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
           </tr>
           <tr>
-            <td class="px-3 py-2 mono">uninstall.sh</td>
+            <td class="px-3 py-2 mono break-all">uninstall.sh</td>
             <td class="px-3 py-2 hidden sm:table-cell">Stashes DB, then apt-removes the package.</td>
             <td class="px-3 py-2 text-right"><a href="https://download.muros.org/uninstall.sh" class="text-amber-700 font-medium hover:underline">Raw</a></td>
           </tr>
         </tbody>
       </table>
+      </div>
       <div data-muros-recent-releases class="mt-6">
         <p class="text-sm text-slate-900">Loading recent releases from GitHub...</p>
       </div>
