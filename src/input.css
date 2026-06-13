@@ -133,6 +133,7 @@ html.dark .bg-slate-900 { background-color: var(--bg-sunken); }
    with a hairline border, the way the header reads on light pages. */
 html.dark .iso-card { background-color: #8090a4; border: 1px solid var(--border); }
 html.dark .hover\:bg-slate-50:hover { background-color: var(--bg-elev); }
+html.dark .hover\:bg-slate-100:hover { background-color: var(--bg-elev); }
 html.dark .hover\:bg-slate-800:hover { background-color: #1d2840; }
 html.dark .bg-amber-50 { background-color: var(--accent-soft); }
 html.dark .hover\:bg-amber-50:hover { background-color: var(--accent-soft); }
