@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SERVER="${MUROS_SITE_SERVER:-debian@10.10.10.10}"
-SSH_OPTS="${MUROS_SSH_OPTS:--J proxmox}"
+SSH_OPTS="${MUROS_SSH_OPTS:--o StrictHostKeyChecking=no}"
 SITE_TARGET="${MUROS_SITE_TARGET:-/opt/muros/site}"
 DOWNLOAD_TARGET="${MUROS_DOWNLOAD_TARGET:-/opt/muros/download}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
