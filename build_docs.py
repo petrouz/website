@@ -269,12 +269,10 @@ def render_doc(slug):
              'acceptedAnswer': {'@type': 'Answer', 'text': a}}
             for q, a in faq_entries(md)]})
     jsonld = json.dumps(graph, indent=2)
-    crumb = f'<a href="/index.html" class="hover:text-slate-900">~</a> / <a href="{DOCS_HOME}" class="hover:text-slate-900">docs</a> / <span class="text-slate-900">{slug}.md</span>'
     body = f'''<section>
   <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
       {sidebar(slug)}
     <article>
-      <nav class="text-xs text-slate-900 mb-4 mono">{crumb}</nav>
       <div class="doc-prose">
 {body_html}
       </div>
