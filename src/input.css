@@ -134,6 +134,9 @@ html.dark .bg-slate-900 { background-color: var(--bg-sunken); }
 html.dark .iso-card { background-color: #8090a4; border: 1px solid var(--border); }
 html.dark .hover\:bg-slate-50:hover { background-color: var(--bg-elev); }
 html.dark .hover\:bg-slate-100:hover { background-color: var(--bg-elev); }
+/* Secondary (grey) buttons darken one step on hover. In dark mode they sit on
+   the elevated surface and lift slightly toward the strong border tone. */
+html.dark .hover\:bg-slate-200:hover { background-color: #2b3754; }
 html.dark .hover\:bg-slate-800:hover { background-color: #1d2840; }
 html.dark .bg-amber-50 { background-color: var(--accent-soft); }
 html.dark .hover\:bg-amber-50:hover { background-color: var(--accent-soft); }

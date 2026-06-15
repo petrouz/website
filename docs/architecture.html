@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-14"
+      "dateModified": "2026-06-15"
     },
     {
       "@type": "BreadcrumbList",
@@ -93,7 +93,7 @@
       <a href="https://muros.org/docs/quickstart.html" class="nav-link hover:text-slate-900">Docs</a>
       <a href="https://muros.org/install.html" class="inline-flex items-center bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-3.5 py-1.5 rounded">Install</a>
       <a href="https://github.com/murosorg/muros" class="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-medium px-3.5 py-1.5 rounded"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" class="-ml-0.5"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
-      <button type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded border border-slate-300 text-slate-900 hover:text-slate-900 hover:bg-slate-50"><svg class="theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><svg class="theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v1M12 21v1M4.22 4.22l.7.7M19.08 19.08l.7.7M2 12h1M21 12h1M4.22 19.78l.7-.7M19.08 4.92l.7-.7"/></svg></button>
+      <button type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded border border-slate-300 text-slate-900 hover:text-slate-900 bg-slate-100 hover:bg-slate-200"><svg class="theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><svg class="theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v1M12 21v1M4.22 4.22l.7.7M19.08 19.08l.7.7M2 12h1M21 12h1M4.22 19.78l.7-.7M19.08 4.92l.7-.7"/></svg></button>
     </nav><details class="md:hidden relative"><summary class="list-none cursor-pointer p-2 -mr-2 select-none" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></summary><div class="absolute right-0 mt-2 bg-white border border-slate-200 rounded shadow-lg py-2 w-52 z-20 flex flex-col text-sm">
       <a href="https://muros.org/why.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-100">Why MurOS</a>
       <a href="https://muros.org/features.html" class="nav-link hover:text-slate-900 px-4 py-2 hover:bg-slate-100">Features</a>
@@ -148,6 +148,7 @@ the UI propagates down to the kernel.</p>
 /etc/conntrackd/conntrackd.conf              state replication
 /etc/wireguard/wg0.conf                      WireGuard
 /etc/swanctl/conf.d/muros.conf               StrongSwan
+/etc/openvpn/server/muros.conf               OpenVPN (PKI under muros-pki/)
 /etc/kea/kea-dhcp4.conf                      DHCP server (Kea)
 /etc/kea/kea-dhcp6.conf                      DHCPv6 server (Kea)
 /etc/unbound/unbound.conf.d/muros.conf       recursive DNS
@@ -236,6 +237,11 @@ DB by <code>muros-boot.service</code> before <code>network-online.target</code>.
 <td>wg syncconf on peer Apply (no tunnel drop)</td>
 </tr>
 <tr>
+<td>openvpn-server@muros</td>
+<td>OpenVPN road-warrior server</td>
+<td>restart on OpenVPN Apply</td>
+</tr>
+<tr>
 <td>fail2ban</td>
 <td>bruteforce protection</td>
 <td>reload on rule change</td>
@@ -277,7 +283,8 @@ DB by <code>muros-boot.service</code> before <code>network-online.target</code>.
 The main tables: <code>interfaces</code>, <code>static_routes</code>, <code>wan_gateways</code>, <code>zones</code>,
 <code>firewall_rules</code>, <code>nat_rules</code>, <code>service_groups</code>, <code>address_groups</code>,
 <code>dhcp_pools</code>, <code>dhcp6_pools</code>, <code>dns_local_records</code>, <code>qos_shapers</code>,
-<code>qos_classes</code>, <code>dyndns_entry</code>, <code>wireguard_peers</code>, <code>ipsec_connections</code>,
+<code>qos_classes</code>, <code>dyndns_entry</code>, <code>wireguard_peers</code>, <code>openvpn_config</code>,
+<code>openvpn_clients</code>, <code>ipsec_connections</code>,
 <code>ipsec_certs</code>, <code>ha_config</code>, <code>syslog_config</code>, <code>snmp_config</code>, <code>ntp_config</code>,
 <code>notification_rules</code>, <code>users</code>, <code>audit_log</code>.</p>
 <h2 id="boot-sequence">Boot sequence</h2>
@@ -288,7 +295,8 @@ The main tables: <code>interfaces</code>, <code>static_routes</code>, <code>wan_
         - generates /etc/muros/nftables.conf, loads it
      -&gt; network-online.target
      -&gt; muros-backend.service, nginx, keepalived, conntrackd,
-        kea-dhcp4-server, unbound, strongswan, wg-quick@wg0 (if enabled)
+        kea-dhcp4-server, unbound, strongswan, wg-quick@wg0,
+        openvpn-server@muros (if enabled)
 </code></pre>
 <p>A failure in muros-boot is non-fatal for the OS: SSH and the
 emergency console still come up so the operator can recover.</p>

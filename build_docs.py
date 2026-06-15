@@ -64,7 +64,7 @@ THEME_ICONS = ('<svg class="theme-icon-moon" width="16" height="16" viewBox="0 0
 
 THEME_TOGGLE_DESKTOP = (f'<button type="button" data-theme-toggle aria-label="Switch theme" '
     f'title="Switch theme" class="theme-toggle inline-flex items-center justify-center w-8 h-8 '
-    f'rounded border border-slate-300 text-slate-900 hover:text-slate-900 hover:bg-slate-100">'
+    f'rounded border border-slate-300 text-slate-900 hover:text-slate-900 bg-slate-100 hover:bg-slate-200">'
     f'{THEME_ICONS}</button>')
 
 THEME_TOGGLE_MOBILE = (f'<button type="button" data-theme-toggle class="theme-toggle flex '
