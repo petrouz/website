@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f172a">
 <meta name="google-site-verification" content="gUUe2BSkVhGthwtAdlY94ba7EjI4Y8TjYVEQx291vlQ">
 <title>MurOS - Turn Linux into a firewall</title>
-<meta name="description" content="Open source firewall appliance built on Debian 13, managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.">
+<meta name="description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://muros.org/">
 <meta property="og:title" content="MurOS - Turn Linux into a firewall">
-<meta property="og:description" content="Open source firewall appliance built on Debian 13, managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.">
+<meta property="og:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -28,7 +28,7 @@
 <meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="MurOS - Turn Linux into a firewall">
-<meta name="twitter:description" content="Open source firewall appliance built on Debian 13, managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.">
+<meta name="twitter:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -63,7 +63,7 @@
       "downloadUrl": "https://muros.org/install.html",
       "softwareHelp": "https://muros.org/docs/quickstart.html",
       "license": "https://www.gnu.org/licenses/gpl-3.0.html",
-      "description": "Open source firewall appliance built on Debian 13, managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.",
+      "description": "Open source fork of OPNsense, ported to Debian 13 and managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.",
       "author": {
         "@id": "https://muros.org/#org"
       },
@@ -116,7 +116,7 @@
           </div>
         </div>
         <h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-slate-900">Turn Linux into a firewall.</h1>
-        <p class="mt-4 text-base lg:text-lg text-slate-900 leading-relaxed">An open source firewall appliance based on Debian 13, managed entirely from a web UI. Stateful filtering, NAT, routing, VPN, high availability and more, all native in the core. The capabilities of OPNsense or FortiGate, free, on any hardware Linux runs on.</p>
+        <p class="mt-4 text-base lg:text-lg text-slate-900 leading-relaxed">MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian 13. The same proven web UI and feature set, stateful filtering, NAT, routing, VPN and high availability, now running natively on Linux: nftables instead of pf, systemd instead of rc, apt instead of pkg. Free, on any hardware Linux runs on.</p>
 
         <div class="mt-6 flex flex-col sm:flex-row gap-3">
           <a href="install.html" class="inline-flex items-center justify-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded">Install the ISO</a>
@@ -164,7 +164,7 @@
 <section class="py-16 bg-slate-100 border-y border-slate-200">
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-2xl font-bold text-slate-900">The web UI</h2>
-    <p class="mt-2 text-slate-900 max-w-2xl">Every page follows the same pattern: stage in DB, click Apply, kernel push happens. Auto-rollback if the new ruleset breaks reachability.</p>
+    <p class="mt-2 text-slate-900 max-w-2xl">Every page follows the same pattern: edit your config, click Apply, kernel push happens. Auto-rollback if the new ruleset breaks reachability.</p>
 
     <figure class="mt-8">
       <a href="assets/dashboard.png" data-lightbox data-title="MurOS dashboard" class="block rounded-lg border border-slate-300 shadow-card overflow-hidden bg-white">

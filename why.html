@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f172a">
 <title>Why MurOS - the free, Linux-based open source firewall</title>
-<meta name="description" content="Why pick MurOS over OPNsense or FortiGate: free and open source, built on Debian Linux for far wider hardware support, every service native and tested together, all from one web UI.">
+<meta name="description" content="MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian Linux for far wider hardware support. The same proven web UI and feature set, free and tested together as one product, no subscription.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://muros.org/why.html">
 <meta property="og:title" content="Why MurOS - the free, Linux-based open source firewall">
-<meta property="og:description" content="Why pick MurOS over OPNsense or FortiGate: free and open source, built on Debian Linux for far wider hardware support, every service native and tested together, all from one web UI.">
+<meta property="og:description" content="MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian Linux for far wider hardware support. The same proven web UI and feature set, free and tested together as one product, no subscription.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -26,7 +26,7 @@
 <meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Why MurOS - the free, Linux-based open source firewall">
-<meta name="twitter:description" content="Why pick MurOS over OPNsense or FortiGate: free and open source, built on Debian Linux for far wider hardware support, every service native and tested together, all from one web UI.">
+<meta name="twitter:description" content="MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian Linux for far wider hardware support. The same proven web UI and feature set, free and tested together as one product, no subscription.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -76,7 +76,7 @@
           "name": "Is MurOS a fork of OPNsense?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. MurOS is a fresh codebase built on stock Debian 13. It drives nftables, iproute2, WireGuard, strongSwan, keepalived, Kea and unbound directly, with a FastAPI backend and a React web UI. It shares no code with the BSD-based OPNsense."
+            "text": "Yes. MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian 13. It keeps the OPNsense web UI and configuration model and re-implements the system layer for Linux: nftables instead of pf, systemd instead of rc and configd, apt instead of pkg, and iproute2 instead of ifconfig. The result is the OPNsense feature set running natively on the full Linux hardware ecosystem. MurOS is an independent project, not affiliated with or endorsed by Deciso B.V. or the OPNsense project."
           }
         },
         {
@@ -146,7 +146,7 @@
         <div class="mono text-sm font-semibold text-slate-900 tracking-wide">THE SHORT VERSION</div>
       </div>
       <h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-slate-900">Why MurOS</h1>
-      <p class="mt-5 text-lg text-slate-900 leading-relaxed">MurOS is a free, open source firewall built on Debian Linux. Every service is native and tested together, managed from a single web UI, and it runs on far more hardware than the BSD-based alternatives.</p>
+      <p class="mt-5 text-lg text-slate-900 leading-relaxed">MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian Linux. The same proven web UI and feature set, managed as one tested product, now running on far more hardware than the BSD-based original.</p>
       <p class="mt-4 text-base text-slate-900 leading-relaxed">It covers the firewall most companies actually need: stateful filtering, NAT, routing, VPN, high availability and clean logs. Free, open source, no subscription, no lock-in.</p>
       <div class="mt-7 flex flex-col sm:flex-row gap-3">
         <a href="install.html" class="inline-flex items-center justify-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-medium rounded">Install guide</a>
@@ -160,8 +160,8 @@
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-2xl font-bold text-slate-900">The state of open source firewalls</h2>
     <div class="mt-4 max-w-3xl space-y-4 text-slate-900 leading-relaxed">
-      <p>Commercial appliances like FortiGate are polished but closed: licensed per tier, tied to one vendor and one hardware line. The open source option, OPNsense, removes the lock-in but runs on FreeBSD, which narrows hardware support and leans on a catalogue of community plugins of uneven quality.</p>
-      <p>MurOS takes a third path: free and open source, built on stock Debian Linux, with every service native in a single tested product.</p>
+      <p>Commercial appliances like FortiGate are polished but closed: licensed per tier, tied to one vendor and one hardware line. The open source option, OPNsense, removes the lock-in and has a mature web UI and a proven feature set, but it runs on FreeBSD, which narrows hardware support and leans on a catalogue of community plugins of uneven quality.</p>
+      <p>MurOS starts from OPNsense rather than reinventing it. We forked it and ported it from FreeBSD to stock Debian Linux: the same web UI and configuration model, with the system layer rebuilt on nftables, systemd, apt and iproute2. You get the firewall you already know, on the hardware Linux runs on.</p>
     </div>
   </div>
 </section>
@@ -186,7 +186,7 @@
       </div>
       <div>
         <h3 class="text-base font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Everything from one web UI</h3>
-        <p class="mt-2 text-sm text-slate-900 leading-relaxed">Stage in the database, click Apply, push to the kernel, with auto-rollback if reachability breaks. The same pattern on every page, no command line required.</p>
+        <p class="mt-2 text-sm text-slate-900 leading-relaxed">Edit in the web UI, click Apply, push to the kernel, with auto-rollback if reachability breaks. The same pattern on every page, no command line required.</p>
       </div>
     </div>
   </div>

@@ -132,6 +132,15 @@
 <h2 id="unreleased">[Unreleased]</h2>
 <h3 id="added">Added</h3>
 <ul>
+<li>Preview before Apply for the recursive DNS server (pilot). Clicking Apply on
+  DNS &gt; Recursive now opens a modal showing the unified diff between the
+  unbound configuration the daemon is currently running and the one Apply
+  would push, so the change can be reviewed before it is committed. This
+  brings the firewall's ruleset-preview confidence to a service daemon. The
+  baseline is recorded in the database on each successful Apply (new
+  <code>service_applied_config</code> table) and a reusable <code>app.service_diff</code> helper plus
+  a <code>GET /api/dns/recursive/diff</code> endpoint back it; the preview is opt-in per
+  service (other services keep applying directly for now).</li>
 <li>Dashboard charts now keep a server side history. A background sampler
   records CPU, memory, load, conntrack and per-interface throughput every
   few seconds into the database (retention configurable, three hours by
@@ -229,6 +238,13 @@
   every other managed service (SNMP, DHCP, DNS, ...), shown under the page
   header. The divergent in-form "Enable OpenVPN server" switch was removed so
   the enable/disable model is homogeneous across the whole UI.</li>
+<li>WireGuard now exposes a per-tunnel Start/Stop control with the same
+  affordance as the other services. The selected tunnel's enabled state was
+  shown in the header but had no control to change it; the button now brings
+  the wg-quick interface up or down and persists the boot policy.</li>
+<li>The floating network "pending changes" bar now uses the same orange accent
+  and "Apply" wording as the per-page Apply buttons, instead of its own amber
+  style, so the apply affordance reads the same across the UI.</li>
 <li>SNMP is now disabled by default (opt-in) instead of enabled out of the
   box. It exposes system information and carries a long security track
   record, so MurOS no longer runs an snmpd daemon unless the admin asks,

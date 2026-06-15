@@ -169,7 +169,7 @@
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>VRRP active / passive</strong> via keepalived, one VIP per interface.</li>
           <li><strong>Conntrack sync.</strong> conntrackd replicates connections to the slave, no TCP reset on takeover.</li>
-          <li><strong>Inter-node DB sync.</strong> The slave mirrors the master MurOS database so a takeover keeps the full config.</li>
+          <li><strong>Inter-node config sync.</strong> The backup node mirrors the master MurOS configuration so a takeover keeps the full config.</li>
           <li><strong>Asymmetric pairs supported.</strong> Different vendors and NIC counts work as long as enabled interfaces line up.</li>
         </ul>
       </div>
@@ -235,7 +235,7 @@
           <li><strong>sshd drop-in.</strong> No root password, no challenge response, MaxAuthTries.</li>
           <li><strong>fail2ban drop-in.</strong> MurOS filter for the UI login, sshd jail.</li>
           <li><strong>journald drop-in.</strong> Persistent storage, size cap.</li>
-          <li><strong>API rate limit.</strong> Per-IP login attempts throttled at the FastAPI layer.</li>
+          <li><strong>API rate limit.</strong> Per-IP login attempts throttled at the web layer.</li>
         </ul>
       </div>
     </div>
