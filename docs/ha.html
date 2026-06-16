@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-14"
+      "dateModified": "2026-06-16"
     },
     {
       "@type": "BreadcrumbList",
@@ -111,7 +111,7 @@
       <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
       <div class="group-title">Getting started</div>
       <a href="/docs/quickstart.html" class="">Quickstart</a>
-      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <a href="/docs/first-filter.html" class="">First filter rules</a>
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
@@ -128,10 +128,11 @@
     <article>
       <div class="doc-prose">
 <h1 id="high-availability">High availability</h1>
-<p>MurOS HA is a classic active/passive pair built on keepalived (VRRP
-for the VIPs) and conntrackd (state replication). On top of the
-Linux pieces, MurOS adds a DB replication so the standby always
-knows the full configuration of the master.</p>
+<p>MurOS HA is a classic active/passive pair. OPNsense uses CARP and pfsync on
+FreeBSD; the MurOS port rebuilds the same model on Linux with keepalived (VRRP
+for the virtual IPs) and conntrackd (connection-state replication). On top of
+that, the configuration in config.xml is synchronised to the backup so it
+always holds the full configuration of the master.</p>
 <h2 id="topology">Topology</h2>
 <pre><code>            VIP 203.0.113.1                   VIP 10.10.0.1
                 |                                  |
@@ -143,80 +144,63 @@ knows the full configuration of the master.</p>
                 |              sync                |
          (sync) eth2 ------ direct cable ------ eth2 (sync)
 </code></pre>
-<p>The sync link can be either a dedicated NIC or a VLAN on the LAN
-switch. MurOS does not impose a topology, but a direct cable keeps
-VRRP advertisements out of the broadcast domain and survives a LAN
+<p>The sync link can be a dedicated NIC or a VLAN on the LAN switch. A direct
+cable keeps VRRP advertisements out of the broadcast domain and survives a LAN
 switch reboot.</p>
-<h2 id="what-you-configure-in-the-ui">What you configure in the UI</h2>
-<p>The <code>/ha</code> page exposes one form:</p>
+<h2 id="what-you-configure">What you configure</h2>
+<p>Under System &gt; High Availability:</p>
 <ul>
-<li><strong>Role</strong> : master or backup. The priority is computed from the
-  role (150 / 100) and is the same on every VRRP instance.</li>
-<li><strong>Authentication password</strong> : VRRP IPSEC-AH shared secret.</li>
-<li><strong>Sync interface</strong> : link used by conntrackd for the multicast
-  state replication (default group <code>225.0.0.50</code>).</li>
-<li><strong>Peer management IP</strong> : used for the inter-node DB sync over
-  HTTPS (mutual JWT, separate from the operator login).</li>
-<li><strong>VIPs</strong> : one virtual IP per interface that should fail over.
-  Each VIP carries its own VRID (10, 11, 12 ...).</li>
+<li>Role: master or backup. The VRRP priority follows the role.</li>
+<li>Authentication: the VRRP shared secret.</li>
+<li>Sync interface: the link conntrackd uses for state replication.</li>
+<li>Peer address: used to synchronise the configuration to the backup.</li>
+<li>Virtual IPs: one per interface that should fail over, each with its own
+  VRID.</li>
 </ul>
-<p>Applying this page regenerates <code>/etc/keepalived/keepalived.conf</code>,
-<code>/etc/conntrackd/conntrackd.conf</code> and restarts both services. The
-DB sync agent (<code>muros-watcher</code> on the master) pushes updates over
-HTTPS as they happen.</p>
+<p>Applying this page regenerates the keepalived and conntrackd configuration and
+restarts both services, and pushes the configuration to the backup.</p>
 <h2 id="what-survives-a-failover">What survives a failover</h2>
 <ul>
-<li>All TCP and UDP connections tracked in conntrack (web sessions,
-  SSH from the LAN to a DMZ host, IPsec SAs replicated by charon).</li>
-<li>The active WireGuard interface : peers reconnect within their
-  persistent keepalive interval (default 25 s).</li>
-<li>DHCP leases : Kea writes them to disk in a path that is part
-  of the replicated MurOS DB snapshot.</li>
+<li>TCP and UDP connections tracked in conntrack (web sessions, SSH from the LAN
+  to a DMZ host, replicated IPsec security associations).</li>
+<li>The active WireGuard interface: peers reconnect within their persistent
+  keepalive interval.</li>
+<li>DHCP leases, as part of the synchronised configuration state.</li>
 </ul>
-<h2 id="what-does-not-survive-a-failover">What does NOT survive a failover</h2>
+<h2 id="what-does-not-survive-a-failover">What does not survive a failover</h2>
 <ul>
-<li>Live diagnostic streams (tcpdump, traceroute) in the UI. The
-  operator restarts them after takeover.</li>
-<li>The current SSH session to the master IP : reconnect to the VIP
-  to land on the new master.</li>
+<li>Live diagnostic streams (packet capture, traceroute) in the UI. Restart them
+  after takeover.</li>
+<li>Your current SSH session to the master IP: reconnect to the virtual IP to
+  land on the new master.</li>
 </ul>
 <h2 id="asymmetric-pairs">Asymmetric pairs</h2>
-<p>Identical hardware is recommended but not required. As long as the
-logical interfaces (zone names + roles) match on both sides,
-keepalived owns the VIPs and conntrackd replays sessions. Two valid
-patterns:</p>
-<ul>
-<li><strong>Same vendor, same NIC count</strong>, identical cabling. Simplest.</li>
-<li><strong>Different boxes</strong> (e.g. master = 1U Xeon, backup = mini-PC).
-  The backup needs enough CPU and RAM to terminate the same
-  encrypted tunnels at the actual traffic rate or it will become
-  the bottleneck during a takeover.</li>
-</ul>
-<h2 id="verifying-the-pair-is-healthy">Verifying the pair is healthy</h2>
+<p>Identical hardware is recommended but not required. As long as the interface
+assignments match on both sides, keepalived owns the virtual IPs and
+conntrackd replays sessions. A smaller backup must still have enough CPU and
+RAM to terminate the same encrypted tunnels at the real traffic rate, or it
+becomes the bottleneck during a takeover.</p>
+<h2 id="verifying-the-pair">Verifying the pair</h2>
 <p>From either node:</p>
-<pre><code>ip -br addr | grep -E 'vrrp|UP'
+<pre><code class="language-bash">ip -br addr
 journalctl -u keepalived -n 50 --no-pager
-conntrackd -i | head -20
-curl -sk https://&lt;peer-ip&gt;/api/health -H &quot;Authorization: Bearer $TOK&quot;
+conntrackd -s
 </code></pre>
-<p>The dashboard tile <strong>Cluster status</strong> consolidates the above into
-one page: local role, peer role, last failover, sync state.</p>
 <h2 id="common-pitfalls">Common pitfalls</h2>
 <ul>
-<li><strong>VRID collision</strong> with another VRRP cluster on the same L2.
-  Each MurOS VIP picks 10..19 by default; change them if you
-  already run keepalived elsewhere.</li>
-<li><strong>Asymmetric ruleset</strong> : the DB sync prevents this in normal use,
-  but if you ever edit <code>/etc/muros/nftables.conf</code> by hand on the backup,
-  the next failover will surprise you. Trust the UI.</li>
-<li><strong>Anti-spoof filters upstream</strong> : some carriers drop a packet
-  sourced from the VIP if it arrives from the backup right after a
-  takeover. Set sticky source NAT on the upstream if observed.</li>
+<li>VRID collision with another VRRP cluster on the same L2. Change the VRIDs if
+  you already run keepalived elsewhere.</li>
+<li>Editing the generated ruleset by hand on the backup. The configuration sync
+  keeps both nodes identical; hand edits will surprise you on the next
+  failover. Drive everything from the UI.</li>
+<li>Upstream anti-spoofing that drops packets sourced from the virtual IP when
+  they arrive from the backup right after a takeover. Use sticky source NAT
+  upstream if you observe it.</li>
 </ul>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
-        <a href="https://github.com/murosorg/muros/blob/main/docs/ha.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
-        <span class="mono text-xs">muros/docs</span>
+        <a href="https://github.com/murosorg/website/blob/main/docs-src/ha.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">website/docs-src</span>
       </div>
     </article>
   </div>

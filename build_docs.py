@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Pre-render the MurOS docs to static HTML for SEO.
 
-Reads the markdown sources from the sibling muros repo (../muros/docs and
-../muros/CHANGELOG.md, overridable with MUROS_REPO) and writes one static
-page per doc under ./docs/, plus a docs.html landing index. Each page is
+Reads the markdown sources from this repo (./docs-src, overridable with
+MUROS_DOCS_SRC) and writes one static page per doc under ./docs/, plus a
+docs.html landing index. Each page is
 fully server-rendered with its own title, description, canonical and
 structured data, so search engines index the content directly instead of
 a client-side fetch.
@@ -16,26 +16,22 @@ import datetime, html, json, os, pathlib, re, markdown
 DOCS_PUBLISHED = '2026-05-27'
 
 SITE = pathlib.Path(__file__).resolve().parent
-REPO = pathlib.Path(os.environ.get('MUROS_REPO', SITE.parent / 'muros'))
-# The doc sources live in the legacy repo since muros became the OPNsense core
-# fork. Fall back to it when the configured repo carries no docs/ tree, so the
-# site stays buildable wherever the markdown currently lives.
-if not (REPO / 'docs').is_dir() and (SITE.parent / 'legacy' / 'docs').is_dir():
-    REPO = SITE.parent / 'legacy'
-DOCS_SRC = REPO / 'docs'
+# Doc sources live in this repo (docs-src/), so the site builds on its own,
+# decoupled from the muros fork. Override with MUROS_DOCS_SRC if needed.
+DOCS_SRC = pathlib.Path(os.environ.get('MUROS_DOCS_SRC', SITE / 'docs-src'))
 OUT = SITE / 'docs'
 
 # slug -> (title, description, source path relative to repo, github blob path)
 DOCS = {
-    'quickstart':   ('Quickstart', 'Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.', DOCS_SRC / 'quickstart.md', 'docs/quickstart.md'),
-    'first-filter': ('First filter rule', 'Create your first stateful filter rule from the MurOS web UI.', DOCS_SRC / 'first-filter.md', 'docs/first-filter.md'),
-    'concepts':     ('Concepts', 'Core MurOS concepts: zones, stage in database, apply, and automatic rollback.', DOCS_SRC / 'concepts.md', 'docs/concepts.md'),
-    'architecture': ('Architecture', 'How MurOS is built: database model, boot sequence and kernel push.', DOCS_SRC / 'architecture.md', 'docs/architecture.md'),
-    'services':     ('Services', 'Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.', DOCS_SRC / 'services.md', 'docs/services.md'),
-    'ha':           ('High availability', 'Active/passive high availability with keepalived VRRP and conntrackd state sync.', DOCS_SRC / 'ha.md', 'docs/ha.md'),
-    'hardware':     ('Hardware', 'Hardware sizing for MurOS: minimum specs, throughput brackets, recommended boxes and network cards.', DOCS_SRC / 'hardware.md', 'docs/hardware.md'),
-    'changelog':    ('Changelog', 'Release history and notable changes in MurOS.', REPO / 'CHANGELOG.md', 'CHANGELOG.md'),
-    'faq':          ('FAQ', 'Frequently asked questions and troubleshooting for MurOS.', DOCS_SRC / 'faq.md', 'docs/faq.md'),
+    'quickstart':   ('Quickstart', 'Install MurOS on Debian 13 and reach a working firewall in about fifteen minutes.', DOCS_SRC / 'quickstart.md', 'docs-src/quickstart.md'),
+    'first-filter': ('First filter rules', 'Create your first per-interface filter rules from the MurOS web UI.', DOCS_SRC / 'first-filter.md', 'docs-src/first-filter.md'),
+    'concepts':     ('Concepts', 'Core MurOS concepts: config.xml, interfaces, per-interface filter rules, aliases, NAT and apply.', DOCS_SRC / 'concepts.md', 'docs-src/concepts.md'),
+    'architecture': ('Architecture', 'How MurOS is built: an OPNsense fork on Debian, config.xml, nftables and systemd.', DOCS_SRC / 'architecture.md', 'docs-src/architecture.md'),
+    'services':     ('Services', 'Infrastructure services in MurOS: DHCP, DNS, time, dynamic DNS, shaping, logging, SNMP and notifications.', DOCS_SRC / 'services.md', 'docs-src/services.md'),
+    'ha':           ('High availability', 'Active/passive high availability with keepalived VRRP and conntrackd state sync.', DOCS_SRC / 'ha.md', 'docs-src/ha.md'),
+    'hardware':     ('Hardware', 'Hardware sizing for MurOS: minimum specs, throughput brackets, recommended boxes and network cards.', DOCS_SRC / 'hardware.md', 'docs-src/hardware.md'),
+    'changelog':    ('Changelog', 'Release history and notable changes in MurOS.', DOCS_SRC / 'CHANGELOG.md', 'docs-src/CHANGELOG.md'),
+    'faq':          ('FAQ', 'Frequently asked questions and troubleshooting for MurOS.', DOCS_SRC / 'faq.md', 'docs-src/faq.md'),
 }
 
 # Sidebar grouping, in order.
@@ -51,6 +47,8 @@ DOCS_HOME = '/docs/quickstart.html'
 
 REPO_BLOB = 'https://github.com/murosorg/muros/blob/main/'
 REPO_TREE = 'https://github.com/murosorg/muros/tree/main/'
+# Doc sources live in the website repo, so "Edit this page" points there.
+DOCS_REPO_BLOB = 'https://github.com/murosorg/website/blob/main/'
 HAMBURGER = ('<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" '
     'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
     'stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="7" x2="21" '
@@ -282,8 +280,8 @@ def render_doc(slug):
 {body_html}
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
-        <a href="{REPO_BLOB}{blob}" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
-        <span class="mono text-xs">muros/docs</span>
+        <a href="{DOCS_REPO_BLOB}{blob}" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">website/docs-src</span>
       </div>
     </article>
   </div>

@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f172a">
-<title>First filter rule - MurOS Docs</title>
-<meta name="description" content="Create your first stateful filter rule from the MurOS web UI.">
+<title>First filter rules - MurOS Docs</title>
+<meta name="description" content="Create your first per-interface filter rules from the MurOS web UI.">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -16,8 +16,8 @@
 <meta property="og:site_name" content="MurOS">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://muros.org/docs/first-filter.html">
-<meta property="og:title" content="First filter rule - MurOS Docs">
-<meta property="og:description" content="Create your first stateful filter rule from the MurOS web UI.">
+<meta property="og:title" content="First filter rules - MurOS Docs">
+<meta property="og:description" content="Create your first per-interface filter rules from the MurOS web UI.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -25,8 +25,8 @@
 <meta property="og:image:height" content="670">
 <meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="First filter rule - MurOS Docs">
-<meta name="twitter:description" content="Create your first stateful filter rule from the MurOS web UI.">
+<meta name="twitter:title" content="First filter rules - MurOS Docs">
+<meta name="twitter:description" content="Create your first per-interface filter rules from the MurOS web UI.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -34,8 +34,8 @@
   "@graph": [
     {
       "@type": "TechArticle",
-      "headline": "First filter rule",
-      "description": "Create your first stateful filter rule from the MurOS web UI.",
+      "headline": "First filter rules",
+      "description": "Create your first per-interface filter rules from the MurOS web UI.",
       "url": "https://muros.org/docs/first-filter.html",
       "inLanguage": "en",
       "author": {
@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-14"
+      "dateModified": "2026-06-16"
     },
     {
       "@type": "BreadcrumbList",
@@ -69,7 +69,7 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "First filter rule",
+          "name": "First filter rules",
           "item": "https://muros.org/docs/first-filter.html"
         }
       ]
@@ -111,7 +111,7 @@
       <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
       <div class="group-title">Getting started</div>
       <a href="/docs/quickstart.html" class="">Quickstart</a>
-      <a href="/docs/first-filter.html" class="active">First filter rule</a>
+      <a href="/docs/first-filter.html" class="active">First filter rules</a>
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
@@ -127,92 +127,76 @@
       </aside>
     <article>
       <div class="doc-prose">
-<h1 id="use-case-setting-up-your-first-filter">Use case: setting up your first filter</h1>
-<p>This tutorial shows how to configure MurOS from scratch for a typical use
-case: a firewall protecting an internal LAN with Internet access and
-restricted admin SSH.</p>
+<h1 id="use-case-your-first-filter-rules">Use case: your first filter rules</h1>
+<p>This tutorial configures a typical setup: a firewall protecting an internal
+LAN with Internet access, and admin SSH restricted to a single address. MurOS
+is an OPNsense fork, so rules attach to interfaces, not to zones.</p>
 <h2 id="topology">Topology</h2>
 <pre><code>   [Internet]
        |
-     eth0 (WAN, 203.0.113.10/24)
+     WAN (eth0, 203.0.113.10/24)
        |
-   +---MurOS firewall---+
+   +--- MurOS firewall ---+
        |
-     eth1 (LAN, 192.168.1.1/24)
+     LAN (eth1, 192.168.1.1/24)
        |
    [LAN hosts]
 </code></pre>
 <h2 id="step-1-interfaces">Step 1: Interfaces</h2>
-<p>Go to <strong>Network &gt; Interfaces</strong>, add:</p>
+<p>Under Interfaces &gt; Assignments, map the devices, then configure each:</p>
 <ul>
-<li><code>eth0</code>: IP <code>203.0.113.10/24</code>, MTU 1500</li>
-<li><code>eth1</code>: IP <code>192.168.1.1/24</code>, MTU 1500</li>
+<li>WAN (eth0): static IPv4 <code>203.0.113.10/24</code>, gateway set, MTU 1500.</li>
+<li>LAN (eth1): static IPv4 <code>192.168.1.1/24</code>, MTU 1500.</li>
 </ul>
-<h2 id="step-2-zones">Step 2: Zones</h2>
-<p>Go to <strong>Firewall &gt; Zones</strong>, add:</p>
+<p>Save and Apply.</p>
+<h2 id="step-2-outbound-nat-for-internet-access">Step 2: Outbound NAT for Internet access</h2>
+<p>Under Firewall &gt; NAT &gt; Outbound, leave the mode on automatic. The LAN network
+is then masqueraded behind the WAN address. Use manual mode only if you need
+custom source NAT.</p>
+<h2 id="step-3-let-the-lan-reach-the-internet">Step 3: Let the LAN reach the Internet</h2>
+<p>Under Firewall &gt; Rules, on the LAN tab, the default install ships a pass rule
+from the LAN network to any destination. Keep it. This is the rule that lets
+LAN hosts get out.</p>
+<h2 id="step-4-the-wan-stays-closed">Step 4: The WAN stays closed</h2>
+<p>The WAN tab has no pass rule toward the firewall or the LAN, so inbound
+traffic from the Internet is blocked by default. There is nothing to add to
+stay closed.</p>
+<h2 id="step-5-restrict-admin-ssh-to-one-address">Step 5: Restrict admin SSH to one address</h2>
+<p>First create an alias for the admin host. Under Firewall &gt; Aliases, add a host
+alias <code>admin_host</code> containing <code>203.0.113.99</code>.</p>
+<p>Then, under Firewall &gt; Rules on the WAN tab (or Floating if you prefer), add a
+rule above the defaults:</p>
 <ul>
-<li><code>wan</code>: interface <code>eth0</code></li>
-<li><code>lan</code>: interface <code>eth1</code></li>
+<li>Action pass, protocol TCP, source <code>admin_host</code>, destination This Firewall,
+  destination port 22.</li>
 </ul>
-<h2 id="step-3-nat-for-internet-outbound">Step 3: NAT for Internet outbound</h2>
-<p>Go to <strong>Firewall &gt; NAT</strong>, add a SNAT (or masquerade) rule:</p>
-<ul>
-<li>Source: zone <code>lan</code></li>
-<li>Destination: zone <code>wan</code></li>
-<li>Action: Masquerade</li>
-<li>Egress interface: <code>eth0</code></li>
-</ul>
-<p>Click <strong>Apply</strong>.</p>
-<h2 id="step-4-forward-rule-lan-to-wan">Step 4: Forward rule LAN to WAN</h2>
-<p>Go to <strong>Firewall &gt; Filter rules</strong>, add:</p>
-<ul>
-<li>Chain: <code>forward</code></li>
-<li>Source zone: <code>lan</code></li>
-<li>Destination zone: <code>wan</code></li>
-<li>Action: <code>accept</code></li>
-<li>Description: "Allow LAN to reach the Internet"</li>
-</ul>
-<p>Click <strong>Apply</strong>.</p>
-<h2 id="step-5-block-the-other-direction-wan-to-lan">Step 5: Block the other direction (WAN to LAN)</h2>
-<p>The default MurOS rule is already <code>drop</code> on the <code>forward</code> chain. Traffic
-from the Internet to the LAN is therefore blocked by default.</p>
-<h2 id="step-6-restricted-admin-ssh-access">Step 6: Restricted admin SSH access</h2>
-<p>In <strong>Firewall &gt; Filter rules</strong>, add in order:</p>
-<ol>
-<li>Chain <code>input</code>, source IP <code>203.0.113.99/32</code>, port 22 tcp, action <code>accept</code></li>
-<li>Chain <code>input</code>, port 22 tcp, action <code>drop</code></li>
-</ol>
-<p>The first matching rule wins, so only SSH packets coming from the admin IP
-are accepted.</p>
-<h2 id="step-7-allow-lan-to-ping-the-firewall">Step 7: Allow LAN to ping the firewall</h2>
-<ul>
-<li>Chain <code>input</code>, source zone <code>lan</code>, protocol <code>icmp</code>, action <code>accept</code></li>
-</ul>
-<h2 id="step-8-restrict-muros-ui-to-lan">Step 8: Restrict MurOS UI to LAN</h2>
-<p>The web UI always listens on every interface; you decide who can reach it
-at the firewall, the same way you expose any other service. In
-<strong>Firewall &gt; Filter rules</strong>, make sure the <code>wan</code> zone has no rule allowing the UI
-ports (<code>80</code>/<code>443</code>) to the firewall, and keep an explicit rule allowing the
-<code>lan</code> zone to reach the firewall on those ports. The default ruleset
-already permits <code>lan -&gt; firewall</code>, so the UI is reachable from the LAN and
-denied from the WAN out of the box.</p>
-<p>Click <strong>Apply</strong> and confirm within the countdown after checking the UI is
-still reachable. If you lose access, automatic rollback restores the
-previous ruleset.</p>
-<h2 id="step-9-backup-before-going-to-production">Step 9: Backup before going to production</h2>
-<p>In <strong>System &gt; Backups</strong>, click <strong>Create a backup</strong>.</p>
+<p>Because the first matching rule wins and nothing else opens port 22 from the
+WAN, only the admin host can reach SSH.</p>
+<h2 id="step-6-let-the-lan-ping-the-firewall">Step 6: Let the LAN ping the firewall</h2>
+<p>Under Firewall &gt; Rules on the LAN tab, add a pass rule, protocol ICMP, source
+LAN net, destination This Firewall. Apply.</p>
+<h2 id="step-7-keep-the-ui-on-the-lan-only">Step 7: Keep the UI on the LAN only</h2>
+<p>The web UI listens on every interface; you decide who reaches it with rules.
+Keep a pass rule on the LAN tab allowing the LAN to This Firewall on TCP 443
+(present by default), and add no such rule on the WAN tab. The UI is then
+reachable from the LAN and denied from the Internet.</p>
+<p>Click Apply and confirm within the countdown after checking the UI is still
+reachable. If you lose access, automatic rollback restores the previous
+ruleset.</p>
+<h2 id="step-8-back-up-before-going-to-production">Step 8: Back up before going to production</h2>
+<p>The whole configuration is one file. Under System &gt; Configuration &gt; Backups,
+download a copy of config.xml so you can restore it on this node or another.</p>
 <h2 id="next-steps">Next steps</h2>
 <ul>
-<li>Add a <code>dmz</code> zone for exposed servers</li>
-<li>Configure a WireGuard VPN for roaming users</li>
-<li>Enable email notifications</li>
-<li>Enable SNMP for monitoring</li>
-<li>Configure high availability if you have a 2nd node</li>
+<li>Add an opt1 interface for a DMZ of exposed servers.</li>
+<li>Configure a WireGuard VPN for roaming users.</li>
+<li>Enable a DHCP server and the DNS resolver for the LAN.</li>
+<li>Pair a second node for high availability.</li>
 </ul>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
-        <a href="https://github.com/murosorg/muros/blob/main/docs/first-filter.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
-        <span class="mono text-xs">muros/docs</span>
+        <a href="https://github.com/murosorg/website/blob/main/docs-src/first-filter.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">website/docs-src</span>
       </div>
     </article>
   </div>

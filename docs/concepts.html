@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f172a">
 <title>Concepts - MurOS Docs</title>
-<meta name="description" content="Core MurOS concepts: zones, stage in database, apply, and automatic rollback.">
+<meta name="description" content="Core MurOS concepts: config.xml, interfaces, per-interface filter rules, aliases, NAT and apply.">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://muros.org/docs/concepts.html">
 <meta property="og:title" content="Concepts - MurOS Docs">
-<meta property="og:description" content="Core MurOS concepts: zones, stage in database, apply, and automatic rollback.">
+<meta property="og:description" content="Core MurOS concepts: config.xml, interfaces, per-interface filter rules, aliases, NAT and apply.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -26,7 +26,7 @@
 <meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Concepts - MurOS Docs">
-<meta name="twitter:description" content="Core MurOS concepts: zones, stage in database, apply, and automatic rollback.">
+<meta name="twitter:description" content="Core MurOS concepts: config.xml, interfaces, per-interface filter rules, aliases, NAT and apply.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -35,7 +35,7 @@
     {
       "@type": "TechArticle",
       "headline": "Concepts",
-      "description": "Core MurOS concepts: zones, stage in database, apply, and automatic rollback.",
+      "description": "Core MurOS concepts: config.xml, interfaces, per-interface filter rules, aliases, NAT and apply.",
       "url": "https://muros.org/docs/concepts.html",
       "inLanguage": "en",
       "author": {
@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-15"
+      "dateModified": "2026-06-16"
     },
     {
       "@type": "BreadcrumbList",
@@ -111,7 +111,7 @@
       <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
       <div class="group-title">Getting started</div>
       <a href="/docs/quickstart.html" class="">Quickstart</a>
-      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <a href="/docs/first-filter.html" class="">First filter rules</a>
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="active">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
@@ -128,117 +128,70 @@
     <article>
       <div class="doc-prose">
 <h1 id="muros-concepts">MurOS concepts</h1>
-<p>This document explains the key concepts you will encounter in the UI.</p>
+<p>These are the core concepts you meet in the MurOS web UI. MurOS is an OPNsense
+fork, so the model is OPNsense's, running on a Debian system.</p>
+<h2 id="configuration-and-apply">Configuration and Apply</h2>
+<p>Everything is stored in one file, <code>/conf/config.xml</code>. You edit settings in the
+UI and save them; saved changes are staged, not necessarily live yet. Pages
+that change the running system show an Apply action that pushes the staged
+configuration to the kernel and the services. A firewall apply opens a
+rollback timer: if you lose access and do not confirm, the previous ruleset is
+restored.</p>
 <h2 id="interfaces">Interfaces</h2>
-<p>An <strong>interface</strong> represents a network card on the firewall: <code>eth0</code>, <code>eth1</code>, a
-VLAN on <code>eth0</code> (e.g. <code>eth0.10</code>), a bridge, a WireGuard tunnel <code>wg0</code>, etc.
-In MurOS, each interface has:</p>
+<p>An interface is a logical handle (wan, lan, opt1, opt2, and so on) mapped to a
+network device on the box: for example eth0, eth1, a VLAN such as eth0.10, or a
+VPN device. Each interface carries an IPv4 and/or IPv6 address, an optional
+gateway and an optional MTU.</p>
+<p>A firewall LAN is static; only the WAN should use DHCP. Interfaces are mapped
+under Interfaces &gt; Assignments and configured on their own page.</p>
+<h2 id="firewall-rules">Firewall rules</h2>
+<p>MurOS filters per interface, not by zone. Each interface (WAN, LAN, ...) has
+its own rules tab under Firewall &gt; Rules, plus a Floating tab for rules that
+span interfaces. Rules are evaluated on the interface where a packet enters,
+top to bottom, first match wins.</p>
+<p>A rule action is one of:</p>
 <ul>
-<li>A name (the Linux name: <code>eth0</code>, <code>eth0.10</code>)</li>
-<li>One or more IP addresses (with CIDR mask: <code>192.168.1.1/24</code>)</li>
-<li>Optionally a custom MTU</li>
-<li>An assigned zone (see below)</li>
+<li>pass: let the packet through</li>
+<li>block: silently drop it</li>
+<li>reject: drop it and tell the sender (TCP reset or ICMP unreachable)</li>
 </ul>
-<p>Interfaces are configured in <strong>Network &gt; Interfaces</strong>.</p>
-<h2 id="zones">Zones</h2>
-<p>A <strong>zone</strong> is a logical grouping of interfaces that share the same trust
-level. It is the core filtering concept of MurOS, inspired by
-OPNsense / Shorewall.</p>
-<p>Typical examples:</p>
+<p>Out of the box, the LAN allows outbound traffic and the WAN blocks everything
+inbound, so the box is closed from the Internet and open from the inside.</p>
+<h2 id="aliases">Aliases</h2>
+<p>An alias is a named group of addresses, networks, ports or hosts that you
+reference in rules instead of repeating literals. Edit one alias, every rule
+that uses it follows. On Debian these map to named nftables sets. Manage them
+under Firewall &gt; Aliases.</p>
+<h2 id="nat">NAT</h2>
 <ul>
-<li><code>wan</code>: internet-facing interface(s), untrusted</li>
-<li><code>lan</code>: internal network, trusted</li>
-<li><code>dmz</code>: exposed servers</li>
-<li><code>mgmt</code>: admin network</li>
-<li><code>vpn</code>: VPN tunnel interfaces</li>
+<li>Outbound NAT (source NAT or masquerade): lets LAN hosts reach the Internet
+  behind the firewall address. Modes are automatic, hybrid or manual.</li>
+<li>Port forward (destination NAT): publishes an internal service on a WAN port.</li>
 </ul>
-<p>Filter rules reference zones (not interfaces directly). That way, if you add
-a 2nd interface to the LAN tomorrow, the rules keep working.</p>
-<p>Zones are defined in <strong>Network &gt; Zones</strong>.</p>
-<h2 id="filter-rules">Filter rules</h2>
-<p>A <strong>rule</strong> decides the fate of packets matching its criteria:
-* <code>accept</code>: let through
-* <code>drop</code>: silently discard (sender does not know)
-* <code>reject</code>: send back an ICMP "unreachable" (sender is informed)</p>
-<p>Possible criteria:
-* <strong>Chain</strong>: <code>input</code> (packets to the firewall itself), <code>forward</code> (packets
-  traversing two interfaces), <code>output</code> (packets emitted by the firewall)
-* <strong>Source zone</strong> and <strong>destination zone</strong>
-* <strong>Protocol</strong> (tcp, udp, icmp, sctp)
-* <strong>Destination port</strong> (or range)
-* <strong>Source</strong> and/or <strong>destination address</strong> (IP or CIDR)
-* <strong>Rate-limit</strong> (e.g. <code>100/s burst 20</code>)
-* <strong>Log</strong>: if enabled, matched packets are written to journalctl</p>
-<p>Rules are ordered: the first one that matches takes the decision. A default
-<code>drop</code> rule is appended at the end by MurOS.</p>
-<p>Rules are managed in <strong>Firewall &gt; Filter rules</strong>. Click <strong>Apply</strong> after editing to
-push into nftables.</p>
-<h2 id="nat-network-address-translation">NAT (Network Address Translation)</h2>
-<p><strong>NAT</strong> lets you modify packet addresses:</p>
-<ul>
-<li><strong>SNAT / Masquerade</strong>: replaces the source IP. Typical use: LAN hosts go
-  out to the Internet with the firewall's public IP.</li>
-<li><strong>DNAT</strong>: replaces the destination IP. Use case: expose an internal web
-  server by redirecting traffic arriving on port 443 of the public IP.</li>
-</ul>
-<p>Managed in <strong>Firewall &gt; NAT</strong>.</p>
+<p>Both live under Firewall &gt; NAT.</p>
 <h2 id="vpn">VPN</h2>
-<p>Three technologies available:</p>
-<h3 id="wireguard">WireGuard</h3>
-<p>Modern, simple, fast VPN protocol. Configured in <strong>VPN &gt; WireGuard</strong>:
-* An "interface" wg0 with IP, listen port, private key
-* "Peers" (clients or other firewalls) with their public key, allowed IPs,
-  optionally an endpoint and a keepalive</p>
-<p>Best for: roaming users (laptop, phone), simple site-to-site, performance.</p>
-<h3 id="ipsec-strongswan">IPsec (StrongSwan)</h3>
-<p>Standard protocol interoperable with everything (Cisco, Fortinet, etc.).
-Configured in <strong>VPN &gt; IPsec</strong>:
-* Connections with local/remote address, IKE and ESP proposals
-* Auth via PSK (pre-shared key) or X.509 certificate
-* Integrated PKI: MurOS can generate the CA, peer certificates and the CRL</p>
-<p>Best for: interoperability, client contracts that mandate IPsec.</p>
-<h3 id="openvpn">OpenVPN</h3>
-<p>Classic TLS VPN with the widest client support. Configured in
-<strong>VPN &gt; OpenVPN</strong> as a single road-warrior server:
-* Transport over UDP or TCP, listen port, tunnel subnet, pushed routes and
-  DNS, optional redirect-gateway to tunnel all client traffic
-* A built-in PKI (CA, server certificate, tls-crypt control-channel key)
-  kept in the database and written to disk only on Apply
-* Per-client certificates with downloadable inline <code>.ovpn</code> profiles, CRL
-  revocation and a live view of connected clients</p>
-<p>The control channel is wrapped with tls-crypt and the data channel uses
-AES-256-GCM. Certificates are RSA-2048 for maximum client compatibility.</p>
-<p>Best for: roaming users on managed devices, broad device compatibility,
-restrictive networks (TCP fallback).</p>
-<h2 id="high-availability-ha">High Availability (HA)</h2>
-<p>MurOS supports an <strong>active-passive 2-node</strong> configuration:
-* <strong>keepalived</strong> handles VIP failover via VRRP
-* <strong>conntrackd</strong> synchronizes connection state between the 2 nodes
-  (established connections survive the failover)
-* MurOS synchronizes its own configuration DB between the 2 nodes (the
-  BACKUP receives all changes made on the MASTER)</p>
-<p>A node is either <strong>MASTER</strong> or <strong>BACKUP</strong> at a given moment. The MASTER
-holds the VIPs, the BACKUP waits silently. If the MASTER goes down, the
-BACKUP takes over the VIP and keeps serving traffic.</p>
-<p>Managed in <strong>Administration &gt; High availability</strong>.</p>
-<h2 id="audit-log">Audit log</h2>
-<p>All UI-driven changes (rule creation, peer deletion, config apply...) are
-logged in <strong>Observability &gt; Logs</strong>, "Web actions" tab. This lets you trace
-who did what and when.</p>
-<p>Read operations (GET) are not logged to avoid noise (otherwise UI polling
-would saturate the table).</p>
-<h2 id="backups">Backups</h2>
-<p>MurOS backs up its entire <strong>SQLite DB</strong> (which contains the whole config:
-rules, zones, peers, etc.). Backups can be:
-* Local in <code>/var/lib/muros/backups/</code>
-* Remote via rclone, FTP, or SSH (depending on what is configured)</p>
-<p>A backup is created automatically before every HA sync (so you can roll
-back if the sync breaks something).</p>
-<p>Managed in <strong>Administration &gt; System</strong>, Backups tab.</p>
+<ul>
+<li>WireGuard: modern, fast and simple. Best for roaming devices and simple
+  site-to-site links.</li>
+<li>IPsec: standards-based, interoperable with third-party gear, PSK or X.509.</li>
+<li>OpenVPN: TLS VPN with the widest client support, a road-warrior server with
+  downloadable client profiles.</li>
+</ul>
+<p>Manage them under VPN.</p>
+<h2 id="high-availability">High availability</h2>
+<p>An active/passive pair. On Debian, keepalived owns the virtual IPs over VRRP
+(replacing FreeBSD CARP), conntrackd replicates connection state (replacing
+pfsync), and config.xml is synchronised to the backup so it always holds the
+full configuration. See the High availability page.</p>
+<h2 id="logging-and-backups">Logging and backups</h2>
+<p>Filter and system logs are visible in the UI and on the box through
+journalctl. Because the whole configuration is a single file, a backup is just
+an export of config.xml that you can restore on the same node or a different
+one.</p>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
-        <a href="https://github.com/murosorg/muros/blob/main/docs/concepts.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
-        <span class="mono text-xs">muros/docs</span>
+        <a href="https://github.com/murosorg/website/blob/main/docs-src/concepts.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">website/docs-src</span>
       </div>
     </article>
   </div>

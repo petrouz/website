@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f172a">
 <title>Services - MurOS Docs</title>
-<meta name="description" content="Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.">
+<meta name="description" content="Infrastructure services in MurOS: DHCP, DNS, time, dynamic DNS, shaping, logging, SNMP and notifications.">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://muros.org/docs/services.html">
 <meta property="og:title" content="Services - MurOS Docs">
-<meta property="og:description" content="Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.">
+<meta property="og:description" content="Infrastructure services in MurOS: DHCP, DNS, time, dynamic DNS, shaping, logging, SNMP and notifications.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -26,7 +26,7 @@
 <meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Services - MurOS Docs">
-<meta name="twitter:description" content="Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.">
+<meta name="twitter:description" content="Infrastructure services in MurOS: DHCP, DNS, time, dynamic DNS, shaping, logging, SNMP and notifications.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -35,7 +35,7 @@
     {
       "@type": "TechArticle",
       "headline": "Services",
-      "description": "Infrastructure services in MurOS: DHCP, DHCPv6, DNS, NTP, dynamic DNS, QoS, remote syslog, SNMP and email notifications.",
+      "description": "Infrastructure services in MurOS: DHCP, DNS, time, dynamic DNS, shaping, logging, SNMP and notifications.",
       "url": "https://muros.org/docs/services.html",
       "inLanguage": "en",
       "author": {
@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-14"
+      "dateModified": "2026-06-16"
     },
     {
       "@type": "BreadcrumbList",
@@ -111,7 +111,7 @@
       <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
       <div class="group-title">Getting started</div>
       <a href="/docs/quickstart.html" class="">Quickstart</a>
-      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <a href="/docs/first-filter.html" class="">First filter rules</a>
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
@@ -129,62 +129,52 @@
       <div class="doc-prose">
 <h1 id="muros-services">MurOS services</h1>
 <p>Besides filtering, NAT and VPN, MurOS runs the infrastructure services a
-firewall is usually expected to provide. Each one has its own page in the UI
-and is only written to the system when you click <strong>Apply</strong>.</p>
-<h2 id="dhcp-server-ipv4">DHCP server (IPv4)</h2>
-<p>Hands out IPv4 addresses to LAN hosts using <strong>ISC Kea</strong>. Per interface you
-define a pool (range), the lease time, and the options pushed to clients
-(gateway, DNS, domain). Static leases bind a fixed address to a MAC so a host
-always gets the same IP.</p>
-<p>Managed in <strong>Services &gt; DHCP server</strong>.</p>
-<h2 id="dhcpv6-server">DHCPv6 server</h2>
-<p>Stateful IPv6 address assignment, also through <strong>Kea</strong>. You hand out addresses
-from a per-interface IPv6 pool, the IPv6 equivalent of the DHCP server above.</p>
-<p>Managed in <strong>Services &gt; DHCPv6 server</strong>.</p>
-<h2 id="dns-server">DNS server</h2>
-<p>A recursive DNS resolver for the LAN, backed by <strong>Unbound</strong>. It resolves names
-for your internal clients and can serve local records (name to IP) for hosts
-on your network. It is enabled by default.</p>
-<p>This is the resolver MurOS offers to the LAN. It is not the same thing as the
-appliance's own resolver (the one apt, curl or ntp use on the firewall
-itself), which is managed separately. By default the firewall keeps its own
-upstream resolver; an opt-in option can point the appliance at its local
-Unbound instead.</p>
-<p>Managed in <strong>Services &gt; DNS server</strong>.</p>
-<h2 id="ntp-server">NTP server</h2>
-<p>Time synchronization through <strong>chrony</strong>. The firewall keeps its own clock in
-sync with upstream time sources and can serve time to the LAN. A correct clock
-matters for logs, certificates and VPN.</p>
-<p>Managed in <strong>Services &gt; NTP server</strong>.</p>
+firewall is usually expected to provide. Each has its own page in the UI and
+is only written to the system when you Apply. On Debian these map to the
+standard Linux daemons.</p>
+<p>During beta, the service pages and the configuration model are in place; the
+backends that drive the Linux daemons are being ported from the FreeBSD
+originals. Treat this page as the target behaviour.</p>
+<h2 id="dhcp-server-ipv4-and-ipv6">DHCP server (IPv4 and IPv6)</h2>
+<p>Hands out addresses to LAN hosts using Kea. Per interface you define a pool
+(range), the lease time and the options pushed to clients (gateway, DNS,
+domain). Static mappings bind a fixed address to a MAC so a host always gets
+the same IP. Managed under Services &gt; Kea DHCP.</p>
+<h2 id="dns-resolver">DNS resolver</h2>
+<p>A recursive resolver for the LAN, backed by Unbound. It resolves names for
+internal clients and can serve local host overrides (name to IP). This is the
+resolver MurOS offers to the LAN; the firewall keeps its own upstream resolver
+for apt, curl and time sync unless you point it at the local Unbound. Managed
+under Services &gt; Unbound DNS.</p>
+<h2 id="network-time">Network time</h2>
+<p>Time synchronisation through chrony. The firewall keeps its clock in sync with
+upstream sources and can serve time to the LAN. A correct clock matters for
+logs, certificates and VPN. Managed under Services &gt; Network Time.</p>
 <h2 id="dynamic-dns">Dynamic DNS</h2>
-<p>Keeps one or more hostnames pointed at the firewall's current public IP. Useful
-when the WAN address is dynamic and you need a stable name to reach a VPN
-endpoint or a published service from the outside.</p>
-<p>Managed in <strong>Network &gt; Dynamic DNS</strong>.</p>
-<h2 id="qos-traffic-shaping">QoS / traffic shaping</h2>
-<p>Egress bandwidth prioritisation per interface, using the kernel's <strong>HTB</strong> with
-<strong>fq_codel</strong>. You cap the total egress rate of an interface, split it into
-classes with guaranteed and ceiling rates, and assign traffic to a class with
-match rules (by protocol, port or address). This keeps interactive traffic
-responsive when the link is saturated.</p>
-<p>Managed in <strong>Network &gt; QoS / Shaping</strong>.</p>
-<h2 id="remote-syslog">Remote syslog</h2>
-<p>Forwards the firewall's journald / syslog messages to a central syslog server
-or SIEM, over UDP or TCP, through <strong>rsyslog</strong>. Use it to keep logs off the box
-and to centralise them with the rest of your fleet.</p>
-<p>Managed in <strong>Observability &gt; Remote syslog</strong>.</p>
+<p>Keeps one or more hostnames pointed at the firewall's current public IP.
+Useful when the WAN address is dynamic and you need a stable name to reach a
+VPN endpoint or a published service. Managed under Services &gt; Dynamic DNS.</p>
+<h2 id="traffic-shaping">Traffic shaping</h2>
+<p>Egress bandwidth control per interface, using the kernel's queueing
+disciplines. You cap an interface's egress rate, split it into classes with
+guaranteed and ceiling rates, and assign traffic to a class with match rules.
+This keeps interactive traffic responsive when the link is saturated. Managed
+under Firewall &gt; Shaper.</p>
+<h2 id="remote-logging">Remote logging</h2>
+<p>Forwards the firewall's logs to a central syslog server or SIEM over UDP or
+TCP. Use it to keep logs off the box and centralise them with the rest of your
+fleet. Managed under System &gt; Settings &gt; Logging.</p>
 <h2 id="snmp">SNMP</h2>
-<p>Exposes read-only metrics for monitoring tools. Both SNMP <strong>v2c</strong> (community
-string) and <strong>v3</strong> (USM, with authentication and privacy) are supported.</p>
-<p>Managed in <strong>Observability &gt; SNMP</strong>.</p>
-<h2 id="email-notifications">Email notifications</h2>
-<p>Sends email alerts on critical events. Configure the SMTP relay and the
-recipients so the firewall can warn you when something needs attention.</p>
-<p>Managed in <strong>Observability &gt; Notifications</strong>.</p>
+<p>Exposes read-only metrics for monitoring tools, SNMP v2c (community string)
+and v3 (with authentication and privacy). Managed under Services &gt; SNMP.</p>
+<h2 id="notifications">Notifications</h2>
+<p>Sends email alerts on important events. Configure the SMTP relay and the
+recipients so the firewall can warn you when something needs attention.
+Managed under System &gt; Settings &gt; Notifications.</p>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
-        <a href="https://github.com/murosorg/muros/blob/main/docs/services.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
-        <span class="mono text-xs">muros/docs</span>
+        <a href="https://github.com/murosorg/website/blob/main/docs-src/services.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">website/docs-src</span>
       </div>
     </article>
   </div>

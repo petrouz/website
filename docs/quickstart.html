@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-15"
+      "dateModified": "2026-06-16"
     },
     {
       "@type": "BreadcrumbList",
@@ -111,7 +111,7 @@
       <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
       <div class="group-title">Getting started</div>
       <a href="/docs/quickstart.html" class="active">Quickstart</a>
-      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <a href="/docs/first-filter.html" class="">First filter rules</a>
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
@@ -127,39 +127,35 @@
       </aside>
     <article>
       <div class="doc-prose">
-<h1 id="muros-first-deployment">MurOS - first deployment</h1>
-<p>There are two ways to install MurOS, and both give the exact same system:</p>
+<h1 id="muros-first-deployment">MurOS, first deployment</h1>
+<p>MurOS is a fork of OPNsense ported to Debian 13. There are two ways to install
+it, and both give the same system:</p>
 <ul>
-<li><strong>Option A (recommended): the installer ISO.</strong> It boots and installs
-  itself offline, no Linux to assemble and no command line.</li>
-<li><strong>Option B: on an existing Debian 13.</strong> Install the package on top of a
-  server you already provisioned.</li>
+<li>Option A (recommended): the installer ISO. It boots and installs itself
+  offline, no Linux to assemble and no command line.</li>
+<li>Option B: on an existing Debian 13. Install the package on top of a server
+  you already provisioned.</li>
 </ul>
-<p>MurOS targets <strong>Debian 13 (Trixie), amd64</strong>. Other distributions (Ubuntu,
-Rocky, RHEL) are not supported: MurOS relies on Debian-specific drop-in
-paths. Whatever the install path, later upgrades flow through apt.</p>
+<p>MurOS targets Debian 13 (Trixie), amd64. Other distributions (Ubuntu, Rocky,
+RHEL) are not supported: MurOS relies on Debian-specific drop-in paths.
+Whatever the install path, later upgrades flow through apt.</p>
 <h2 id="hardware">Hardware</h2>
-<p>An x86_64 machine (VM or bare metal) with at least 1 vCPU, 2 GB RAM, 8 GB
-disk and <strong>two network interfaces</strong> (one WAN, one LAN). 2 vCPU and 4 GB are
-comfortable. See the Hardware page for sizing by throughput.</p>
+<p>An x86_64 machine (VM or bare metal) with at least 1 vCPU, 2 GB RAM, 8 GB disk
+and two network interfaces (one WAN, one LAN). 2 vCPU and 4 GB are comfortable.
+See the Hardware page for sizing by throughput.</p>
 <hr />
 <h2 id="option-a-the-installer-iso-recommended">Option A: the installer ISO (recommended)</h2>
 <ol>
-<li>Download the ISO from the Install page (or <code>https://download.muros.org/iso/</code>)
-   and write it to a USB key (<code>dd</code>, Rufus, balenaEtcher), or attach it to a
-   VM.</li>
-<li>Boot the machine and pick <strong>Install MurOS</strong>. Choose your keyboard
-   layout, then the LAN interface and its static IP. The rest of the
-   install runs automatically and offline.</li>
+<li>Download the ISO from the Install page and write it to a USB key (<code>dd</code>,
+   Rufus, balenaEtcher), or attach it to a VM.</li>
+<li>Boot the machine and pick Install MurOS. Choose your keyboard layout, then
+   the LAN interface and its static IP. The rest of the install runs offline.</li>
 <li>After reboot, open <code>https://&lt;the-LAN-IP&gt;/</code> in any browser and accept the
-   self-signed certificate. Log in with <strong><code>root</code> / <code>root</code></strong> (a value that
-   types the same on AZERTY and QWERTY, so the first login is never blocked
-   by a keyboard mismatch). You are asked to set a new password right away.</li>
+   self-signed certificate. Log in as <code>root</code> with the default password
+   <code>opnsense</code>. Change it right away under System &gt; Access &gt; Users.</li>
 </ol>
-<p>The LAN address you set during install is what MurOS uses. A firewall LAN
-is static, never DHCP: it is configured once at install and not changed
-from the UI. Your LAN interface is therefore already done; jump to
-<strong>Configure the firewall</strong> and start with the WAN.</p>
+<p>The LAN address you set during install is what MurOS uses. A firewall LAN is
+static, never DHCP: it is set once at install and not changed from the UI.</p>
 <hr />
 <h2 id="option-b-on-an-existing-debian-13-advanced">Option B: on an existing Debian 13 (advanced)</h2>
 <p>Prerequisites:</p>
@@ -173,18 +169,10 @@ from the UI. Your LAN interface is therefore already done; jump to
 <pre><code class="language-bash">curl -fsSL https://download.muros.org/install.sh | sudo bash
 </code></pre>
 <p>The script imports the repository signing key, writes
-<code>/etc/apt/sources.list.d/muros.list</code>, removes competing network managers
-(NetworkManager, ifupdown, netplan, systemd-resolved) that conflict with
-the MurOS control plane, installs the <code>muros</code> package and enables
-<code>muros-backend</code>, <code>nginx</code> and <code>muros-boot</code>. At the end it prints something
-like:</p>
-<pre><code>MurOS installed.
-
-  UI     : https://192.168.1.10/  (self-signed cert, accept the browser warning)
-  Login  : root  (use the existing root password; MurOS does not change it)
-</code></pre>
-<p>Open the UI and log in as <code>root</code> with your existing system root password.
-MurOS does not touch it, so there is nothing to reset on first login.</p>
+<code>/etc/apt/sources.list.d/muros.list</code>, removes competing network managers that
+conflict with the firewall control plane, and installs the <code>muros</code> package.
+When it finishes, open <code>https://&lt;firewall-ip&gt;/</code> and log in as <code>root</code> /
+<code>opnsense</code>, then change the password.</p>
 <hr />
 <h2 id="upgrades">Upgrades</h2>
 <p>Every install, ISO included, upgrades the same way:</p>
@@ -192,72 +180,49 @@ MurOS does not touch it, so there is nothing to reset on first login.</p>
 </code></pre>
 <hr />
 <h2 id="configure-the-firewall">Configure the firewall</h2>
-<p>MurOS stages every change in its database first; nothing touches the kernel
-until you click <strong>Apply</strong>. Network and firewall applies open a confirmation
-countdown (60s by default) and auto-roll-back if you lose access, so you can
-never lock yourself out of the box.</p>
-<h3 id="1-interfaces-network-interfaces">1. Interfaces (Network &gt; Interfaces)</h3>
-<p><strong>WAN</strong>: click the interface facing the Internet (e.g. <code>eth0</code> or <code>ens3</code>),
-set IP mode <code>static</code> or <code>dhcp</code> depending on your uplink. If static, set the
-IP with its CIDR mask, gateway and DNS. Save.</p>
-<p><strong>LAN</strong> (Option B only - the ISO already set it): click the internal
-interface, IP mode <code>static</code>, e.g. <code>10.0.0.1/24</code>. Save.</p>
-<p>An orange banner shows the unapplied network changes. Click <strong>Apply</strong>,
-check you still have UI access, then <strong>Confirm</strong>.</p>
-<h3 id="2-zones-firewall-zones">2. Zones (Firewall &gt; Zones)</h3>
-<p>Add a <code>wan</code> zone (the WAN interface) and a <code>lan</code> zone (the LAN interface).
-Filter rules reference zones, not interfaces, so adding a second LAN card
-later keeps the rules working.</p>
-<h3 id="3-filter-rules-firewall-filter-rules">3. Filter rules (Firewall &gt; Filter rules)</h3>
-<p>The default ruleset drops everything in <code>input</code> and <code>forward</code>, so you only
-add what you want to open:</p>
+<p>MurOS stages every change in <code>/conf/config.xml</code> first; nothing touches the
+kernel until you Apply. A firewall apply opens a confirmation countdown and
+rolls back automatically if you lose access, so you cannot lock yourself out.</p>
+<h3 id="1-interfaces-interfaces-assignments-then-wan-lan">1. Interfaces (Interfaces &gt; Assignments, then WAN / LAN)</h3>
+<p>WAN: open the WAN interface, set its addressing to static or DHCP depending on
+your uplink. If static, set the IP with its CIDR mask, gateway and DNS. Save.</p>
+<p>LAN (Option B only, the ISO already set it): open the LAN interface, static
+addressing, for example <code>10.0.0.1/24</code>. Save, then Apply.</p>
+<h3 id="2-firewall-rules-firewall-rules">2. Firewall rules (Firewall &gt; Rules)</h3>
+<p>Rules attach to the interface where traffic enters. The defaults already let
+the LAN out and keep the WAN closed, so you mainly add what you want to open:</p>
 <ul>
-<li><code>forward</code> <code>lan</code> -&gt; <code>wan</code>, action accept (LAN reaches the Internet)</li>
-<li><code>input</code> <code>lan</code> -&gt; firewall, tcp ports 22 and 443, accept (SSH + UI from the LAN)</li>
-<li><code>input</code> <code>lan</code>, protocol icmp, accept (ping the firewall from the LAN)</li>
+<li>On LAN: a pass rule, source LAN net, destination any, lets the LAN reach the
+  Internet (present by default).</li>
+<li>On LAN: a pass rule to the firewall on TCP 22 and 443 for SSH and the UI.</li>
 </ul>
-<p>The WAN zone keeps no rule toward the firewall, so the box stays closed
-from the Internet. Click <strong>Apply</strong>, then <strong>Confirm</strong>.</p>
-<h3 id="4-nat-firewall-nat">4. NAT (Firewall &gt; NAT)</h3>
-<p>Add a rule: type <code>masquerade</code>, egress interface = your WAN interface,
-source = your LAN network (e.g. <code>10.0.0.0/24</code>). Save and Apply. The LAN can
-now reach the Internet through the firewall.</p>
+<p>The WAN keeps no rule toward the firewall, so the box stays closed from the
+Internet. Click Apply, check you still have access, then Confirm.</p>
+<h3 id="3-outbound-nat-firewall-nat-outbound">3. Outbound NAT (Firewall &gt; NAT &gt; Outbound)</h3>
+<p>Leave outbound NAT on automatic and the LAN reaches the Internet behind the
+WAN address. Switch to manual only if you need custom source NAT.</p>
 <hr />
 <h2 id="test-from-a-lan-host">Test from a LAN host</h2>
 <p>Plug a PC into the LAN, static IP <code>10.0.0.50/24</code>, gateway <code>10.0.0.1</code>, DNS
 <code>1.1.1.1</code>. From the PC:</p>
-<pre><code class="language-bash">ping 10.0.0.1            # firewall reachable
-ping 1.1.1.1             # Internet OK
+<pre><code class="language-bash">ping 10.0.0.1              # firewall reachable
+ping 1.1.1.1               # Internet OK
 curl -k https://10.0.0.1/  # UI reachable from LAN
 </code></pre>
 <p>If everything responds, your firewall is running.</p>
 <hr />
-<h2 id="next-steps-optional">Next steps (optional)</h2>
-<ul>
-<li><strong>LAN services</strong>: hand out addresses and resolve names for the LAN from
-  Services &gt; DHCP server and Services &gt; DNS server (the recursive resolver
-  is on by default). See the Services page for the full list.</li>
-<li><strong>WireGuard VPN</strong>: VPN &gt; WireGuard, generate a server key, add a peer.</li>
-<li><strong>OpenVPN</strong>: VPN &gt; OpenVPN, enable the road-warrior server, add a client
-  and download its ready-to-import <code>.ovpn</code> profile.</li>
-<li><strong>TLS certificate</strong>: Administration &gt; HTTP access, upload one or
-  regenerate the self-signed cert with your own CN.</li>
-<li><strong>High availability</strong>: Administration &gt; High availability, pair a second
-  firewall active/passive.</li>
-<li><strong>Observability</strong>: Observability &gt; Remote syslog, SNMP and Notifications.</li>
-</ul>
-<hr />
 <h2 id="locked-out">Locked out?</h2>
 <p>The console always keeps root access. If a too-strict rule or a failed
-rollback locks the UI, one command resets the firewall:</p>
+rollback locks the UI, reload the ruleset from the console:</p>
 <pre><code class="language-bash">nft flush ruleset
-systemctl restart muros-backend
+systemctl restart muros-firewall
 </code></pre>
-<p>The UI is reachable again. See the FAQ for the other classic traps.</p>
+<p>The anti-lockout baseline comes back and the UI is reachable again. See the
+FAQ for the other classic traps.</p>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
-        <a href="https://github.com/murosorg/muros/blob/main/docs/quickstart.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
-        <span class="mono text-xs">muros/docs</span>
+        <a href="https://github.com/murosorg/website/blob/main/docs-src/quickstart.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">website/docs-src</span>
       </div>
     </article>
   </div>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f172a">
 <title>Architecture - MurOS Docs</title>
-<meta name="description" content="How MurOS is built: database model, boot sequence and kernel push.">
+<meta name="description" content="How MurOS is built: an OPNsense fork on Debian, config.xml, nftables and systemd.">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://muros.org/docs/architecture.html">
 <meta property="og:title" content="Architecture - MurOS Docs">
-<meta property="og:description" content="How MurOS is built: database model, boot sequence and kernel push.">
+<meta property="og:description" content="How MurOS is built: an OPNsense fork on Debian, config.xml, nftables and systemd.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -26,7 +26,7 @@
 <meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Architecture - MurOS Docs">
-<meta name="twitter:description" content="How MurOS is built: database model, boot sequence and kernel push.">
+<meta name="twitter:description" content="How MurOS is built: an OPNsense fork on Debian, config.xml, nftables and systemd.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -35,7 +35,7 @@
     {
       "@type": "TechArticle",
       "headline": "Architecture",
-      "description": "How MurOS is built: database model, boot sequence and kernel push.",
+      "description": "How MurOS is built: an OPNsense fork on Debian, config.xml, nftables and systemd.",
       "url": "https://muros.org/docs/architecture.html",
       "inLanguage": "en",
       "author": {
@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-15"
+      "dateModified": "2026-06-16"
     },
     {
       "@type": "BreadcrumbList",
@@ -111,7 +111,7 @@
       <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
       <div class="group-title">Getting started</div>
       <a href="/docs/quickstart.html" class="">Quickstart</a>
-      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <a href="/docs/first-filter.html" class="">First filter rules</a>
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="">Concepts</a>
       <a href="/docs/architecture.html" class="active">Architecture</a>
@@ -128,181 +128,107 @@
     <article>
       <div class="doc-prose">
 <h1 id="architecture">Architecture</h1>
-<p>This document maps the moving parts of a MurOS install: which files it
-owns on disk, which daemons it manages, and how an operator action in
-the UI propagates down to the kernel.</p>
-<h2 id="layout-on-disk">Layout on disk</h2>
-<pre><code>/opt/muros/                                  code (FastAPI backend + built Vite frontend)
-/opt/muros/backend/venv/                     Python venv built at postinst
-/var/lib/muros/muros.db                      SQLite, the only source of truth
-/var/lib/muros/muros-secret.key              JWT signing secret (mode 0600)
-/var/lib/muros/backups/                      DB + config snapshots
-/etc/muros/                                  out-of-band configuration owned by muros user
-/etc/muros/jwt.key                           JWT HMAC key
-/etc/muros/unattended.json                   unattended-upgrades schedule (UI-managed)
-</code></pre>
-<p>Generated configuration files (rewritten on every Apply):</p>
-<pre><code>/etc/muros/nftables.conf                     full ruleset (filter + NAT)
-/etc/keepalived/keepalived.conf              VRRP
-/etc/conntrackd/conntrackd.conf              state replication
-/etc/wireguard/wg0.conf                      WireGuard
-/etc/swanctl/conf.d/muros.conf               StrongSwan
-/etc/openvpn/server/muros.conf               OpenVPN (PKI under muros-pki/)
-/etc/kea/kea-dhcp4.conf                      DHCP server (Kea)
-/etc/kea/kea-dhcp6.conf                      DHCPv6 server (Kea)
-/etc/unbound/unbound.conf.d/muros.conf       recursive DNS
-/etc/ssh/sshd_config.d/muros.conf            SSH drop-in
-/etc/fail2ban/{filter.d,jail.d}/muros*       fail2ban
-/etc/snmp/snmpd.conf.d/muros.conf            SNMP
-/etc/sysctl.d/99-muros-hardening.conf        sysctl
-/etc/nginx/sites-available/muros             nginx site
-</code></pre>
-<p>MurOS never writes to <code>/etc/network/interfaces</code>, <code>/etc/systemd/network/</code>
-or <code>/etc/netplan/</code>. Interfaces, VLANs and routes are replayed from the
-DB by <code>muros-boot.service</code> before <code>network-online.target</code>.</p>
-<h2 id="daemons-managed">Daemons managed</h2>
+<p>MurOS is a fork of OPNsense, ported from FreeBSD to Debian 13. The web UI, the
+authentication stack and the configuration model are the proven OPNsense
+codebase. The system layer underneath has been rebuilt for Linux. This page
+maps the moving parts and how an action in the UI reaches the kernel.</p>
+<h2 id="what-is-kept-what-is-rebuilt">What is kept, what is rebuilt</h2>
 <table>
 <thead>
 <tr>
-<th>Service</th>
-<th>Role</th>
-<th>When MurOS touches it</th>
+<th>Layer</th>
+<th>OPNsense (FreeBSD)</th>
+<th>MurOS (Debian)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>muros-backend.service</td>
-<td>FastAPI + uvicorn behind nginx</td>
-<td>always running</td>
-</tr>
-<tr>
-<td>nginx</td>
-<td>HTTPS termination, /api proxy</td>
-<td>reload on HTTP access change</td>
-</tr>
-<tr>
-<td>muros-boot.service</td>
-<td>replays interfaces/routes at boot</td>
-<td>oneshot, before network-online</td>
-</tr>
-<tr>
-<td>muros-watcher.service</td>
-<td>alert loop (SMTP / webhook)</td>
-<td>enabled when notification rules exist</td>
-</tr>
-<tr>
-<td>muros-wan-monitor.service</td>
-<td>multi-WAN ICMP probes</td>
-<td>enabled when &gt;1 WAN gateway</td>
-</tr>
-<tr>
+<td>Packet filter</td>
+<td>pf / pfctl</td>
 <td>nftables</td>
-<td>filter + NAT</td>
-<td><code>nft -f</code> on Apply</td>
 </tr>
 <tr>
-<td>keepalived</td>
-<td>VRRP active/passive</td>
-<td>restart on HA Apply</td>
+<td>Service supervision</td>
+<td>rc.d + configd</td>
+<td>systemd + configd bridge</td>
 </tr>
 <tr>
-<td>conntrackd</td>
-<td>conntrack state sync</td>
-<td>restart with keepalived</td>
+<td>Packages and updates</td>
+<td>pkg / opnsense-update</td>
+<td>apt</td>
 </tr>
 <tr>
-<td>kea-dhcp4-server</td>
-<td>DHCP only (never binds port 53)</td>
-<td>restart on DHCP Apply</td>
+<td>Interface configuration</td>
+<td>ifconfig</td>
+<td>iproute2 (ip)</td>
 </tr>
 <tr>
-<td>kea-dhcp6-server</td>
-<td>stateful DHCPv6</td>
-<td>restart on DHCPv6 Apply</td>
-</tr>
-<tr>
-<td>unbound</td>
-<td>recursive DNS</td>
-<td>restart on DNS Apply</td>
-</tr>
-<tr>
-<td>strongswan</td>
-<td>IPsec</td>
-<td>swanctl --load-all on IPsec Apply</td>
-</tr>
-<tr>
-<td>wg-quick@wg0</td>
-<td>WireGuard tunnel</td>
-<td>wg syncconf on peer Apply (no tunnel drop)</td>
-</tr>
-<tr>
-<td>openvpn-server@muros</td>
-<td>OpenVPN road-warrior server</td>
-<td>restart on OpenVPN Apply</td>
-</tr>
-<tr>
-<td>fail2ban</td>
-<td>bruteforce protection</td>
-<td>reload on rule change</td>
-</tr>
-<tr>
-<td>snmpd</td>
-<td>SNMP agent</td>
-<td>restart on SNMP Apply</td>
-</tr>
-<tr>
-<td>rsyslog</td>
-<td>remote syslog forwarding</td>
-<td>restart on Remote syslog Apply</td>
-</tr>
-<tr>
-<td>chrony</td>
-<td>NTP (enabled by default)</td>
-<td>restart on Time Apply</td>
+<td>Web UI and config model</td>
+<td>PHP (legacy + Phalcon MVC), config.xml</td>
+<td>unchanged</td>
 </tr>
 </tbody>
 </table>
+<p>The web UI, the data model and the operator workflow are therefore the same as
+OPNsense. What changes is everything behind the Apply button.</p>
+<h2 id="configuration-model">Configuration model</h2>
+<p>There is no database. The whole state of the firewall lives in a single XML
+file, <code>/conf/config.xml</code>, read and written through the OPNsense configuration
+classes. Rules, interfaces, users, VPN peers, services: all of it is one
+versioned document. That is what makes a configuration portable between nodes
+and simple to back up.</p>
+<h2 id="web-stack">Web stack</h2>
+<p>The GUI is served on Debian by lighttpd and php-fpm, with the Phalcon PHP
+extension that the OPNsense MVC layer requires. Two GUI layers coexist, as
+upstream: the legacy pages (login, dashboard) and the modern MVC layer that
+serves /ui and the API. HTTPS is mandatory and the session cookie is
+secure-only, so the UI cannot be used over plain HTTP.</p>
+<h2 id="system-layer">System layer</h2>
+<table>
+<thead>
+<tr>
+<th>systemd unit</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>muros-firewall.service</td>
+<td>renders config.xml into an nftables ruleset (table inet muros, chains input / forward / output) and loads it at boot and on reload</td>
+</tr>
+<tr>
+<td>muros-configd.service</td>
+<td>control-plane bridge: the UI asks it to apply a change, it runs the matching Linux action</td>
+</tr>
+<tr>
+<td>lighttpd, php-fpm</td>
+<td>serve the web UI over HTTPS</td>
+</tr>
+</tbody>
+</table>
+<p>The generated ruleset always carries an anti-lockout baseline (SSH and the web
+UI from the management network), so an applied ruleset cannot strand the
+operator.</p>
 <h2 id="apply-pipeline">Apply pipeline</h2>
-<p>Every write action follows the same shape:</p>
 <ol>
-<li><strong>Stage in DB.</strong> The HTTP route validates and persists to <code>muros.db</code>.</li>
-<li><strong>Render.</strong> A <code>services/&lt;module&gt;_apply.py</code> reads the DB and writes the
-   target configuration file under <code>/etc/...</code>.</li>
-<li><strong>Reload.</strong> <code>systemctl reload</code> or <code>restart</code> for the relevant daemon.
-   For nftables we use <code>nft -f</code> so the kernel swap is atomic.</li>
-<li><strong>Auto-rollback.</strong> Filter / NAT applies open a control window
-   (60 seconds by default, configurable: 10/30/60/120/300). If the
-   operator does not confirm in the modal, MurOS restores the previous
-   ruleset from <code>/var/lib/muros/nftables.last</code>.</li>
+<li>The UI validates the change and writes it to <code>/conf/config.xml</code>.</li>
+<li>The configd bridge renders the affected configuration. For filtering, the
+   ruleset is generated and loaded with <code>nft -f</code>, an atomic kernel swap.</li>
+<li>The matching systemd unit is reloaded or restarted.</li>
+<li>A firewall apply opens a rollback timer; if reachability breaks and you do
+   not confirm, the previous ruleset is restored.</li>
 </ol>
-<p>For read paths, no Apply is needed: the routes hit <code>/proc</code>, <code>nft</code>,
-<code>conntrack</code>, <code>journalctl</code>, <code>ip -j ...</code> directly and stream results.</p>
-<h2 id="database-schema">Database schema</h2>
-<p>SQLite with SQLAlchemy ORM. The models live in <code>backend/app/models.py</code>.
-The main tables: <code>interfaces</code>, <code>static_routes</code>, <code>wan_gateways</code>, <code>zones</code>,
-<code>firewall_rules</code>, <code>nat_rules</code>, <code>service_groups</code>, <code>address_groups</code>,
-<code>dhcp_pools</code>, <code>dhcp6_pools</code>, <code>dns_local_records</code>, <code>qos_shapers</code>,
-<code>qos_classes</code>, <code>dyndns_entry</code>, <code>wireguard_peers</code>, <code>openvpn_config</code>,
-<code>openvpn_clients</code>, <code>ipsec_connections</code>,
-<code>ipsec_certs</code>, <code>ha_config</code>, <code>syslog_config</code>, <code>snmp_config</code>, <code>ntp_config</code>,
-<code>notification_rules</code>, <code>users</code>, <code>audit_log</code>.</p>
-<h2 id="boot-sequence">Boot sequence</h2>
-<pre><code>systemd-boot
-  -&gt; systemd
-     -&gt; muros-boot.service (oneshot)
-        - reads DB, brings interfaces / VLANs / routes up
-        - generates /etc/muros/nftables.conf, loads it
-     -&gt; network-online.target
-     -&gt; muros-backend.service, nginx, keepalived, conntrackd,
-        kea-dhcp4-server, unbound, strongswan, wg-quick@wg0,
-        openvpn-server@muros (if enabled)
-</code></pre>
-<p>A failure in muros-boot is non-fatal for the OS: SSH and the
-emergency console still come up so the operator can recover.</p>
+<h2 id="porting-status">Porting status</h2>
+<p>MurOS is in beta. The web UI, login, configuration model and the stateful
+filter (config.xml to nftables) run on Debian today. The remaining backends,
+NAT, address aliases as named sets, schedules, gateway and policy routing, and
+the infrastructure services (DHCP, DNS, NTP), are being ported from the
+FreeBSD originals to their Debian equivalents. Each feature page notes where
+it stands.</p>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
-        <a href="https://github.com/murosorg/muros/blob/main/docs/architecture.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
-        <span class="mono text-xs">muros/docs</span>
+        <a href="https://github.com/murosorg/website/blob/main/docs-src/architecture.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">website/docs-src</span>
       </div>
     </article>
   </div>

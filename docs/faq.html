@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-14"
+      "dateModified": "2026-06-16"
     },
     {
       "@type": "BreadcrumbList",
@@ -79,106 +79,74 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "The UI keeps showing \"Service temporarily unavailable\"",
+          "name": "Is MurOS a fork of OPNsense?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The MurOS backend is down or restarting. The page auto-refreshes every 10s. Otherwise, SSH on the firewall: If the backend has a traceback, the journal shows the stack. Common cause during dev: missing DB migration after a schema update. See also the Migration section below."
+            "text": "Yes. MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian 13. It keeps the OPNsense web UI, authentication and configuration model and rebuilds the system layer for Linux: nftables instead of pf, systemd instead of rc and configd, apt instead of pkg, and iproute2 instead of ifconfig. MurOS is an independent project, not affiliated with or endorsed by Deciso B.V. or the OPNsense project."
           }
         },
         {
           "@type": "Question",
-          "name": "How to send notification emails?",
+          "name": "What actually changes compared to OPNsense?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "MurOS sends mail directly via an external SMTP smarthost (typically your operator's SMTP relay or an internal enterprise relay). No local postfix is installed: the SMTP relay handles delivery. In Notifications > SMTP Configuration: SMTP server: e.g. smtp.company.com Port: 587 (STARTTLS, default) or 465 (SMTPS) or 25 (clear) Username / Password: smarthost credentials (often required on 587/465) TLS: checked (recommended) Sender: e.g. firewall@company.com Recipients: comma-separated addresses Test with the \"Send a test email\" button. History shows up at the bottom of the page."
+            "text": "Everything behind the Apply button. The pages you click are the same, but the filter is compiled to nftables, services run under systemd, updates come from apt, and interfaces are configured with iproute2. The configuration still lives in a single /conf/config.xml."
           }
         },
         {
           "@type": "Question",
-          "name": "I changed the SSH port but sshd is still on 22",
+          "name": "I forgot the admin password",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Check the effective config: If sshd -T returns the new port but ss shows nothing, do a full restart: On Debian 12+, ssh may be started through socket activation (ssh.socket) which listens on 22 by default. If you want sshd to listen exclusively on your custom port, disable the socket:"
+            "text": "MurOS authenticates against its own user store inside /conf/config.xml, not the Debian system accounts, so passwd root on the shell does not change the UI login. Recover from the system console (serial, IPMI or hypervisor) by setting a new bcrypt password on the root user entry in /conf/config.xml, or by restoring a known-good configuration backup."
           }
         },
         {
           "@type": "Question",
-          "name": "I lost SSH or HTTPS access after a change",
+          "name": "The web UI is unreachable",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "MurOS implements an automatic rollback on changes that may lock you out of admin access. After the apply, a confirmation modal opens with a countdown (60s by default, configurable: 10/30/60/120/300); if you do not confirm, the previous config is restored: | Action | Auto-rollback | |---|---| | Apply firewall (nft) | YES | | Apply HTTP nginx (listen + ports) | YES | | Apply SSH (port + listen) | YES | | Upload TLS cert or regen self-signed | YES | | Interface change (IP, MTU) | NO (confirm() only) | | Static route change | NO (confirm() only) | | Apply WireGuard, IPsec, SNMP, HA | NO (low risk on local admin access) | If you do not confirm in the modal that follows the apply, the previous config is restored automatically by a backend thread that scans for expired pending_apply records every 5 seconds. Lockout pre-check. The confirmation alone cannot detect every lockout: a stateful firewall keeps your current session alive through ct state established,related accept even after you delete the rule that allows new management connections, so you could confirm a ruleset that blocks the next reconnect. Before a firewall apply, MurOS statically evaluates the input chain against a NEW connection from your source to the web UI and SSH ports. If no accept path remains, the Apply modal shows a blocking warning you must acknowledge before proceeding. The check is skipped (no false alarm) when your source is not on a directly connected subnet, since the ingress zone cannot be determined reliably. If you were blocked in the meantime: Wait for the countdown to expire (60s by default), the previous config is restored Reconnect with the old parameters Special case interfaces/routes: if you change the admin interface IP or the default gateway and lose access, you need serial console / IPMI / hypervisor access to revert manually. V1 plans auto-rollback on these too."
+            "text": "The UI is served by lighttpd and php-fpm. From the console: Remember the UI is HTTPS only: a plain HTTP request will not keep the session."
           }
         },
         {
           "@type": "Question",
-          "name": "I forgot the UI password",
+          "name": "I lost SSH or HTTPS access after a firewall change",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The web UI authenticates through PAM against the system root account, so the UI password is the Linux root password. Reset it from the console (or serial / IPMI / hypervisor) as root: Then log into the UI with the new password. There is no separate UI password store to reset."
+            "text": "MurOS always includes an anti-lockout baseline (SSH and the UI from the management network) in the generated ruleset, and a firewall apply opens a rollback timer. If you did not confirm in time, the previous ruleset is restored automatically. If you are still locked out, reload from the console: If you changed the admin interface IP or the default gateway and lost access, you need console or hypervisor access to revert that change."
           }
         },
         {
           "@type": "Question",
-          "name": "The firewall does not forward LAN -> WAN traffic",
+          "name": "The firewall does not forward LAN to WAN traffic",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Check in order: 1. IP forwarding enabled: sysctl net.ipv4.ip_forward must return 1. Otherwise the MurOS drop-in 99-muros-hardening.conf is not loaded. 2. NAT rule present: in Firewall > NAT, masquerade or SNAT rule lan -> wan egressing on the WAN interface. 3. Forward rule: in Firewall > Filter rules, forward lan -> wan rule with action accept. 4. Apply done: a pending \"Apply\" button means changes haven't been pushed yet. From the firewall, test ping -I eth0 8.8.8.8. From a LAN host, test traceroute 8.8.8.8 to see where it stops."
+            "text": "Check in order: 1. IP forwarding: sysctl net.ipv4.ip_forward must return 1. 2. Outbound NAT: Firewall > NAT > Outbound on automatic, or a manual masquerade rule for the LAN network egressing the WAN. 3. A pass rule on the LAN tab from the LAN network to any. 4. No pending Apply: an orange banner means changes are not pushed yet. From a LAN host, run traceroute 1.1.1.1 to see where it stops."
           }
         },
         {
           "@type": "Question",
-          "name": "The WireGuard VPN does not come up",
+          "name": "How do I update MurOS?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Check in Services (Dashboard) that wg-quick@wg0 is active. Otherwise: Most common causes: UDP port 51820 (or other) blocked on the firewall or upstream Public/private key mismatch PSK mismatch AllowedIPs too restrictive on the peer"
+            "text": "Through apt, like any Debian package: While MurOS is in beta, breaking changes are still possible between release candidates; export a configuration backup before upgrading."
           }
         },
         {
           "@type": "Question",
-          "name": "Upgrading MurOS",
+          "name": "Can I import an existing OPNsense config.xml?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "While MurOS is in beta (v0.9.0-rcXX release candidate cycle), the DB schema is not frozen. Upgrades between beta releases are done via clean reinstall: If you want to keep your config across reinstalls, export a backup first (System > Backups) and restore after reinstall. Starting from the first stable release, in-place upgrades will be supported and the schema will evolve via versioned migrations."
+            "text": "The configuration model is the same, so much of it carries over, but device names do not: OPNsense names interfaces the FreeBSD way (em0, igb0, vtnet0) while MurOS uses Linux names (eth0, ens3, enp1s0). Review interface assignments and any setting that references a raw device after importing, and test before relying on it."
           }
         },
         {
           "@type": "Question",
-          "name": "How to change the root password?",
+          "name": "How do I reset to a clean ruleset?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Two ways: Via the UI: change it from the UI password form (it writes the system password through chpasswd) Via the shell: passwd root Since the web UI and SSH share the system root account through PAM, this is a single password: changing it updates both the UI login and the SSH / console login at once."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How to add an SSH key for root?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Via the UI: Administration > SSH access > \"SSH keys allowed for root\" section > paste the public key (ssh-ed25519 AAAA... comment) > Add. The key is written to /root/.ssh/authorized_keys with correct perms."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How to watch live backend requests?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "From the firewall: Or see the UI action audit log in Logs > Web actions."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How to export / import MurOS config from one firewall to another?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Use backups: 1. On source firewall: System > Backups > Create a backup > Download 2. On destination firewall: System > Backups > Restore > Upload the .tar.gz The full DB config is transferred. Note: UI TLS certs and WireGuard keys are not in the DB (they live on disk), you need to regenerate or copy them separately."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How to uninstall MurOS?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The uninstall.sh script removes: The muros- systemd services The /opt/muros directory The /var/lib/muros/ DB MurOS drop-ins (sysctl, sshd, journald, fail2ban, logrotate, snmpd) The muros nginx site It does not touch installed packages (postfix, wireguard, strongswan, keepalived, conntrackd, snmpd). Uninstall those manually if desired. The nftables configuration is reloaded to its pre-MurOS state (but for safety, reboot the machine after uninstall)."
+            "text": "From the console: This reloads the ruleset generated from the current configuration, including the anti-lockout baseline."
           }
         }
       ]
@@ -220,7 +188,7 @@
       <aside class="doc-side lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
       <div class="group-title">Getting started</div>
       <a href="/docs/quickstart.html" class="">Quickstart</a>
-      <a href="/docs/first-filter.html" class="">First filter rule</a>
+      <a href="/docs/first-filter.html" class="">First filter rules</a>
       <div class="group-title">Reference</div>
       <a href="/docs/concepts.html" class="">Concepts</a>
       <a href="/docs/architecture.html" class="">Architecture</a>
@@ -237,191 +205,73 @@
     <article>
       <div class="doc-prose">
 <h1 id="faq-and-troubleshooting">FAQ and troubleshooting</h1>
-<h2 id="the-ui-keeps-showing-service-temporarily-unavailable">The UI keeps showing "Service temporarily unavailable"</h2>
-<p>The MurOS backend is down or restarting. The page auto-refreshes every 10s.
-Otherwise, SSH on the firewall:</p>
-<pre><code class="language-bash">sudo systemctl status muros-backend
-sudo journalctl -u muros-backend -n 100 --no-pager
+<h2 id="is-muros-a-fork-of-opnsense">Is MurOS a fork of OPNsense?</h2>
+<p>Yes. MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian
+13. It keeps the OPNsense web UI, authentication and configuration model and
+rebuilds the system layer for Linux: nftables instead of pf, systemd instead
+of rc and configd, apt instead of pkg, and iproute2 instead of ifconfig. MurOS
+is an independent project, not affiliated with or endorsed by Deciso B.V. or
+the OPNsense project.</p>
+<h2 id="what-actually-changes-compared-to-opnsense">What actually changes compared to OPNsense?</h2>
+<p>Everything behind the Apply button. The pages you click are the same, but the
+filter is compiled to nftables, services run under systemd, updates come from
+apt, and interfaces are configured with iproute2. The configuration still
+lives in a single <code>/conf/config.xml</code>.</p>
+<h2 id="i-forgot-the-admin-password">I forgot the admin password</h2>
+<p>MurOS authenticates against its own user store inside <code>/conf/config.xml</code>, not
+the Debian system accounts, so <code>passwd root</code> on the shell does not change the
+UI login. Recover from the system console (serial, IPMI or hypervisor) by
+setting a new bcrypt password on the <code>root</code> user entry in <code>/conf/config.xml</code>,
+or by restoring a known-good configuration backup.</p>
+<h2 id="the-web-ui-is-unreachable">The web UI is unreachable</h2>
+<p>The UI is served by lighttpd and php-fpm. From the console:</p>
+<pre><code class="language-bash">systemctl status lighttpd php8.4-fpm
+journalctl -u lighttpd -n 100 --no-pager
 </code></pre>
-<p>If the backend has a traceback, the journal shows the stack. Common cause
-during dev: missing DB migration after a schema update. See also the
-Migration section below.</p>
-<h2 id="how-to-send-notification-emails">How to send notification emails?</h2>
-<p>MurOS sends mail directly via an <strong>external SMTP smarthost</strong> (typically
-your operator's SMTP relay or an internal enterprise relay). No local
-postfix is installed: the SMTP relay handles delivery.</p>
-<p>In <strong>Notifications &gt; SMTP Configuration</strong>:</p>
-<ul>
-<li><strong>SMTP server</strong>: e.g. <code>smtp.company.com</code></li>
-<li><strong>Port</strong>: 587 (STARTTLS, default) or 465 (SMTPS) or 25 (clear)</li>
-<li><strong>Username / Password</strong>: smarthost credentials (often required on 587/465)</li>
-<li><strong>TLS</strong>: checked (recommended)</li>
-<li><strong>Sender</strong>: e.g. <code>firewall@company.com</code></li>
-<li><strong>Recipients</strong>: comma-separated addresses</li>
-</ul>
-<p>Test with the "Send a test email" button. History shows up at the bottom of
-the page.</p>
-<h2 id="i-changed-the-ssh-port-but-sshd-is-still-on-22">I changed the SSH port but sshd is still on 22</h2>
-<p>Check the effective config:</p>
-<pre><code class="language-bash">sshd -T 2&gt;&amp;1 | grep -E &quot;^port|^listenaddress&quot;
-ss -tlnp | grep ssh
+<p>Remember the UI is HTTPS only: a plain HTTP request will not keep the session.</p>
+<h2 id="i-lost-ssh-or-https-access-after-a-firewall-change">I lost SSH or HTTPS access after a firewall change</h2>
+<p>MurOS always includes an anti-lockout baseline (SSH and the UI from the
+management network) in the generated ruleset, and a firewall apply opens a
+rollback timer. If you did not confirm in time, the previous ruleset is
+restored automatically. If you are still locked out, reload from the console:</p>
+<pre><code class="language-bash">nft flush ruleset
+systemctl restart muros-firewall
 </code></pre>
-<p>If <code>sshd -T</code> returns the new port but <code>ss</code> shows nothing, do a full restart:</p>
-<pre><code class="language-bash">systemctl restart ssh
-</code></pre>
-<p>On Debian 12+, ssh may be started through socket activation (<code>ssh.socket</code>)
-which listens on 22 by default. If you want sshd to listen exclusively on
-your custom port, disable the socket:</p>
-<pre><code class="language-bash">systemctl disable --now ssh.socket
-systemctl restart ssh
-</code></pre>
-<h2 id="i-lost-ssh-or-https-access-after-a-change">I lost SSH or HTTPS access after a change</h2>
-<p>MurOS implements an <strong>automatic rollback</strong> on changes that may lock you
-out of admin access. After the apply, a confirmation modal opens with a
-countdown (60s by default, configurable: 10/30/60/120/300); if you do not
-confirm, the previous config is restored:</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th>Auto-rollback</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Apply firewall (nft)</td>
-<td>YES</td>
-</tr>
-<tr>
-<td>Apply HTTP nginx (listen + ports)</td>
-<td>YES</td>
-</tr>
-<tr>
-<td>Apply SSH (port + listen)</td>
-<td>YES</td>
-</tr>
-<tr>
-<td>Upload TLS cert or regen self-signed</td>
-<td>YES</td>
-</tr>
-<tr>
-<td>Interface change (IP, MTU)</td>
-<td>NO (confirm() only)</td>
-</tr>
-<tr>
-<td>Static route change</td>
-<td>NO (confirm() only)</td>
-</tr>
-<tr>
-<td>Apply WireGuard, IPsec, SNMP, HA</td>
-<td>NO (low risk on local admin access)</td>
-</tr>
-</tbody>
-</table>
-<p>If you do not confirm in the modal that follows the apply, the previous
-config is restored automatically by a backend thread that scans for
-expired pending_apply records every 5 seconds.</p>
-<p><strong>Lockout pre-check.</strong> The confirmation alone cannot detect every
-lockout: a stateful firewall keeps your current session alive through
-<code>ct state established,related accept</code> even after you delete the rule that
-allows new management connections, so you could confirm a ruleset that
-blocks the next reconnect. Before a firewall apply, MurOS statically
-evaluates the input chain against a NEW connection from your source to
-the web UI and SSH ports. If no accept path remains, the Apply modal
-shows a blocking warning you must acknowledge before proceeding. The
-check is skipped (no false alarm) when your source is not on a directly
-connected subnet, since the ingress zone cannot be determined reliably.</p>
-<p>If you were blocked in the meantime:
-* Wait for the countdown to expire (60s by default), the previous config is restored
-* Reconnect with the old parameters</p>
-<p><strong>Special case interfaces/routes</strong>: if you change the admin interface IP
-or the default gateway and lose access, you need serial console / IPMI /
-hypervisor access to revert manually. V1 plans auto-rollback on these too.</p>
-<h2 id="i-forgot-the-ui-password">I forgot the UI password</h2>
-<p>The web UI authenticates through PAM against the system <code>root</code> account,
-so the UI password <strong>is</strong> the Linux root password. Reset it from the
-console (or serial / IPMI / hypervisor) as root:</p>
-<pre><code class="language-bash">passwd root
-</code></pre>
-<p>Then log into the UI with the new password. There is no separate UI
-password store to reset.</p>
-<h2 id="the-firewall-does-not-forward-lan-wan-traffic">The firewall does not forward LAN -&gt; WAN traffic</h2>
+<p>If you changed the admin interface IP or the default gateway and lost access,
+you need console or hypervisor access to revert that change.</p>
+<h2 id="the-firewall-does-not-forward-lan-to-wan-traffic">The firewall does not forward LAN to WAN traffic</h2>
 <p>Check in order:</p>
 <ol>
-<li><strong>IP forwarding enabled</strong>: <code>sysctl net.ipv4.ip_forward</code> must return <code>1</code>.
-   Otherwise the MurOS drop-in <code>99-muros-hardening.conf</code> is not loaded.</li>
-<li><strong>NAT rule present</strong>: in Firewall &gt; NAT, masquerade or SNAT rule
-   <code>lan</code> -&gt; <code>wan</code> egressing on the WAN interface.</li>
-<li><strong>Forward rule</strong>: in Firewall &gt; Filter rules, <code>forward</code> <code>lan</code> -&gt; <code>wan</code>
-   rule with action accept.</li>
-<li><strong>Apply done</strong>: a pending "Apply" button means changes haven't been
-   pushed yet.</li>
+<li>IP forwarding: <code>sysctl net.ipv4.ip_forward</code> must return <code>1</code>.</li>
+<li>Outbound NAT: Firewall &gt; NAT &gt; Outbound on automatic, or a manual
+   masquerade rule for the LAN network egressing the WAN.</li>
+<li>A pass rule on the LAN tab from the LAN network to any.</li>
+<li>No pending Apply: an orange banner means changes are not pushed yet.</li>
 </ol>
-<p>From the firewall, test <code>ping -I eth0 8.8.8.8</code>. From a LAN host, test
-<code>traceroute 8.8.8.8</code> to see where it stops.</p>
-<h2 id="the-wireguard-vpn-does-not-come-up">The WireGuard VPN does not come up</h2>
-<p>Check in Services (Dashboard) that <code>wg-quick@wg0</code> is active. Otherwise:</p>
-<pre><code class="language-bash">sudo systemctl status wg-quick@wg0
-sudo wg show
-sudo journalctl -u wg-quick@wg0 -n 50
+<p>From a LAN host, run <code>traceroute 1.1.1.1</code> to see where it stops.</p>
+<h2 id="how-do-i-update-muros">How do I update MurOS?</h2>
+<p>Through apt, like any Debian package:</p>
+<pre><code class="language-bash">apt update &amp;&amp; apt install --only-upgrade muros
 </code></pre>
-<p>Most common causes:
-* UDP port 51820 (or other) blocked on the firewall or upstream
-* Public/private key mismatch
-* PSK mismatch
-* AllowedIPs too restrictive on the peer</p>
-<h2 id="upgrading-muros">Upgrading MurOS</h2>
-<p>While MurOS is in <strong>beta</strong> (<code>v0.9.0-rcXX</code> release candidate cycle), the DB
-schema is not frozen. Upgrades between beta releases are done via clean
-reinstall:</p>
-<pre><code class="language-bash">curl -fsSL https://download.muros.org/uninstall.sh | sudo bash
-curl -fsSL https://download.muros.org/install.sh | sudo bash
+<p>While MurOS is in beta, breaking changes are still possible between release
+candidates; export a configuration backup before upgrading.</p>
+<h2 id="can-i-import-an-existing-opnsense-configxml">Can I import an existing OPNsense config.xml?</h2>
+<p>The configuration model is the same, so much of it carries over, but device
+names do not: OPNsense names interfaces the FreeBSD way (em0, igb0, vtnet0)
+while MurOS uses Linux names (eth0, ens3, enp1s0). Review interface
+assignments and any setting that references a raw device after importing, and
+test before relying on it.</p>
+<h2 id="how-do-i-reset-to-a-clean-ruleset">How do I reset to a clean ruleset?</h2>
+<p>From the console:</p>
+<pre><code class="language-bash">nft flush ruleset
+systemctl restart muros-firewall
 </code></pre>
-<p>If you want to keep your config across reinstalls, export a backup first
-(System &gt; Backups) and restore after reinstall.</p>
-<p>Starting from the first stable release, in-place upgrades will be supported and the
-schema will evolve via versioned migrations.</p>
-<h2 id="how-to-change-the-root-password">How to change the root password?</h2>
-<p>Two ways:
-* <strong>Via the UI</strong>: change it from the UI password form (it writes the
-  system password through chpasswd)
-* <strong>Via the shell</strong>: <code>passwd root</code></p>
-<p>Since the web UI and SSH share the system <code>root</code> account through PAM,
-this is a single password: changing it updates both the UI login and
-the SSH / console login at once.</p>
-<h2 id="how-to-add-an-ssh-key-for-root">How to add an SSH key for root?</h2>
-<p>Via the UI: <strong>Administration &gt; SSH access</strong> &gt; "SSH keys allowed for root" section &gt; paste
-the public key (<code>ssh-ed25519 AAAA... comment</code>) &gt; Add.</p>
-<p>The key is written to <code>/root/.ssh/authorized_keys</code> with correct perms.</p>
-<h2 id="how-to-watch-live-backend-requests">How to watch live backend requests?</h2>
-<p>From the firewall:</p>
-<pre><code class="language-bash">sudo journalctl -u muros-backend -f
-</code></pre>
-<p>Or see the UI action audit log in <strong>Logs &gt; Web actions</strong>.</p>
-<h2 id="how-to-export-import-muros-config-from-one-firewall-to-another">How to export / import MurOS config from one firewall to another?</h2>
-<p>Use <strong>backups</strong>:</p>
-<ol>
-<li>On source firewall: System &gt; Backups &gt; Create a backup &gt; Download</li>
-<li>On destination firewall: System &gt; Backups &gt; Restore &gt; Upload the .tar.gz</li>
-</ol>
-<p>The full DB config is transferred. Note: UI TLS certs and WireGuard keys
-are <strong>not</strong> in the DB (they live on disk), you need to regenerate or copy
-them separately.</p>
-<h2 id="how-to-uninstall-muros">How to uninstall MurOS?</h2>
-<p>The <code>uninstall.sh</code> script removes:
-* The <code>muros-*</code> systemd services
-* The <code>/opt/muros</code> directory
-* The <code>/var/lib/muros/</code> DB
-* MurOS drop-ins (sysctl, sshd, journald, fail2ban, logrotate, snmpd)
-* The <code>muros</code> nginx site</p>
-<p>It does not touch installed packages (postfix, wireguard, strongswan,
-keepalived, conntrackd, snmpd). Uninstall those manually if desired.</p>
-<p>The nftables configuration is reloaded to its pre-MurOS state (but for
-safety, reboot the machine after uninstall).</p>
+<p>This reloads the ruleset generated from the current configuration, including
+the anti-lockout baseline.</p>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
-        <a href="https://github.com/murosorg/muros/blob/main/docs/faq.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
-        <span class="mono text-xs">muros/docs</span>
+        <a href="https://github.com/murosorg/website/blob/main/docs-src/faq.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>
+        <span class="mono text-xs">website/docs-src</span>
       </div>
     </article>
   </div>
