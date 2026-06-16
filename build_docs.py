@@ -17,6 +17,11 @@ DOCS_PUBLISHED = '2026-05-27'
 
 SITE = pathlib.Path(__file__).resolve().parent
 REPO = pathlib.Path(os.environ.get('MUROS_REPO', SITE.parent / 'muros'))
+# The doc sources live in the legacy repo since muros became the OPNsense core
+# fork. Fall back to it when the configured repo carries no docs/ tree, so the
+# site stays buildable wherever the markdown currently lives.
+if not (REPO / 'docs').is_dir() and (SITE.parent / 'legacy' / 'docs').is_dir():
+    REPO = SITE.parent / 'legacy'
 DOCS_SRC = REPO / 'docs'
 OUT = SITE / 'docs'
 
