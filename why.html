@@ -186,7 +186,7 @@
       </div>
       <div>
         <h3 class="text-base font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Everything from one web UI</h3>
-        <p class="mt-2 text-sm text-slate-900 leading-relaxed">Edit in the web UI, click Apply, push to the kernel, with auto-rollback if reachability breaks. The same pattern on every page, no command line required.</p>
+        <p class="mt-2 text-sm text-slate-900 leading-relaxed">Edit in the web UI, click Apply, and MurOS rebuilds the nftables ruleset, validates it with nft -c before loading, and keeps a mandatory anti-lockout rule so the management session stays reachable. The same pattern on every page, no command line required.</p>
       </div>
     </div>
   </div>

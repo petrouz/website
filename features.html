@@ -110,11 +110,11 @@
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Network</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Interfaces.</strong> Static / DHCP / unconfigured per NIC. IPv4 with /CIDR, MTU, optional comment.</li>
-          <li><strong>802.1Q VLANs.</strong> Add tagged sub-interfaces, persisted in DB and replayed by muros-boot.service before network-online.target.</li>
+          <li><strong>Interfaces.</strong> Static / DHCP / unconfigured per NIC, configured with iproute2. IPv4 and IPv6 with /CIDR, MTU, optional comment.</li>
+          <li><strong>802.1Q VLANs.</strong> Add tagged sub-interfaces, stored in config.xml and reapplied at boot by muros-interfaces.service before the network comes online.</li>
           <li><strong>Routing.</strong> Static routes in the main table, with metric and optional source.</li>
           <li><strong>Multi-WAN gateways.</strong> Multiple WAN gateways with ICMP health probes, automatic default-route swap on failure, configurable per-gateway weight.</li>
-          <li><strong>Zones.</strong> Symbolic groups of interfaces (lan, wan, dmz, custom). Rules reference zones, not interface names, so re-cabling does not rewrite the ruleset.</li>
+          <li><strong>Symbolic interfaces.</strong> Each NIC is assigned a logical key (wan, lan, opt1, ...). Rules reference the key, not the device name, so reassigning or re-cabling a port does not rewrite the ruleset.</li>
         </ul>
       </div>
 
@@ -128,7 +128,7 @@
           <li><strong>Live counters.</strong> Per-rule packets and bytes pulled from nft, refreshed in the UI.</li>
           <li><strong>Default deny + state matching.</strong> Stateful, out of the box.</li>
           <li><strong>Dry-run preview.</strong> Generated nft ruleset shown before Apply.</li>
-          <li><strong>Apply with auto-rollback.</strong> If the new ruleset breaks the management session, the previous ruleset is restored.</li>
+          <li><strong>Validated apply.</strong> The generated ruleset is checked with nft -c before it is loaded, and a mandatory anti-lockout rule (SSH / HTTP / HTTPS) keeps the management session reachable.</li>
         </ul>
       </div>
 
@@ -201,7 +201,7 @@
           <li><strong>General.</strong> Hostname, time zone, locale, kernel and Debian version.</li>
           <li><strong>NTP.</strong> chrony, enabled by default, its own Services page, configurable servers, current offset.</li>
           <li><strong>System DNS.</strong> /etc/resolv.conf (separate from the recursive resolver).</li>
-          <li><strong>Backups.</strong> One-click snapshots of DB + nftables ruleset + network config + NTP + DNS. Local archive plus remote push via rclone, FTP or SSH. Restore from any snapshot.</li>
+          <li><strong>Backups.</strong> The whole configuration lives in a single config.xml. Download it, restore it, or keep dated copies. Remote push via rclone, FTP or SSH.</li>
           <li><strong>Updates (apt).</strong> apt-get update + upgrade view, kernel reboot indicator, deferred reboot scheduling.</li>
           <li><strong>Maintenance.</strong> Reboot, shutdown, scheduled at a future time.</li>
         </ul>
