@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f172a">
 <meta name="google-site-verification" content="gUUe2BSkVhGthwtAdlY94ba7EjI4Y8TjYVEQx291vlQ">
 <title>MurOS - Turn Linux into a firewall</title>
-<meta name="description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.">
+<meta name="description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall and NAT already run natively on nftables, iproute2 and systemd; VPN, HA, DHCP and recursive DNS are being ported. Free, no subscription.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://muros.org/">
 <meta property="og:title" content="MurOS - Turn Linux into a firewall">
-<meta property="og:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.">
+<meta property="og:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall and NAT already run natively on nftables, iproute2 and systemd; VPN, HA, DHCP and recursive DNS are being ported. Free, no subscription.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -28,7 +28,7 @@
 <meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="MurOS - Turn Linux into a firewall">
-<meta name="twitter:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.">
+<meta name="twitter:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall and NAT already run natively on nftables, iproute2 and systemd; VPN, HA, DHCP and recursive DNS are being ported. Free, no subscription.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -63,7 +63,7 @@
       "downloadUrl": "https://muros.org/install.html",
       "softwareHelp": "https://muros.org/docs/quickstart.html",
       "license": "https://www.gnu.org/licenses/gpl-3.0.html",
-      "description": "Open source fork of OPNsense, ported to Debian 13 and managed from a web UI: stateful filtering, NAT, routing, multi-WAN, VPN (WireGuard, IPsec, OpenVPN), HA, DHCP, recursive DNS, SNMP, monitoring. Free, no subscription.",
+      "description": "Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall and NAT already run natively on nftables, iproute2 and systemd; VPN, HA, DHCP and recursive DNS are being ported. Free, no subscription.",
       "author": {
         "@id": "https://muros.org/#org"
       },
@@ -192,7 +192,7 @@
 <section class="py-16">
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-2xl font-bold text-slate-900">Feature comparison</h2>
-    <p class="mt-2 text-slate-900 max-w-2xl">What MurOS does compared to the incumbents, focused on the core network features most companies actually run.</p>
+    <p class="mt-2 text-slate-900 max-w-2xl">The OPNsense feature set MurOS inherits, focused on the core network features most companies actually run. Firewall and NAT already run natively on Debian; the rest is being ported, hence the BETA.</p>
 
     <div class="mt-8 overflow-x-auto">
       <table class="w-full text-sm border border-slate-200 rounded">
@@ -202,19 +202,19 @@
         <tbody class="divide-y divide-slate-200">
           <tr><td class="px-3 py-2">Stateful firewall (nft)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
           <tr><td class="px-3 py-2">NAT (SNAT / DNAT)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
-          <tr><td class="px-3 py-2">IPsec site-to-site</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
-          <tr><td class="px-3 py-2">WireGuard</td><td class="text-center">recent</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
-          <tr><td class="px-3 py-2">OpenVPN</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
-          <tr><td class="px-3 py-2">HA (VRRP active/passive)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
-          <tr><td class="px-3 py-2">Multi-WAN failover</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
-          <tr><td class="px-3 py-2">DHCP + recursive DNS</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
+          <tr><td class="px-3 py-2">IPsec site-to-site</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
+          <tr><td class="px-3 py-2">WireGuard</td><td class="text-center">recent</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
+          <tr><td class="px-3 py-2">OpenVPN</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
+          <tr><td class="px-3 py-2">HA (VRRP active/passive)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
+          <tr><td class="px-3 py-2">Multi-WAN failover</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
+          <tr><td class="px-3 py-2">DHCP + recursive DNS</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
           <tr><td class="px-3 py-2">IDS / IPS (Suricata)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">planned</td></tr>
           <tr><td class="px-3 py-2">External auth (LDAP / RADIUS)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">planned</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p class="mt-4 text-sm text-slate-900 max-w-3xl">Where MurOS says planned, it means native in the core, not a third-party plugin. See <a href="why.html" class="text-amber-700 hover:underline font-medium">what it is for and what is on the roadmap</a>.</p>
+    <p class="mt-4 text-sm text-slate-900 max-w-3xl">"In progress" means the OPNsense configuration screen is present but its Debian backend is still being wired; "planned" is on the roadmap. Both are native to the core, not a third-party plugin. See <a href="why.html" class="text-amber-700 hover:underline font-medium">what it is for and what is on the roadmap</a>.</p>
 
     <div class="mt-8">
       <a href="features.html" class="inline-flex items-center gap-2 text-sm font-medium text-slate-900 hover:text-amber-700">See all features &rarr;</a>

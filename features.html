@@ -104,30 +104,29 @@
 <section class="py-16">
   <div class="max-w-6xl mx-auto px-6">
     <h1 class="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">Features</h1>
-    <p class="mt-3 text-slate-900 max-w-3xl">Everything in this list ships in the default <code class="text-sm bg-slate-100 px-1.5 py-0.5 rounded">muros</code> Debian package. There is no separate enterprise edition, no paywalled module.</p>
+    <p class="mt-3 text-slate-900 max-w-3xl">MurOS is the OPNsense web interface and configuration model, ported to Debian 13. It ships as a single open source <code class="text-sm bg-slate-100 px-1.5 py-0.5 rounded">muros</code> package, with no enterprise edition and no paywalled module.</p>
+    <p class="mt-3 text-slate-900 max-w-3xl">MurOS is BETA. The firewall data plane already runs natively on Linux (nftables, iproute2, systemd). The remaining OPNsense subsystems keep their configuration screens, but their Debian backend is still being ported, those are tagged <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span> below. Do not rely on the tagged items in production yet.</p>
 
     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Network</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Interfaces.</strong> Static / DHCP / unconfigured per NIC, configured with iproute2. IPv4 and IPv6 with /CIDR, MTU, optional comment.</li>
-          <li><strong>802.1Q VLANs.</strong> Add tagged sub-interfaces, stored in config.xml and reapplied at boot by muros-interfaces.service before the network comes online.</li>
-          <li><strong>Routing.</strong> Static routes in the main table, with metric and optional source.</li>
-          <li><strong>Multi-WAN gateways.</strong> Multiple WAN gateways with ICMP health probes, automatic default-route swap on failure, configurable per-gateway weight.</li>
-          <li><strong>Symbolic interfaces.</strong> Each NIC is assigned a logical key (wan, lan, opt1, ...). Rules reference the key, not the device name, so reassigning or re-cabling a port does not rewrite the ruleset.</li>
+          <li><strong>Interface assignment.</strong> Each NIC is assigned a logical key (wan, lan, opt1, ...). Rules and NAT reference the key, not the device name, so reassigning or re-cabling a port does not rewrite the ruleset.</li>
+          <li><strong>Static addressing via iproute2.</strong> IPv4 and IPv6 address, MTU and link state per NIC, applied from config.xml. DHCP client on WAN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
+          <li><strong>Static routes.</strong> Entries in the main routing table, shown live from ip route.</li>
+          <li><strong>Persistence.</strong> Interface assignment and addressing are reapplied at boot by systemd units (muros-interface-assign, muros-interfaces) before the firewall loads, so the state survives a reboot.</li>
+          <li><strong>802.1Q VLANs and multi-WAN gateways.</strong> Configurable in the UI; the iproute2 / gateway-monitoring backend is <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
 
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Filter rules.</strong> input / forward / output chains, action accept / drop / reject, per-rule log, rate-limit, comment.</li>
-          <li><strong>Drag-and-drop ordering.</strong> Same UX as NAT.</li>
-          <li><strong>Service groups.</strong> Reusable named port + protocol sets (e.g. http_https, dns, ssh).</li>
-          <li><strong>Address groups.</strong> Reusable CIDR / IP sets, referenced from rules.</li>
-          <li><strong>Live counters.</strong> Per-rule packets and bytes pulled from nft, refreshed in the UI.</li>
-          <li><strong>Default deny + state matching.</strong> Stateful, out of the box.</li>
-          <li><strong>Dry-run preview.</strong> Generated nft ruleset shown before Apply.</li>
+          <li><strong>Filter rules.</strong> Generated as an nftables ruleset: input / forward / output chains, action pass / block / reject, per-rule logging and comment.</li>
+          <li><strong>Stateful by default.</strong> Default deny with connection-state matching, out of the box.</li>
+          <li><strong>IPv4 and IPv6.</strong> Per-rule address family, with the common protocols (tcp, udp, icmp, esp, gre, ...).</li>
+          <li><strong>Aliases as sets.</strong> Reusable host, network and port aliases are compiled into nftables sets and referenced from rules.</li>
+          <li><strong>Live counters.</strong> Per-rule packets and bytes read back from nft.</li>
           <li><strong>Validated apply.</strong> The generated ruleset is checked with nft -c before it is loaded, and a mandatory anti-lockout rule (SSH / HTTP / HTTPS) keeps the management session reachable.</li>
         </ul>
       </div>
@@ -135,63 +134,52 @@
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Masquerade</strong> per outgoing interface for cheap outbound internet.</li>
-          <li><strong>SNAT</strong> with explicit source IP.</li>
-          <li><strong>DNAT</strong> to publish internal services on a public port.</li>
-          <li><strong>Redirects.</strong> Port-to-port on the same host (e.g. 80 -&gt; 8080).</li>
-          <li><strong>Drag-and-drop reorder.</strong>  Same UX as filter rules.</li>
+          <li><strong>Outbound NAT.</strong> Automatic masquerade per WAN, or manual rules with an explicit source IP.</li>
+          <li><strong>Port forwarding (DNAT).</strong> Publish an internal service on a public port, with the matching forward rule opened automatically.</li>
+          <li><strong>1:1 NAT.</strong> Static external-to-internal address mappings.</li>
+          <li><strong>Negation.</strong> Match everything except a given address or set.</li>
         </ul>
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">LAN services</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">LAN services <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>DHCP server.</strong> Kea (kea-dhcp4-server) backend, per-interface pools, gateway and DNS offered, lease time. Static leases by MAC.</li>
-          <li><strong>Active lease view.</strong> Reads the Kea lease file, shows MAC, IP, hostname, expiry.</li>
-          <li><strong>Recursive DNS.</strong> Unbound resolver, DNSSEC validation, forwarders, local A and AAAA records.</li>
-          <li><strong>System resolver toggle.</strong> Optionally point /etc/resolv.conf at the local Unbound.</li>
+          <li><strong>DHCP server.</strong> Per-interface pools, offered gateway and DNS, lease time and static leases. Configuration screens are present; the Debian service backend is being wired.</li>
+          <li><strong>Recursive DNS.</strong> Unbound resolver with DNSSEC, forwarders and local records. Same status: UI present, backend being ported.</li>
         </ul>
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>WireGuard.</strong> Server config (interface, listen port, MTU), peer list with key generation, persists across reboots.</li>
-          <li><strong>IPsec.</strong> StrongSwan, PSK or cert-based connections, road-warrior support.</li>
-          <li><strong>OpenVPN.</strong> TLS road-warrior server (UDP or TCP), tls-crypt control channel, AES-256-GCM. Per-client certificates, one-click inline .ovpn profiles, CRL revocation and a live connected-clients view.</li>
-          <li><strong>Built-in PKI.</strong> CA, leaf certs, CRL, all managed from the IPsec and OpenVPN pages. No openssl on the CLI.</li>
-          <li><strong>IPsec users.</strong> Per-user EAP credentials.</li>
+          <li><strong>WireGuard, IPsec (strongSwan) and OpenVPN</strong> configuration pages, with the built-in PKI (CA, leaf certs, CRL).</li>
+          <li>The screens are inherited from OPNsense; the Debian backend integration (systemd services, packages) is being ported.</li>
         </ul>
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>VRRP active / passive</strong> via keepalived, one VIP per interface.</li>
-          <li><strong>Conntrack sync.</strong> conntrackd replicates connections to the slave, no TCP reset on takeover.</li>
-          <li><strong>Inter-node config sync.</strong> The backup node mirrors the master MurOS configuration so a takeover keeps the full config.</li>
-          <li><strong>Asymmetric pairs supported.</strong> Different vendors and NIC counts work as long as enabled interfaces line up.</li>
+          <li><strong>VRRP active / passive</strong> and connection-state sync (one VIP per interface, no TCP reset on takeover).</li>
+          <li>This replaces the OPNsense CARP / pfsync stack with keepalived / conntrackd on Linux; that backend is not wired yet.</li>
         </ul>
       </div>
 
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Observability</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Dashboard.</strong> CPU, memory, disk, swap, conntrack, throughput per interface, service state. Refreshed every 3 seconds.</li>
-          <li><strong>Firewall logs.</strong> journalctl -k filtered on the nft prefix, action / rule id / packet columns, infinite scroll.</li>
-          <li><strong>Audit log.</strong> Every UI write action recorded (user, method, path, status, source IP, payload digest).</li>
-          <li><strong>System journal.</strong> Per-unit journalctl viewer, errors-only filter, auto-refresh, tail mode.</li>
-          <li><strong>Notifications.</strong> Direct SMTP to an external smarthost (no local postfix), event watcher rules (HA takeover, multi-WAN failover, apt updates, conntrack exhaustion, ...).</li>
-          <li><strong>SNMP.</strong> Standard Debian snmpd, community + CIDR ACL, sysContact, sysLocation.</li>
+          <li><strong>Dashboard.</strong> CPU, memory, disk, swap and per-interface throughput, read from /proc and refreshed live.</li>
+          <li><strong>Service state.</strong> Start, stop and restart of MurOS services through systemd, from the UI.</li>
+          <li><strong>Log viewers, SNMP and notifications</strong> <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span> being ported to the Debian equivalents (journald, snmpd, SMTP).</li>
         </ul>
       </div>
 
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Diagnostic</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Live tools.</strong> ping, traceroute, dig, tcpdump (timed), conntrack -L, nft list ruleset.</li>
-          <li><strong>Per-tool args.</strong> Source interface, packet count, timeout, BPF filter for tcpdump.</li>
-          <li><strong>Streaming output.</strong> Server-Sent Events, no copy-paste from a shell.</li>
+          <li><strong>Live tools.</strong> ping, traceroute, ARP / NDP and routing tables, read from iproute2 (ip neigh, ip route).</li>
+          <li><strong>Interface details and counters.</strong> Addresses, link state and per-interface statistics from ip addr and ip -s link.</li>
+          <li><strong>Ruleset inspection.</strong> The loaded nftables ruleset, viewable from the UI.</li>
         </ul>
       </div>
 
@@ -199,11 +187,10 @@
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">System</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>General.</strong> Hostname, time zone, locale, kernel and Debian version.</li>
-          <li><strong>NTP.</strong> chrony, enabled by default, its own Services page, configurable servers, current offset.</li>
-          <li><strong>System DNS.</strong> /etc/resolv.conf (separate from the recursive resolver).</li>
-          <li><strong>Backups.</strong> The whole configuration lives in a single config.xml. Download it, restore it, or keep dated copies. Remote push via rclone, FTP or SSH.</li>
-          <li><strong>Updates (apt).</strong> apt-get update + upgrade view, kernel reboot indicator, deferred reboot scheduling.</li>
-          <li><strong>Maintenance.</strong> Reboot, shutdown, scheduled at a future time.</li>
+          <li><strong>Backups.</strong> The whole configuration lives in a single config.xml. Download it, restore it, or keep dated copies.</li>
+          <li><strong>System DNS.</strong> /etc/resolv.conf, separate from the recursive resolver.</li>
+          <li><strong>Maintenance.</strong> Reboot and shutdown, immediate or scheduled.</li>
+          <li><strong>Updates.</strong> Installed packages and available updates are read through dpkg and apt. The full update / upgrade flow is <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
 
@@ -219,23 +206,21 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">SSH access</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Console &amp; SSH</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Install / remove openssh-server</strong> from the UI.</li>
-          <li><strong>Listen address and port</strong> per sshd_config drop-in.</li>
-          <li><strong>Authorized keys</strong> for root, with paste-in or upload.</li>
-          <li><strong>Linux root password</strong> change (the same password used for the web UI, via PAM).</li>
+          <li><strong>Shared accounts.</strong> Console and SSH authenticate through Linux-PAM against the same MurOS accounts as the web UI.</li>
+          <li><strong>root by default.</strong> The root password is the one used for the web UI.</li>
+          <li><strong>sshd options</strong> from the UI (listen address, keys) are <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
 
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Hardening</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>sysctl drop-in.</strong> Forwarding, rp_filter, BCP-38 anti-spoof, conntrack tuning.</li>
-          <li><strong>sshd drop-in.</strong> No root password, no challenge response, MaxAuthTries.</li>
-          <li><strong>fail2ban drop-in.</strong> MurOS filter for the UI login, sshd jail.</li>
-          <li><strong>journald drop-in.</strong> Persistent storage, size cap.</li>
-          <li><strong>API rate limit.</strong> Per-IP login attempts throttled at the web layer.</li>
+          <li><strong>sysctl drop-in.</strong> IPv4 and IPv6 forwarding shipped as a sysctl.d drop-in, applied at boot.</li>
+          <li><strong>HTTPS-only UI.</strong> The web interface is served over TLS, with a CSRF token and an HTTP referer check.</li>
+          <li><strong>Anti-lockout.</strong> A mandatory rule keeps SSH and the web UI reachable even under a default-deny ruleset.</li>
+          <li><strong>fail2ban and API rate limiting</strong> are <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
     </div>
