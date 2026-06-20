@@ -13,7 +13,7 @@ maps the moving parts and how an action in the UI reaches the kernel.
 | Service supervision | rc.d + configd | systemd + configd bridge |
 | Packages and updates | pkg / opnsense-update | apt |
 | Interface configuration | ifconfig | iproute2 (ip) |
-| Web UI and config model | PHP (legacy + Phalcon MVC), config.xml | unchanged |
+| Web UI and config model | PHP and Phalcon MVC, config.xml | unchanged |
 
 The web UI, the data model and the operator workflow are therefore the same as
 OPNsense. What changes is everything behind the Apply button.
@@ -30,8 +30,8 @@ and simple to back up.
 
 The GUI is served on Debian by lighttpd and php-fpm, with the Phalcon PHP
 extension that the OPNsense MVC layer requires. Two GUI layers coexist, as
-upstream: the legacy pages (login, dashboard) and the modern MVC layer that
-serves /ui and the API. HTTPS is mandatory and the session cookie is
+upstream: the classic PHP pages (login, dashboard) and the Phalcon MVC layer
+that serves /ui and the API. HTTPS is mandatory and the session cookie is
 secure-only, so the UI cannot be used over plain HTTP.
 
 ## System layer

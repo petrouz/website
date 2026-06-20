@@ -164,7 +164,7 @@ maps the moving parts and how an action in the UI reaches the kernel.</p>
 </tr>
 <tr>
 <td>Web UI and config model</td>
-<td>PHP (legacy + Phalcon MVC), config.xml</td>
+<td>PHP and Phalcon MVC, config.xml</td>
 <td>unchanged</td>
 </tr>
 </tbody>
@@ -180,8 +180,8 @@ and simple to back up.</p>
 <h2 id="web-stack">Web stack</h2>
 <p>The GUI is served on Debian by lighttpd and php-fpm, with the Phalcon PHP
 extension that the OPNsense MVC layer requires. Two GUI layers coexist, as
-upstream: the legacy pages (login, dashboard) and the modern MVC layer that
-serves /ui and the API. HTTPS is mandatory and the session cookie is
+upstream: the classic PHP pages (login, dashboard) and the Phalcon MVC layer
+that serves /ui and the API. HTTPS is mandatory and the session cookie is
 secure-only, so the UI cannot be used over plain HTTP.</p>
 <h2 id="system-layer">System layer</h2>
 <table>
