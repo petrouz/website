@@ -203,6 +203,7 @@
           <li><strong>Kernel modules and devices.</strong> Required modules (nf_tables, bridge, 8021q, ...) loaded with modprobe; device events handled by systemd-udevd.</li>
           <li><strong>Backups.</strong> The whole configuration lives in a single config.xml. Download it, restore it, or keep dated copies.</li>
           <li><strong>System DNS.</strong> /etc/resolv.conf, separate from the recursive resolver.</li>
+          <li><strong>Network time.</strong> Time sync runs on chrony. Upstream servers and pools, serving time to the LAN, interface binding and orphan mode are configured from the UI and written to the chrony daemon; the status page shows each source with its offset, jitter and delay read live from chrony.</li>
           <li><strong>Maintenance.</strong> Reboot and shutdown, immediate or scheduled.</li>
           <li><strong>Packages and updates.</strong> MurOS installs and updates as a Debian package from the MurOS apt repository; installed packages and available updates are read through dpkg and apt. The full upgrade flow is <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>

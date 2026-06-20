@@ -40,6 +40,10 @@ Releases page. This page summarises the broad strokes.
 * DHCP server on the Debian Kea daemons (DHCPv4 and DHCPv6): configuration is
   generated to /etc/kea, the daemons run as stock systemd units driven by a
   service wrapper, and active leases are read over the Kea control channel.
+* Network Time (NTP) on chrony instead of the ntp.org daemon: the configuration
+  is generated to /etc/chrony/chrony.conf from the UI, the daemon runs as the
+  stock chrony systemd unit, and the status page reads sources, offsets, jitter
+  and delay live from chrony.
 
 ## In progress
 
