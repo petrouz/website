@@ -147,7 +147,7 @@
       </div>
       <h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-slate-900">Why MurOS</h1>
       <p class="mt-5 text-lg text-slate-900 leading-relaxed">MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian Linux. The same proven web UI and feature set, managed as one tested product, now running on far more hardware than the BSD-based original.</p>
-      <p class="mt-4 text-base text-slate-900 leading-relaxed">It covers the firewall most companies actually need: stateful filtering, NAT, routing, VPN, high availability and clean logs. Free, open source, no subscription, no lock-in.</p>
+      <p class="mt-4 text-base text-slate-900 leading-relaxed">It already runs the core a perimeter firewall needs on Linux: stateful filtering, NAT, routing, multi-WAN gateway monitoring and clean logs. VPN, the LAN services and high availability are being wired in next. Free, open source, no subscription, no lock-in.</p>
       <div class="mt-7 flex flex-col sm:flex-row gap-3">
         <a href="install.html" class="inline-flex items-center justify-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-medium rounded">Install guide</a>
         <a href="features.html" class="inline-flex items-center justify-center px-5 py-3 border border-slate-200 text-slate-900 font-medium rounded bg-slate-100 hover:bg-slate-200">See every feature</a>
@@ -182,7 +182,7 @@
       </div>
       <div>
         <h3 class="text-base font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">One integrated core</h3>
-        <p class="mt-2 text-sm text-slate-900 leading-relaxed">Every service is native and tested together at each release, so the attack surface is known and upgrades are predictable. No third-party plugin matrix to break: it updates as one unit, with an automatic pre-upgrade snapshot.</p>
+        <p class="mt-2 text-sm text-slate-900 leading-relaxed">Every service is native and tested together at each release, so the attack surface is known and upgrades are predictable. No third-party plugin matrix to break: it ships and updates as one unit, installed and upgraded straight from the MurOS apt repository.</p>
       </div>
       <div>
         <h3 class="text-base font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Everything from one web UI</h3>
@@ -195,16 +195,29 @@
 <section class="py-16">
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-2xl font-bold text-slate-900">What you get out of the box</h2>
-    <p class="mt-2 text-slate-900 max-w-3xl">MurOS covers what most networks actually run, natively, in the default package.</p>
+    <p class="mt-2 text-slate-900 max-w-3xl">MurOS is in beta. The list below is honest about what is wired on Debian today and what is still being ported; the <a href="features.html" class="underline">features page</a> tracks it module by module.</p>
 
-    <div class="mt-8 border border-slate-200 rounded p-6">
-      <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-2 text-sm text-slate-900 list-disc list-inside">
-        <li>Stateful filtering, NAT, static routing and multi-WAN failover.</li>
-        <li>WireGuard, IPsec and OpenVPN, with a built-in PKI for certificates.</li>
-        <li>HA with VRRP, conntrack sync and inter-node config replication.</li>
-        <li>DHCP, recursive validating DNS, monitoring, logs and notifications.</li>
-        <li>Everything in the default package. No edition, no paywall.</li>
-      </ul>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="border border-slate-200 rounded p-6">
+        <h3 class="text-base font-semibold text-slate-900">Working today</h3>
+        <ul class="mt-3 space-y-2 text-sm text-slate-900 list-disc list-inside">
+          <li>Stateful nftables filtering, NAT (outbound, port forward, 1:1) and aliases compiled to named sets.</li>
+          <li>Interface assignment, VLANs, bridges, LAGG and tunnels through iproute2.</li>
+          <li>Static routing and per-gateway latency, loss and availability monitoring.</li>
+          <li>Live diagnostics: connection states, packet capture, ARP/NDP, sockets and the loaded ruleset.</li>
+          <li>Dashboard, health graphs and the firewall log streamed from journald.</li>
+          <li>One config.xml; web UI and SSH on shared PAM accounts with TOTP.</li>
+        </ul>
+      </div>
+      <div class="border border-slate-200 rounded p-6">
+        <h3 class="text-base font-semibold text-slate-900">Being wired in</h3>
+        <ul class="mt-3 space-y-2 text-sm text-slate-900 list-disc list-inside">
+          <li>VPN service lifecycle: WireGuard, OpenVPN and IPsec (the runtime devices and PKI are already in place).</li>
+          <li>LAN services on their Debian daemons: DHCP and recursive validating DNS.</li>
+          <li>High availability with keepalived (VRRP) and conntrackd state sync.</li>
+          <li>Automatic multi-WAN failover, SNMP and notifications, and the full apt upgrade flow.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>

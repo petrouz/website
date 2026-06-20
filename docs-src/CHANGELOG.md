@@ -25,11 +25,24 @@ Releases page. This page summarises the broad strokes.
 * Ported account management to the Debian shadow utilities, PAM-based login
   shared between the web UI and SSH, and the package inventory to dpkg/apt.
 * Brought up the WireGuard and OpenVPN runtime devices through iproute2.
+* DHCP client on WAN through an iproute2 lease hook (address, routes including
+  the classless and static options), kept across renew, rebind and reboot.
+* Diagnostics on Linux tooling: connection states and flush through conntrack,
+  packet capture with tcpdump, ARP/NDP and routes from iproute2, open sockets
+  from ss, and the loaded ruleset.
+* The firewall log streamed live to the UI from the system journal (journald),
+  with the matching rule resolved per entry, plus health graphs (CPU, memory,
+  temperature) and the dashboard read from /proc.
+* System tunables applied live through sysctl on top of a curated set of
+  network hardening defaults, and a serial console managed through systemd.
+* Per-gateway monitoring (latency, packet loss and availability) with the
+  dpinger daemon, packaged for Debian and pulled from the MurOS apt repository.
 
 ## In progress
 
-* Infrastructure services on their Debian daemons: DHCP (Kea), DNS (Unbound)
-  and time (chrony).
-* High availability (keepalived/conntrackd), traffic shaping, gateway
-  monitoring and policy routing.
-* The full apt upgrade flow and the sshd options from the UI.
+* Infrastructure services on their Debian daemons: DHCP (Kea), DNS (Unbound).
+* Full VPN service lifecycle (WireGuard, OpenVPN, IPsec) through systemd.
+* High availability (keepalived/conntrackd) and traffic shaping.
+* Automatic multi-WAN failover and policy routing.
+* SNMP and notifications, the full apt upgrade flow and the sshd options from
+  the UI.
