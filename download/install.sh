@@ -154,7 +154,7 @@ cat <<EOF
 MurOS ${VER} installed.
 
   UI     : https://${IP:-<ip-vm>}/  (self-signed snakeoil cert, accept the browser warning)
-  Login  : root / opnsense  (default credentials, change them after first login)
+  Login  : root / muros  (default credentials, change them after first login)
   Log    : ${LOG}
 
 Checks:

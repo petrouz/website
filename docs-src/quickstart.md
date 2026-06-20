@@ -28,7 +28,7 @@ See the Hardware page for sizing by throughput.
    the LAN interface and its static IP. The rest of the install runs offline.
 3. After reboot, open `https://<the-LAN-IP>/` in any browser and accept the
    self-signed certificate. Log in as `root` with the default password
-   `opnsense`. Change it right away under System > Access > Users.
+   `muros`. Change it right away under System > Access > Users.
 
 The LAN address you set during install is what MurOS uses. A firewall LAN is
 static, never DHCP: it is set once at install and not changed from the UI.
@@ -54,7 +54,7 @@ The script imports the repository signing key, writes
 `/etc/apt/sources.list.d/muros.list`, removes competing network managers that
 conflict with the firewall control plane, and installs the `muros` package.
 When it finishes, open `https://<firewall-ip>/` and log in as `root` /
-`opnsense`, then change the password.
+`muros`, then change the password.
 
 ---
 
