@@ -28,8 +28,8 @@ skips Tailwind, run `npm install --production=false`.
 
 ## Hosting
 
-Served by nginx on the OVH VPS that backs `muros.org`, from
-`/opt/muros/site`, over HTTPS (Let's Encrypt). HTTP redirects to HTTPS.
+Served from web01 (the host that backs `muros.org` and `download.muros.org`),
+from `/opt/muros/site`, over HTTPS. HTTP redirects to HTTPS.
 
 ## Deploy
 
@@ -38,4 +38,4 @@ Served by nginx on the OVH VPS that backs `muros.org`, from
 ```
 
 This compiles the CSS, then rsyncs the static files to `/opt/muros/site`
-on the server. nginx serves the files directly, so no restart is needed.
+on the server, which serves them directly, so no restart is needed.
