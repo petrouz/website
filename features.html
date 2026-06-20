@@ -130,7 +130,7 @@
           <li><strong>Filter rules.</strong> Generated as an nftables ruleset: input / forward / output chains, action pass / block / reject, per-rule logging and comment.</li>
           <li><strong>Stateful by default.</strong> Default deny with connection-state matching, out of the box.</li>
           <li><strong>IPv4 and IPv6.</strong> Per-rule address family, with the common protocols (tcp, udp, icmp, esp, gre, ...) and TCP flag matching.</li>
-          <li><strong>Aliases as sets.</strong> Host, network and port aliases are compiled into nftables named sets and referenced from rules; dynamic table contents are read back from nft.</li>
+          <li><strong>Aliases as sets.</strong> Host, network and port aliases are compiled into nftables named sets and referenced from rules; entries can be added to a running set and the contents are read back from nft.</li>
           <li><strong>Live counters.</strong> Per-rule and per-table packets and bytes read back from netfilter.</li>
           <li><strong>Validated apply.</strong> The generated ruleset is checked with nft -c before it is loaded, and a mandatory anti-lockout rule (SSH / HTTP / HTTPS) keeps the management session reachable.</li>
         </ul>
@@ -187,6 +187,7 @@
           <li><strong>Live tools.</strong> ping, traceroute, ARP / NDP and routing tables, read from iproute2 (ip neigh, ip route).</li>
           <li><strong>Interface details and counters.</strong> Addresses, link state and per-interface statistics from ip addr and ip -s link.</li>
           <li><strong>Ruleset inspection.</strong> The loaded nftables ruleset, viewable from the UI.</li>
+          <li><strong>Connection states.</strong> Inspect and flush live connections through conntrack.</li>
         </ul>
       </div>
 
