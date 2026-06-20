@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-16"
+      "dateModified": "2026-06-20"
     },
     {
       "@type": "BreadcrumbList",
@@ -114,7 +114,7 @@
           "name": "I lost SSH or HTTPS access after a firewall change",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "MurOS always includes an anti-lockout baseline (SSH and the UI from the management network) in the generated ruleset, and a firewall apply opens a rollback timer. If you did not confirm in time, the previous ruleset is restored automatically. If you are still locked out, reload from the console: If you changed the admin interface IP or the default gateway and lost access, you need console or hypervisor access to revert that change."
+            "text": "MurOS always includes an anti-lockout baseline (SSH and the UI from the management network) in every generated ruleset, and the ruleset is validated with nft -c before it is loaded, so a syntactically broken or too-strict ruleset should not lock you out. If you still lost access (for example after changing the management IP), reload from the console: If you changed the admin interface IP or the default gateway and lost access, you need console or hypervisor access to revert that change."
           }
         },
         {
@@ -231,9 +231,10 @@ journalctl -u lighttpd -n 100 --no-pager
 <p>Remember the UI is HTTPS only: a plain HTTP request will not keep the session.</p>
 <h2 id="i-lost-ssh-or-https-access-after-a-firewall-change">I lost SSH or HTTPS access after a firewall change</h2>
 <p>MurOS always includes an anti-lockout baseline (SSH and the UI from the
-management network) in the generated ruleset, and a firewall apply opens a
-rollback timer. If you did not confirm in time, the previous ruleset is
-restored automatically. If you are still locked out, reload from the console:</p>
+management network) in every generated ruleset, and the ruleset is validated
+with <code>nft -c</code> before it is loaded, so a syntactically broken or too-strict
+ruleset should not lock you out. If you still lost access (for example after
+changing the management IP), reload from the console:</p>
 <pre><code class="language-bash">nft flush ruleset
 systemctl restart muros-firewall
 </code></pre>

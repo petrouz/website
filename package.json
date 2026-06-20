@@ -1,6 +1,6 @@
 {
   "name": "muros-site",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "private": true,
   "description": "MurOS marketing site (muros.org)",
   "scripts": {

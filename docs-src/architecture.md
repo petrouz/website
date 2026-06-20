@@ -39,6 +39,8 @@ secure-only, so the UI cannot be used over plain HTTP.
 | systemd unit | Role |
 | --- | --- |
 | muros-firewall.service | renders config.xml into an nftables ruleset (table inet muros, chains input / forward / output) and loads it at boot and on reload |
+| muros-interface-assign.service | maps the logical interfaces (wan, lan, optN) to the real Linux devices at boot, then reloads the firewall |
+| muros-interfaces.service | applies the assigned interfaces from config.xml via iproute2 (link, MTU, static v4/v6 addresses) |
 | muros-configd.service | control-plane bridge: the UI asks it to apply a change, it runs the matching Linux action |
 | lighttpd, php-fpm | serve the web UI over HTTPS |
 
@@ -52,14 +54,20 @@ operator.
 2. The configd bridge renders the affected configuration. For filtering, the
    ruleset is generated and loaded with `nft -f`, an atomic kernel swap.
 3. The matching systemd unit is reloaded or restarted.
-4. A firewall apply opens a rollback timer; if reachability breaks and you do
-   not confirm, the previous ruleset is restored.
+4. For a firewall apply the ruleset is first validated with `nft -c`; an
+   invalid ruleset is rejected and the running one is left untouched. Every
+   loaded ruleset carries a mandatory anti-lockout rule, so an apply cannot
+   strand the operator.
 
 ## Porting status
 
-MurOS is in beta. The web UI, login, configuration model and the stateful
-filter (config.xml to nftables) run on Debian today. The remaining backends,
-NAT, address aliases as named sets, schedules, gateway and policy routing, and
-the infrastructure services (DHCP, DNS, NTP), are being ported from the
-FreeBSD originals to their Debian equivalents. Each feature page notes where
-it stands.
+MurOS is in beta. Running on Debian today: the web UI, login, the
+configuration model, the stateful filter and NAT (config.xml to nftables),
+address aliases as named nftables sets, the full interface layer via iproute2
+(addressing, VLANs, bridges, LAGG as Linux bonding, GRE/GIF tunnels), static
+routing, account management through the Debian shadow utilities, the package
+inventory through dpkg/apt, and the WireGuard and OpenVPN runtime devices.
+Still being ported: the infrastructure services (DHCP, DNS, NTP), high
+availability (keepalived/conntrackd), traffic shaping, gateway monitoring and
+policy routing, the full apt upgrade flow, and the sshd options. Each feature
+page notes where it stands.

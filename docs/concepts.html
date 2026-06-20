@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-16"
+      "dateModified": "2026-06-20"
     },
     {
       "@type": "BreadcrumbList",
@@ -134,9 +134,10 @@ fork, so the model is OPNsense's, running on a Debian system.</p>
 <p>Everything is stored in one file, <code>/conf/config.xml</code>. You edit settings in the
 UI and save them; saved changes are staged, not necessarily live yet. Pages
 that change the running system show an Apply action that pushes the staged
-configuration to the kernel and the services. A firewall apply opens a
-rollback timer: if you lose access and do not confirm, the previous ruleset is
-restored.</p>
+configuration to the kernel and the services. On a firewall apply the
+generated nftables ruleset is validated with <code>nft -c</code> before it is loaded, and
+every ruleset carries a mandatory anti-lockout rule (SSH and the web UI from
+the management network) so an apply cannot strand the operator.</p>
 <h2 id="interfaces">Interfaces</h2>
 <p>An interface is a logical handle (wan, lan, opt1, opt2, and so on) mapped to a
 network device on the box: for example eth0, eth1, a VLAN such as eth0.10, or a

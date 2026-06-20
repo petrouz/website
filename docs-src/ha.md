@@ -6,6 +6,11 @@ for the virtual IPs) and conntrackd (connection-state replication). On top of
 that, the configuration in config.xml is synchronised to the backup so it
 always holds the full configuration of the master.
 
+> Beta status: the high-availability backend (keepalived and conntrackd) is
+> not wired on Debian yet. This page describes the target behaviour; the
+> configuration page and the model are in place, but applying it does not yet
+> drive a live pair.
+
 ## Topology
 
 ```

@@ -38,9 +38,10 @@ Remember the UI is HTTPS only: a plain HTTP request will not keep the session.
 ## I lost SSH or HTTPS access after a firewall change
 
 MurOS always includes an anti-lockout baseline (SSH and the UI from the
-management network) in the generated ruleset, and a firewall apply opens a
-rollback timer. If you did not confirm in time, the previous ruleset is
-restored automatically. If you are still locked out, reload from the console:
+management network) in every generated ruleset, and the ruleset is validated
+with `nft -c` before it is loaded, so a syntactically broken or too-strict
+ruleset should not lock you out. If you still lost access (for example after
+changing the management IP), reload from the console:
 
 ```bash
 nft flush ruleset

@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-16"
+      "dateModified": "2026-06-20"
     },
     {
       "@type": "BreadcrumbList",
@@ -133,6 +133,12 @@ FreeBSD; the MurOS port rebuilds the same model on Linux with keepalived (VRRP
 for the virtual IPs) and conntrackd (connection-state replication). On top of
 that, the configuration in config.xml is synchronised to the backup so it
 always holds the full configuration of the master.</p>
+<blockquote>
+<p>Beta status: the high-availability backend (keepalived and conntrackd) is
+not wired on Debian yet. This page describes the target behaviour; the
+configuration page and the model are in place, but applying it does not yet
+drive a live pair.</p>
+</blockquote>
 <h2 id="topology">Topology</h2>
 <pre><code>            VIP 203.0.113.1                   VIP 10.10.0.1
                 |                                  |

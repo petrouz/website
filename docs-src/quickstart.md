@@ -71,8 +71,11 @@ apt update && apt install --only-upgrade muros
 ## Configure the firewall
 
 MurOS stages every change in `/conf/config.xml` first; nothing touches the
-kernel until you Apply. A firewall apply opens a confirmation countdown and
-rolls back automatically if you lose access, so you cannot lock yourself out.
+kernel until you Apply. On a firewall apply the generated nftables ruleset is
+checked with `nft -c` before it is loaded, and every ruleset carries a
+mandatory anti-lockout rule (SSH and the web UI from the management network),
+so an applied ruleset cannot strand you. Always verify you still have access
+after an apply.
 
 ### 1. Interfaces (Interfaces > Assignments, then WAN / LAN)
 
@@ -92,7 +95,7 @@ the LAN out and keep the WAN closed, so you mainly add what you want to open:
 * On LAN: a pass rule to the firewall on TCP 22 and 443 for SSH and the UI.
 
 The WAN keeps no rule toward the firewall, so the box stays closed from the
-Internet. Click Apply, check you still have access, then Confirm.
+Internet. Click Apply, then check you still have access.
 
 ### 3. Outbound NAT (Firewall > NAT > Outbound)
 
@@ -118,8 +121,8 @@ If everything responds, your firewall is running.
 
 ## Locked out?
 
-The console always keeps root access. If a too-strict rule or a failed
-rollback locks the UI, reload the ruleset from the console:
+The console always keeps root access. If a too-strict rule or a wrong address
+change locks the UI, reload the ruleset from the console:
 
 ```bash
 nft flush ruleset

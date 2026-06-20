@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-16"
+      "dateModified": "2026-06-20"
     },
     {
       "@type": "BreadcrumbList",
@@ -140,18 +140,25 @@ Releases page. This page summarises the broad strokes.</p>
   by lighttpd and php-fpm with the Phalcon PHP extension.</li>
 <li>Replaced the FreeBSD packet filter: the configuration is compiled to an
   nftables ruleset (table inet muros) and loaded at boot and on reload by a
-  systemd unit, with an anti-lockout baseline for SSH and the web UI.</li>
-<li>Started the system-layer port from FreeBSD to Debian across four axes: pf to
-  nftables, rc and configd to systemd, pkg to apt, and ifconfig to iproute2.</li>
+  systemd unit, with an anti-lockout baseline for SSH and the web UI, after a
+  <code>nft -c</code> validation.</li>
+<li>Ported NAT (outbound masquerade and port forward) and address aliases to
+  named nftables sets, with live per-rule and per-table counters from
+  netfilter and connection-state flush through conntrack.</li>
+<li>Rebuilt the interface layer on iproute2: addressing, VLANs, bridges, LAGG as
+  Linux bonding, GRE and GIF tunnels, and static routing, with automatic
+  interface assignment and persistent bring-up at boot through systemd units.</li>
+<li>Ported account management to the Debian shadow utilities, PAM-based login
+  shared between the web UI and SSH, and the package inventory to dpkg/apt.</li>
+<li>Brought up the WireGuard and OpenVPN runtime devices through iproute2.</li>
 </ul>
 <h2 id="in-progress">In progress</h2>
 <ul>
-<li>NAT (outbound and port forward), address aliases as named nftables sets,
-  schedules, and gateway and policy routing.</li>
 <li>Infrastructure services on their Debian daemons: DHCP (Kea), DNS (Unbound)
   and time (chrony).</li>
-<li>Wiring the remaining Apply actions through the systemd and nftables control
-  plane.</li>
+<li>High availability (keepalived/conntrackd), traffic shaping, gateway
+  monitoring and policy routing.</li>
+<li>The full apt upgrade flow and the sshd options from the UI.</li>
 </ul>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">

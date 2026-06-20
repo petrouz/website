@@ -8,9 +8,10 @@ fork, so the model is OPNsense's, running on a Debian system.
 Everything is stored in one file, `/conf/config.xml`. You edit settings in the
 UI and save them; saved changes are staged, not necessarily live yet. Pages
 that change the running system show an Apply action that pushes the staged
-configuration to the kernel and the services. A firewall apply opens a
-rollback timer: if you lose access and do not confirm, the previous ruleset is
-restored.
+configuration to the kernel and the services. On a firewall apply the
+generated nftables ruleset is validated with `nft -c` before it is loaded, and
+every ruleset carries a mandatory anti-lockout rule (SSH and the web UI from
+the management network) so an apply cannot strand the operator.
 
 ## Interfaces
 

@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-16"
+      "dateModified": "2026-06-20"
     },
     {
       "@type": "BreadcrumbList",
@@ -181,8 +181,11 @@ When it finishes, open <code>https://&lt;firewall-ip&gt;/</code> and log in as <
 <hr />
 <h2 id="configure-the-firewall">Configure the firewall</h2>
 <p>MurOS stages every change in <code>/conf/config.xml</code> first; nothing touches the
-kernel until you Apply. A firewall apply opens a confirmation countdown and
-rolls back automatically if you lose access, so you cannot lock yourself out.</p>
+kernel until you Apply. On a firewall apply the generated nftables ruleset is
+checked with <code>nft -c</code> before it is loaded, and every ruleset carries a
+mandatory anti-lockout rule (SSH and the web UI from the management network),
+so an applied ruleset cannot strand you. Always verify you still have access
+after an apply.</p>
 <h3 id="1-interfaces-interfaces-assignments-then-wan-lan">1. Interfaces (Interfaces &gt; Assignments, then WAN / LAN)</h3>
 <p>WAN: open the WAN interface, set its addressing to static or DHCP depending on
 your uplink. If static, set the IP with its CIDR mask, gateway and DNS. Save.</p>
@@ -197,7 +200,7 @@ the LAN out and keep the WAN closed, so you mainly add what you want to open:</p
 <li>On LAN: a pass rule to the firewall on TCP 22 and 443 for SSH and the UI.</li>
 </ul>
 <p>The WAN keeps no rule toward the firewall, so the box stays closed from the
-Internet. Click Apply, check you still have access, then Confirm.</p>
+Internet. Click Apply, then check you still have access.</p>
 <h3 id="3-outbound-nat-firewall-nat-outbound">3. Outbound NAT (Firewall &gt; NAT &gt; Outbound)</h3>
 <p>Leave outbound NAT on automatic and the LAN reaches the Internet behind the
 WAN address. Switch to manual only if you need custom source NAT.</p>
@@ -212,8 +215,8 @@ curl -k https://10.0.0.1/  # UI reachable from LAN
 <p>If everything responds, your firewall is running.</p>
 <hr />
 <h2 id="locked-out">Locked out?</h2>
-<p>The console always keeps root access. If a too-strict rule or a failed
-rollback locks the UI, reload the ruleset from the console:</p>
+<p>The console always keeps root access. If a too-strict rule or a wrong address
+change locks the UI, reload the ruleset from the console:</p>
 <pre><code class="language-bash">nft flush ruleset
 systemctl restart muros-firewall
 </code></pre>

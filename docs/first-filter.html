@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-16"
+      "dateModified": "2026-06-20"
     },
     {
       "@type": "BreadcrumbList",
@@ -180,9 +180,10 @@ LAN net, destination This Firewall. Apply.</p>
 Keep a pass rule on the LAN tab allowing the LAN to This Firewall on TCP 443
 (present by default), and add no such rule on the WAN tab. The UI is then
 reachable from the LAN and denied from the Internet.</p>
-<p>Click Apply and confirm within the countdown after checking the UI is still
-reachable. If you lose access, automatic rollback restores the previous
-ruleset.</p>
+<p>Click Apply, then check the UI is still reachable. Every generated ruleset
+keeps a mandatory anti-lockout rule for SSH and the web UI, so a too-strict
+rule does not lock you out of management. If you ever do lose access, recover
+from the console (see the Quickstart).</p>
 <h2 id="step-8-back-up-before-going-to-production">Step 8: Back up before going to production</h2>
 <p>The whole configuration is one file. Under System &gt; Configuration &gt; Backups,
 download a copy of config.xml so you can restore it on this node or another.</p>

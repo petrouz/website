@@ -71,9 +71,10 @@ Keep a pass rule on the LAN tab allowing the LAN to This Firewall on TCP 443
 (present by default), and add no such rule on the WAN tab. The UI is then
 reachable from the LAN and denied from the Internet.
 
-Click Apply and confirm within the countdown after checking the UI is still
-reachable. If you lose access, automatic rollback restores the previous
-ruleset.
+Click Apply, then check the UI is still reachable. Every generated ruleset
+keeps a mandatory anti-lockout rule for SSH and the web UI, so a too-strict
+rule does not lock you out of management. If you ever do lose access, recover
+from the console (see the Quickstart).
 
 ## Step 8: Back up before going to production
 

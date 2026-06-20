@@ -49,7 +49,7 @@
         "url": "https://muros.org/"
       },
       "datePublished": "2026-05-27",
-      "dateModified": "2026-06-16"
+      "dateModified": "2026-06-20"
     },
     {
       "@type": "BreadcrumbList",
@@ -197,6 +197,14 @@ secure-only, so the UI cannot be used over plain HTTP.</p>
 <td>renders config.xml into an nftables ruleset (table inet muros, chains input / forward / output) and loads it at boot and on reload</td>
 </tr>
 <tr>
+<td>muros-interface-assign.service</td>
+<td>maps the logical interfaces (wan, lan, optN) to the real Linux devices at boot, then reloads the firewall</td>
+</tr>
+<tr>
+<td>muros-interfaces.service</td>
+<td>applies the assigned interfaces from config.xml via iproute2 (link, MTU, static v4/v6 addresses)</td>
+</tr>
+<tr>
 <td>muros-configd.service</td>
 <td>control-plane bridge: the UI asks it to apply a change, it runs the matching Linux action</td>
 </tr>
@@ -215,16 +223,22 @@ operator.</p>
 <li>The configd bridge renders the affected configuration. For filtering, the
    ruleset is generated and loaded with <code>nft -f</code>, an atomic kernel swap.</li>
 <li>The matching systemd unit is reloaded or restarted.</li>
-<li>A firewall apply opens a rollback timer; if reachability breaks and you do
-   not confirm, the previous ruleset is restored.</li>
+<li>For a firewall apply the ruleset is first validated with <code>nft -c</code>; an
+   invalid ruleset is rejected and the running one is left untouched. Every
+   loaded ruleset carries a mandatory anti-lockout rule, so an apply cannot
+   strand the operator.</li>
 </ol>
 <h2 id="porting-status">Porting status</h2>
-<p>MurOS is in beta. The web UI, login, configuration model and the stateful
-filter (config.xml to nftables) run on Debian today. The remaining backends,
-NAT, address aliases as named sets, schedules, gateway and policy routing, and
-the infrastructure services (DHCP, DNS, NTP), are being ported from the
-FreeBSD originals to their Debian equivalents. Each feature page notes where
-it stands.</p>
+<p>MurOS is in beta. Running on Debian today: the web UI, login, the
+configuration model, the stateful filter and NAT (config.xml to nftables),
+address aliases as named nftables sets, the full interface layer via iproute2
+(addressing, VLANs, bridges, LAGG as Linux bonding, GRE/GIF tunnels), static
+routing, account management through the Debian shadow utilities, the package
+inventory through dpkg/apt, and the WireGuard and OpenVPN runtime devices.
+Still being ported: the infrastructure services (DHCP, DNS, NTP), high
+availability (keepalived/conntrackd), traffic shaping, gateway monitoring and
+policy routing, the full apt upgrade flow, and the sshd options. Each feature
+page notes where it stands.</p>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">
         <a href="https://github.com/murosorg/website/blob/main/docs-src/architecture.md" class="hover:text-amber-700" target="_blank" rel="noopener">Edit this page on GitHub</a>

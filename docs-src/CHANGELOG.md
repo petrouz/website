@@ -14,15 +14,22 @@ Releases page. This page summarises the broad strokes.
   by lighttpd and php-fpm with the Phalcon PHP extension.
 * Replaced the FreeBSD packet filter: the configuration is compiled to an
   nftables ruleset (table inet muros) and loaded at boot and on reload by a
-  systemd unit, with an anti-lockout baseline for SSH and the web UI.
-* Started the system-layer port from FreeBSD to Debian across four axes: pf to
-  nftables, rc and configd to systemd, pkg to apt, and ifconfig to iproute2.
+  systemd unit, with an anti-lockout baseline for SSH and the web UI, after a
+  `nft -c` validation.
+* Ported NAT (outbound masquerade and port forward) and address aliases to
+  named nftables sets, with live per-rule and per-table counters from
+  netfilter and connection-state flush through conntrack.
+* Rebuilt the interface layer on iproute2: addressing, VLANs, bridges, LAGG as
+  Linux bonding, GRE and GIF tunnels, and static routing, with automatic
+  interface assignment and persistent bring-up at boot through systemd units.
+* Ported account management to the Debian shadow utilities, PAM-based login
+  shared between the web UI and SSH, and the package inventory to dpkg/apt.
+* Brought up the WireGuard and OpenVPN runtime devices through iproute2.
 
 ## In progress
 
-* NAT (outbound and port forward), address aliases as named nftables sets,
-  schedules, and gateway and policy routing.
 * Infrastructure services on their Debian daemons: DHCP (Kea), DNS (Unbound)
   and time (chrony).
-* Wiring the remaining Apply actions through the systemd and nftables control
-  plane.
+* High availability (keepalived/conntrackd), traffic shaping, gateway
+  monitoring and policy routing.
+* The full apt upgrade flow and the sshd options from the UI.
