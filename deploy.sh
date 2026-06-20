@@ -25,7 +25,7 @@ $SSH "$SERVER" "sudo mkdir -p $DOWNLOAD_TARGET/assets"
 rsync -az -e "$SSH" --rsync-path="sudo rsync" \
   "$HERE"/assets/ "$SERVER:$DOWNLOAD_TARGET/assets/"
 rsync -az -e "$SSH" --rsync-path="sudo rsync" \
-  "$HERE"/download/index.html "$HERE"/download/install.sh "$HERE"/download/robots.txt "$SERVER:$DOWNLOAD_TARGET/"
+  "$HERE"/download/index.html "$HERE"/download/install.sh "$HERE"/download/uninstall.sh "$HERE"/download/robots.txt "$SERVER:$DOWNLOAD_TARGET/"
 
 echo "Deployed muros.org -> $SERVER:$SITE_TARGET"
 echo "Deployed download.muros.org landing -> $SERVER:$DOWNLOAD_TARGET"
