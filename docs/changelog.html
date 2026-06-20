@@ -162,10 +162,13 @@ Releases page. This page summarises the broad strokes.</p>
   network hardening defaults, and a serial console managed through systemd.</li>
 <li>Per-gateway monitoring (latency, packet loss and availability) with the
   dpinger daemon, packaged for Debian and pulled from the MurOS apt repository.</li>
+<li>DHCP server on the Debian Kea daemons (DHCPv4 and DHCPv6): configuration is
+  generated to /etc/kea, the daemons run as stock systemd units driven by a
+  service wrapper, and active leases are read over the Kea control channel.</li>
 </ul>
 <h2 id="in-progress">In progress</h2>
 <ul>
-<li>Infrastructure services on their Debian daemons: DHCP (Kea), DNS (Unbound).</li>
+<li>Recursive validating DNS on the Debian Unbound daemon.</li>
 <li>Full VPN service lifecycle (WireGuard, OpenVPN, IPsec) through systemd.</li>
 <li>High availability (keepalived/conntrackd) and traffic shaping.</li>
 <li>Automatic multi-WAN failover and policy routing.</li>
