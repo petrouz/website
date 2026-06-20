@@ -121,7 +121,7 @@
           <li><strong>Tunnels.</strong> GRE and GIF tunnels (sit, ipip, ip6tnl, chosen from the underlay and overlay address family) created with iproute2.</li>
           <li><strong>Static routes.</strong> Entries in the main routing table, shown live from ip route.</li>
           <li><strong>Persistence.</strong> Assignment and addressing are reapplied at boot by systemd units (muros-interface-assign, muros-interfaces) before the firewall loads, so the state survives a reboot.</li>
-          <li><strong>Multi-WAN gateways.</strong> Configurable in the UI; gateway monitoring and failover <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
+          <li><strong>Multi-WAN gateways.</strong> Gateways are configured in the UI and each one is monitored for latency, packet loss and availability by the dpinger daemon, with alarms when a link degrades. Automatic policy-based failover <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
 
