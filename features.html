@@ -101,17 +101,26 @@
 
 <main id="main" tabindex="-1">
 
-<section class="py-16">
+<section class="pt-14 pb-2">
+  <div class="max-w-6xl mx-auto px-6">
+    <h1 class="text-2xl font-bold text-slate-900">What MurOS does today</h1>
+    <p class="mt-3 max-w-3xl text-sm text-slate-900">MurOS is a fork of OPNsense ported to Debian 13. The configuration model, the web UI and the rule editor are kept from OPNsense; the parts that talk to the system are rewritten for Linux: nftables instead of pf, iproute2 instead of ifconfig, systemd instead of rc, and dpkg / apt instead of the FreeBSD package tools. The list below reflects what is actually wired on Debian. Items still being ported are marked <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</p>
+  </div>
+</section>
+
+<section class="py-12">
   <div class="max-w-6xl mx-auto px-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Network</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Interface assignment.</strong> Each NIC is assigned a logical key (wan, lan, opt1, ...). Rules and NAT reference the key, not the device name, so reassigning or re-cabling a port does not rewrite the ruleset.</li>
+          <li><strong>Interface assignment.</strong> Each NIC is bound to a logical key (wan, lan, opt1, ...). Rules and NAT reference the key, not the device name. At first boot the keys are mapped to the real Linux devices automatically, so the box comes up without hand-editing.</li>
           <li><strong>Static addressing via iproute2.</strong> IPv4 and IPv6 address, MTU and link state per NIC, applied from config.xml. DHCP client on WAN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
+          <li><strong>VLANs, bridges and link aggregation.</strong> 802.1Q VLANs, bridges (members, port isolation, STP timers) and LAGG mapped to Linux bonding (LACP, balance, failover), all applied through iproute2.</li>
+          <li><strong>Tunnels.</strong> GRE and GIF tunnels (sit, ipip, ip6tnl, chosen from the underlay and overlay address family) created with iproute2.</li>
           <li><strong>Static routes.</strong> Entries in the main routing table, shown live from ip route.</li>
-          <li><strong>Persistence.</strong> Interface assignment and addressing are reapplied at boot by systemd units (muros-interface-assign, muros-interfaces) before the firewall loads, so the state survives a reboot.</li>
-          <li><strong>802.1Q VLANs and multi-WAN gateways.</strong> Configurable in the UI; the iproute2 / gateway-monitoring backend is <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
+          <li><strong>Persistence.</strong> Assignment and addressing are reapplied at boot by systemd units (muros-interface-assign, muros-interfaces) before the firewall loads, so the state survives a reboot.</li>
+          <li><strong>Multi-WAN gateways.</strong> Configurable in the UI; gateway monitoring and failover <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
 
@@ -120,9 +129,9 @@
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Filter rules.</strong> Generated as an nftables ruleset: input / forward / output chains, action pass / block / reject, per-rule logging and comment.</li>
           <li><strong>Stateful by default.</strong> Default deny with connection-state matching, out of the box.</li>
-          <li><strong>IPv4 and IPv6.</strong> Per-rule address family, with the common protocols (tcp, udp, icmp, esp, gre, ...).</li>
-          <li><strong>Aliases as sets.</strong> Reusable host, network and port aliases are compiled into nftables sets and referenced from rules.</li>
-          <li><strong>Live counters.</strong> Per-rule packets and bytes read back from nft.</li>
+          <li><strong>IPv4 and IPv6.</strong> Per-rule address family, with the common protocols (tcp, udp, icmp, esp, gre, ...) and TCP flag matching.</li>
+          <li><strong>Aliases as sets.</strong> Host, network and port aliases are compiled into nftables named sets and referenced from rules; dynamic table contents are read back from nft.</li>
+          <li><strong>Live counters.</strong> Per-rule and per-table packets and bytes read back from netfilter.</li>
           <li><strong>Validated apply.</strong> The generated ruleset is checked with nft -c before it is loaded, and a mandatory anti-lockout rule (SSH / HTTP / HTTPS) keeps the management session reachable.</li>
         </ul>
       </div>
@@ -130,7 +139,7 @@
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Outbound NAT.</strong> Automatic masquerade per WAN, or manual rules with an explicit source IP.</li>
+          <li><strong>Outbound NAT.</strong> Automatic masquerade per WAN, or manual rules with an explicit source address.</li>
           <li><strong>Port forwarding (DNAT).</strong> Publish an internal service on a public port, with the matching forward rule opened automatically.</li>
           <li><strong>1:1 NAT.</strong> Static external-to-internal address mappings.</li>
           <li><strong>Negation.</strong> Match everything except a given address or set.</li>
@@ -140,16 +149,18 @@
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">LAN services <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>DHCP server.</strong> Per-interface pools, offered gateway and DNS, lease time and static leases. Configuration screens are present; the Debian service backend is being wired.</li>
-          <li><strong>Recursive DNS.</strong> Unbound resolver with DNSSEC, forwarders and local records. Same status: UI present, backend being ported.</li>
+          <li><strong>DHCP server.</strong> Per-interface pools, offered gateway and DNS, lease time and static leases. The configuration screens are present and leases are read through iproute2; the Debian service backend is being wired.</li>
+          <li><strong>Recursive DNS.</strong> Unbound resolver with DNSSEC, forwarders and local records. UI present, backend being ported.</li>
         </ul>
       </div>
 
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>WireGuard, IPsec (strongSwan) and OpenVPN</strong> configuration pages, with the built-in PKI (CA, leaf certs, CRL).</li>
-          <li>The screens are inherited from OPNsense; the Debian backend integration (systemd services, packages) is being ported.</li>
+          <li><strong>WireGuard.</strong> The native Linux wg device and its routing are set up through iproute2; configuration pages and key management come from OPNsense.</li>
+          <li><strong>OpenVPN.</strong> tun / tap devices and runtime interface setup ported to iproute2.</li>
+          <li><strong>IPsec (strongSwan).</strong> Configuration pages and the built-in PKI (CA, leaf certificates, CRL) are present; the Debian service integration is being ported.</li>
+          <li>The full service lifecycle through systemd is still being wired across all three.</li>
         </ul>
       </div>
 
@@ -166,7 +177,7 @@
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Dashboard.</strong> CPU, memory, disk, swap and per-interface throughput, read from /proc and refreshed live.</li>
           <li><strong>Service state.</strong> Start, stop and restart of MurOS services through systemd, from the UI.</li>
-          <li><strong>Log viewers, SNMP and notifications</strong> <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span> being ported to the Debian equivalents (journald, snmpd, SMTP).</li>
+          <li><strong>Log viewers, SNMP and notifications</strong> <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>, being ported to the Debian equivalents (journald, snmpd, SMTP).</li>
         </ul>
       </div>
 
@@ -183,21 +194,22 @@
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">System</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>General.</strong> Hostname, time zone, locale, kernel and Debian version.</li>
+          <li><strong>Kernel modules and devices.</strong> Required modules (nf_tables, bridge, 8021q, ...) loaded with modprobe; device events handled by systemd-udevd.</li>
           <li><strong>Backups.</strong> The whole configuration lives in a single config.xml. Download it, restore it, or keep dated copies.</li>
           <li><strong>System DNS.</strong> /etc/resolv.conf, separate from the recursive resolver.</li>
           <li><strong>Maintenance.</strong> Reboot and shutdown, immediate or scheduled.</li>
-          <li><strong>Updates.</strong> Installed packages and available updates are read through dpkg and apt. The full update / upgrade flow is <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
+          <li><strong>Packages and updates.</strong> MurOS installs and updates as a Debian package from the MurOS apt repository; installed packages and available updates are read through dpkg and apt. The full upgrade flow is <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
 
       <div>
         <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">HTTP access</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>Accounts.</strong> PAM authentication: the web UI and SSH share the Linux accounts. root is the default administrator; grant or revoke web UI access per account and promote accounts to administrator.</li>
+          <li><strong>Accounts.</strong> The web UI and SSH share the same accounts through PAM. Local accounts are real Debian accounts, created and synced with the shadow utilities (useradd, usermod, groupadd). root is the default administrator; grant or revoke web UI access per account.</li>
           <li><strong>TOTP MFA.</strong> Standard RFC 6238, any authenticator app.</li>
           <li><strong>Reachability at the firewall.</strong> The web UI listens on every interface; you decide who can reach it with a filter rule, the same way you expose any other service.</li>
           <li><strong>HTTP / HTTPS ports.</strong> Configurable, with HTTP -&gt; HTTPS redirect.</li>
-          <li><strong>TLS certificate.</strong> Upload existing PEM cert + key, or generate a self-signed RSA 4096 in one click.</li>
+          <li><strong>TLS certificate.</strong> Upload an existing PEM cert + key, or generate a self-signed RSA 4096 in one click.</li>
         </ul>
       </div>
 
