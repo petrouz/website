@@ -23,6 +23,22 @@ module.exports = {
           900: '#0b1428',
           950: '#060c1a',
         },
+        // Brand accent. The whole UI leans on the amber utilities for links,
+        // underlines and call-to-action buttons. Remapping the scale to the
+        // MurOS yellow keeps every accent on brand without touching markup.
+        amber: {
+          50: '#fffbeb',
+          100: '#fffcc5',
+          200: '#fff985',
+          300: '#fff645',
+          400: '#fff41a',
+          500: '#ffdc00',
+          600: '#e6b100',
+          700: '#bf9200',
+          800: '#9b7808',
+          900: '#7f640a',
+          950: '#493800',
+        },
       },
     },
   },

@@ -27,13 +27,13 @@
       <stop offset="1" stop-color="#1c222b"/>
     </linearGradient>
     <radialGradient id="portGlow" cx="0.5" cy="0.5" r="0.6">
-      <stop offset="0"   stop-color="#fde68a"/>
-      <stop offset="0.45" stop-color="#f59e0b"/>
-      <stop offset="1"   stop-color="#7c2d12"/>
+      <stop offset="0"   stop-color="#fff985"/>
+      <stop offset="0.45" stop-color="#ffdc00"/>
+      <stop offset="1"   stop-color="#83680d"/>
     </radialGradient>
     <radialGradient id="powerGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0"   stop-color="#fbbf24" stop-opacity="0.7"/>
-      <stop offset="1"   stop-color="#f59e0b" stop-opacity="0"/>
+      <stop offset="0"   stop-color="#fff41a" stop-opacity="0.7"/>
+      <stop offset="1"   stop-color="#ffdc00" stop-opacity="0"/>
     </radialGradient>
     <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
@@ -107,13 +107,13 @@
     <!-- Light rays first, so the ports paint on top of them.         -->
     <g opacity="0.85">
       <!-- Rays emanating downward from the ports -->
-      <path d="M 215 246 L 211 268" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
-      <path d="M 225 246 L 222 273" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
-      <path d="M 200 246 L 195 264" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
-      <path d="M 185 246 L 178 260" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
-      <path d="M 250 246 L 250 270" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
-      <path d="M 265 246 L 270 264" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
-      <path d="M 280 246 L 287 260" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 215 246 L 211 268" stroke="#fff41a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 225 246 L 222 273" stroke="#fff41a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 200 246 L 195 264" stroke="#fff41a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 185 246 L 178 260" stroke="#fff41a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 250 246 L 250 270" stroke="#fff41a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 265 246 L 270 264" stroke="#fff41a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 280 246 L 287 260" stroke="#fff41a" stroke-width="3" stroke-linecap="round"/>
     </g>
 
     <!-- Port 1 -->
@@ -121,20 +121,20 @@
       <rect x="180" y="208" width="40" height="34" rx="3" fill="#0c111a" stroke="#000" stroke-width="1"/>
       <rect x="184" y="212" width="32" height="26" rx="1" fill="url(#portGlow)"/>
       <!-- pin shadow lines inside the port -->
-      <g stroke="#7c2d12" stroke-width="0.8" opacity="0.6">
+      <g stroke="#83680d" stroke-width="0.8" opacity="0.6">
         <line x1="188" y1="234" x2="212" y2="234"/>
       </g>
       <!-- Halo -->
-      <rect x="180" y="208" width="40" height="34" rx="3" fill="#fbbf24" opacity="0.4" filter="url(#softGlow)"/>
+      <rect x="180" y="208" width="40" height="34" rx="3" fill="#fff41a" opacity="0.4" filter="url(#softGlow)"/>
     </g>
     <!-- Port 2 -->
     <g>
       <rect x="240" y="208" width="40" height="34" rx="3" fill="#0c111a" stroke="#000" stroke-width="1"/>
       <rect x="244" y="212" width="32" height="26" rx="1" fill="url(#portGlow)"/>
-      <g stroke="#7c2d12" stroke-width="0.8" opacity="0.6">
+      <g stroke="#83680d" stroke-width="0.8" opacity="0.6">
         <line x1="248" y1="234" x2="272" y2="234"/>
       </g>
-      <rect x="240" y="208" width="40" height="34" rx="3" fill="#fbbf24" opacity="0.4" filter="url(#softGlow)"/>
+      <rect x="240" y="208" width="40" height="34" rx="3" fill="#fff41a" opacity="0.4" filter="url(#softGlow)"/>
     </g>
 
     <!-- Power button : amber outlined disk to the right of the ports -->
@@ -142,10 +142,10 @@
       <!-- Background halo -->
       <circle r="22" fill="url(#powerGlow)"/>
       <!-- Disk -->
-      <circle r="14" fill="#0c111a" stroke="#f59e0b" stroke-width="2.8"/>
+      <circle r="14" fill="#0c111a" stroke="#ffdc00" stroke-width="2.8"/>
       <!-- Power glyph -->
-      <path d="M -7 0 a 7 7 0 1 0 14 0" fill="none" stroke="#f59e0b" stroke-width="2.4" stroke-linecap="round"/>
-      <line x1="0" y1="-8" x2="0" y2="2" stroke="#f59e0b" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M -7 0 a 7 7 0 1 0 14 0" fill="none" stroke="#ffdc00" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="0" y1="-8" x2="0" y2="2" stroke="#ffdc00" stroke-width="2.4" stroke-linecap="round"/>
     </g>
   </g>
 </svg>

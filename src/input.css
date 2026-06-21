@@ -36,11 +36,11 @@ html.dark body > footer { background-color: var(--bg); }
   font-size: 0.875rem; font-weight: 600; z-index: 60;
   transition: transform 0.15s ease;
 }
-.skip-link:focus { transform: translateY(0); outline: 2px solid #f59e0b; outline-offset: 2px; }
+.skip-link:focus { transform: translateY(0); outline: 2px solid #ffdc00; outline-offset: 2px; }
 
 .nav-link.active { color: #0f172a; }
 .nav-link.active::after {
-  content: ''; display: block; height: 2px; background: #f59e0b; margin-top: 2px;
+  content: ''; display: block; height: 2px; background: #ffdc00; margin-top: 2px;
 }
 
 /* Theme toggle button: show the icon for the action a click performs. */
@@ -68,7 +68,7 @@ details .nav-link.active::after { display: none; }
 .doc-prose h3 { font-size: 1.1rem; font-weight: 600; color: #0f172a; margin: 1.75rem 0 0.5rem; }
 .doc-prose h4 { font-size: 1rem; font-weight: 600; color: #0f172a; margin: 1.25rem 0 0.5rem; }
 .doc-prose p { margin: 0.75rem 0; }
-.doc-prose a { color: #b45309; text-decoration: underline; text-decoration-color: #fbbf24; text-underline-offset: 2px; }
+.doc-prose a { color: #b45309; text-decoration: underline; text-decoration-color: #fff41a; text-underline-offset: 2px; }
 .doc-prose a:hover { text-decoration-color: #b45309; }
 .doc-prose ul, .doc-prose ol { margin: 0.75rem 0 0.75rem 1.5rem; }
 .doc-prose ul { list-style: disc; }
@@ -78,7 +78,7 @@ details .nav-link.active::after { display: none; }
 .doc-prose code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.875em; background: #f1f5f9; color: #0f172a; padding: 0.1em 0.35em; border-radius: 3px; }
 .doc-prose pre { background: #0f172a; color: #e2e8f0; padding: 1rem 1.1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; font-size: 13.5px; line-height: 1.55; }
 .doc-prose pre code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
-.doc-prose blockquote { border-left: 3px solid #fbbf24; background: #fffbeb; color: #78350f; padding: 0.6rem 1rem; margin: 1rem 0; border-radius: 0 4px 4px 0; }
+.doc-prose blockquote { border-left: 3px solid #fff41a; background: #fffbeb; color: #78350f; padding: 0.6rem 1rem; margin: 1rem 0; border-radius: 0 4px 4px 0; }
 .doc-prose blockquote p { margin: 0.25rem 0; }
 .doc-prose hr { border: 0; border-top: 1px solid #e2e8f0; margin: 2rem 0; }
 .doc-prose table { border-collapse: collapse; margin: 1rem 0; font-size: 14px; width: 100%; }
@@ -87,7 +87,7 @@ details .nav-link.active::after { display: none; }
 .doc-prose img { max-width: 100%; border-radius: 4px; border: 1px solid #e2e8f0; }
 .doc-side a { display: block; padding: 0.35rem 0.75rem; font-size: 14px; color: #0f172a; border-left: 2px solid transparent; }
 .doc-side a:hover { color: #0f172a; background: #f8fafc; }
-.doc-side a.active { color: #0f172a; font-weight: 600; border-left-color: #f59e0b; background: #fffbeb; }
+.doc-side a.active { color: #0f172a; font-weight: 600; border-left-color: #ffdc00; background: #fffbeb; }
 .doc-side .group-title { font-size: 11px; font-weight: 600; color: #0f172a; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.75rem 0.75rem 0.35rem; }
 .doc-side .group-title:first-child { padding-top: 0; }
 
@@ -110,8 +110,8 @@ html.dark {
   --text: #e8ecf2;
   --text-muted: #b8c2d0;
   --text-faint: #8b97a8;
-  --accent: #fbbf24;
-  --accent-soft: rgba(251, 191, 36, 0.12);
+  --accent: #fff41a;
+  --accent-soft: rgba(255, 244, 26, 0.12);
   color-scheme: dark;
 }
 
@@ -150,9 +150,9 @@ html.dark .text-slate-500 { color: var(--text-faint); }
 html.dark .text-slate-400 { color: var(--text-faint); }
 html.dark .hover\:text-slate-900:hover { color: var(--text-strong); }
 html.dark .text-amber-700 { color: var(--accent); }
-html.dark .text-amber-900 { color: #fcd34d; }
-html.dark .hover\:text-amber-700:hover { color: #fcd34d; }
-html.dark .hover\:text-amber-800:hover { color: #fde68a; }
+html.dark .text-amber-900 { color: #fff645; }
+html.dark .hover\:text-amber-700:hover { color: #fff645; }
+html.dark .hover\:text-amber-800:hover { color: #fff985; }
 
 /* Amber call-to-action buttons keep dark ink for contrast on the amber fill. */
 html.dark .bg-amber-400.text-slate-900,
@@ -161,7 +161,7 @@ html.dark .bg-amber-500.text-slate-900 { color: #0f172a; }
 /* Borders. */
 html.dark .border-slate-200 { border-color: var(--border); }
 html.dark .border-slate-300 { border-color: var(--border-strong); }
-html.dark .border-amber-200 { border-color: rgba(251, 191, 36, 0.4); }
+html.dark .border-amber-200 { border-color: rgba(255, 244, 26, 0.4); }
 html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) { border-color: var(--border); }
 
 /* Decorations. */
@@ -180,12 +180,12 @@ html.dark .doc-prose h2,
 html.dark .doc-prose h3,
 html.dark .doc-prose h4 { color: var(--text-strong); }
 html.dark .doc-prose h2 { border-top-color: var(--border); }
-html.dark .doc-prose a { color: var(--accent); text-decoration-color: rgba(251, 191, 36, 0.5); }
+html.dark .doc-prose a { color: var(--accent); text-decoration-color: rgba(255, 244, 26, 0.5); }
 html.dark .doc-prose a:hover { text-decoration-color: var(--accent); }
 html.dark .doc-prose code { background: #1b2436; color: var(--text-strong); }
 html.dark .doc-prose pre { background: var(--bg-sunken); color: #d7e0ec; border: 1px solid var(--border); }
 html.dark .doc-prose pre code { background: transparent; color: inherit; }
-html.dark .doc-prose blockquote { background: var(--accent-soft); color: #fcd34d; border-left-color: var(--accent); }
+html.dark .doc-prose blockquote { background: var(--accent-soft); color: #fff645; border-left-color: var(--accent); }
 html.dark .doc-prose hr { border-top-color: var(--border); }
 html.dark .doc-prose th,
 html.dark .doc-prose td { border-color: var(--border); }
