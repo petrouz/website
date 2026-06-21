@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/og-cover.jpg" alt="MurOS" width="880"></p>
+
 # MurOS marketing site
 
 Static marketing site for [muros.org](https://muros.org).
