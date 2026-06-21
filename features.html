@@ -104,7 +104,7 @@
 <section class="pt-14 pb-2">
   <div class="max-w-6xl mx-auto px-6">
     <h1 class="text-2xl font-bold text-slate-900">What MurOS does today</h1>
-    <p class="mt-3 max-w-3xl text-sm text-slate-900">MurOS is a fork of OPNsense ported to Debian 13. The configuration model, the web UI and the rule editor are kept from OPNsense; the parts that talk to the system are rewritten for Linux: nftables instead of pf, iproute2 instead of ifconfig, systemd instead of rc, and dpkg / apt instead of the FreeBSD package tools. The list below reflects what is actually wired on Debian. Items still being ported are marked <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</p>
+    <p class="mt-3 max-w-3xl text-sm text-slate-900">MurOS is a fork of OPNsense ported to Debian 13. The configuration model, the web UI and the rule editor are kept from OPNsense; the parts that talk to the system are rewritten for Linux: nftables instead of pf, iproute2 instead of ifconfig, systemd instead of rc, and dpkg / apt instead of the FreeBSD package tools. The list below reflects what is actually wired on Debian. Each area carries a percentage showing how far it has been ported from FreeBSD to Debian, and individual items still being wired are marked <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</p>
   </div>
 </section>
 
@@ -112,7 +112,7 @@
   <div class="max-w-6xl mx-auto px-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Network</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Network <span class="align-middle text-xs font-medium text-emerald-800 border border-emerald-300 bg-emerald-50 rounded px-1.5 py-0.5">90%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Interface assignment.</strong> Each NIC is bound to a logical key (wan, lan, opt1, ...). Rules and NAT reference the key, not the device name. At first boot the keys are mapped to the real Linux devices automatically, so the box comes up without hand-editing.</li>
           <li><strong>Static addressing via iproute2.</strong> IPv4 and IPv6 address, MTU and link state per NIC, applied from config.xml.</li>
@@ -126,7 +126,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">80%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Filter rules.</strong> Generated as an nftables ruleset: input / forward / output chains, action pass / block / reject, per-rule logging and comment.</li>
           <li><strong>Stateful by default.</strong> Default deny with connection-state matching, out of the box.</li>
@@ -138,7 +138,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">80%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Outbound NAT.</strong> Automatic masquerade per WAN, or manual rules with an explicit source address.</li>
           <li><strong>Port forwarding (DNAT).</strong> Publish an internal service on a public port, with the matching forward rule opened automatically.</li>
@@ -148,7 +148,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">LAN services <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">LAN services <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">75%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>DHCP server (Kea).</strong> Per-interface pools for IPv4 and IPv6, offered gateway and DNS, lease time and static reservations. It runs on the Debian Kea daemons, generated from the UI and controlled through systemd; active leases are read live over the Kea control channel.</li>
           <li><strong>Recursive DNS.</strong> Unbound resolver with DNSSEC, forwarders and local records. UI present, backend being ported.</li>
@@ -156,7 +156,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">60%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>WireGuard.</strong> The native Linux wg device and its routing are set up through iproute2; configuration pages and key management come from OPNsense.</li>
           <li><strong>OpenVPN.</strong> tun / tap devices and runtime interface setup ported to iproute2.</li>
@@ -166,7 +166,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability <span class="align-middle text-xs font-medium text-red-800 border border-red-300 bg-red-50 rounded px-1.5 py-0.5">10%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>VRRP active / passive</strong> and connection-state sync (one VIP per interface, no TCP reset on takeover).</li>
           <li>This replaces the OPNsense CARP / pfsync stack with keepalived / conntrackd on Linux; that backend is not wired yet.</li>
@@ -174,7 +174,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Observability</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Observability <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">75%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Dashboard.</strong> CPU, memory, disk, swap and per-interface throughput, read from /proc and refreshed live.</li>
           <li><strong>Service state.</strong> Start, stop and restart of MurOS services through systemd, from the UI.</li>
@@ -185,7 +185,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Diagnostic</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Diagnostic <span class="align-middle text-xs font-medium text-emerald-800 border border-emerald-300 bg-emerald-50 rounded px-1.5 py-0.5">90%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Live tools.</strong> ping, traceroute, ARP / NDP and routing tables, read from iproute2 (ip neigh, ip route).</li>
           <li><strong>Interface details and counters.</strong> Addresses, link state and per-interface statistics from ip addr and ip -s link.</li>
@@ -197,7 +197,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">System</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">System <span class="align-middle text-xs font-medium text-emerald-800 border border-emerald-300 bg-emerald-50 rounded px-1.5 py-0.5">90%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>General.</strong> Hostname, time zone, locale, kernel and Debian version.</li>
           <li><strong>Kernel modules and devices.</strong> Required modules (nf_tables, bridge, 8021q, ...) loaded with modprobe; device events handled by systemd-udevd.</li>
@@ -210,7 +210,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">HTTP access</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">HTTP access <span class="align-middle text-xs font-medium text-emerald-800 border border-emerald-300 bg-emerald-50 rounded px-1.5 py-0.5">90%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Accounts.</strong> The web UI and SSH share the same accounts through PAM. Local accounts are real Debian accounts, created and synced with the shadow utilities (useradd, usermod, groupadd). root is the default administrator; grant or revoke web UI access per account.</li>
           <li><strong>TOTP MFA.</strong> Standard RFC 6238, any authenticator app.</li>
@@ -221,7 +221,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Console &amp; SSH</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Console &amp; SSH <span class="align-middle text-xs font-medium text-emerald-800 border border-emerald-300 bg-emerald-50 rounded px-1.5 py-0.5">90%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Shared accounts.</strong> Console and SSH authenticate through Linux-PAM against the same MurOS accounts as the web UI.</li>
           <li><strong>root by default.</strong> The root password is the one used for the web UI.</li>
@@ -231,7 +231,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Hardening</h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Hardening <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">85%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Network hardening defaults.</strong> A curated set of kernel parameters is applied at boot: ICMP redirect and source-route rejection, reverse-path martian logging, TCP SYN cookies, smurf protection and no IPv6 privacy addresses. IPv4 and IPv6 forwarding ship as a sysctl.d drop-in.</li>
           <li><strong>System tunables editor.</strong> Add or override any kernel parameter from the UI; the values are applied live through sysctl and persisted in the configuration.</li>
