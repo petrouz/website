@@ -191,30 +191,34 @@
 
 <section class="py-16">
   <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-2xl font-bold text-slate-900">Feature comparison</h2>
-    <p class="mt-2 text-slate-900 max-w-2xl">The OPNsense feature set MurOS inherits, focused on the core network features most companies actually run. Firewall and NAT already run natively on Debian; the rest is being ported, hence the BETA.</p>
+    <h2 class="text-2xl font-bold text-slate-900">Roadmap and comparison</h2>
+    <p class="mt-2 text-slate-900 max-w-2xl">The OPNsense feature set MurOS inherits, broken down by subsystem. FortiGate and OPNsense ship these as mature, native capabilities; the MurOS column shows how far each one has been ported from FreeBSD to Debian 13. Firewall, interfaces and the web UI already run natively, hence the BETA.</p>
 
     <div class="mt-8 overflow-x-auto">
       <table class="w-full text-sm border border-slate-200 rounded">
         <thead class="bg-slate-100 text-slate-900">
-          <tr><th class="text-left font-medium px-3 py-2">Capability</th><th class="text-center font-medium px-3 py-2">FortiGate</th><th class="text-center font-medium px-3 py-2">OPNsense</th><th class="text-center font-medium px-3 py-2 text-slate-900">MurOS</th></tr>
+          <tr><th class="text-left font-medium px-3 py-2">Component</th><th class="text-center font-medium px-3 py-2">FortiGate</th><th class="text-center font-medium px-3 py-2">OPNsense</th><th class="text-center font-medium px-3 py-2 text-slate-900">MurOS</th></tr>
         </thead>
         <tbody class="divide-y divide-slate-200">
-          <tr><td class="px-3 py-2">Stateful firewall (nft)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
-          <tr><td class="px-3 py-2">NAT (SNAT / DNAT)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center font-medium">yes</td></tr>
-          <tr><td class="px-3 py-2">IPsec site-to-site</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
-          <tr><td class="px-3 py-2">WireGuard</td><td class="text-center">recent</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
-          <tr><td class="px-3 py-2">OpenVPN</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
-          <tr><td class="px-3 py-2">HA (VRRP active/passive)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
-          <tr><td class="px-3 py-2">Multi-WAN failover</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
-          <tr><td class="px-3 py-2">DHCP + recursive DNS</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">in progress</td></tr>
-          <tr><td class="px-3 py-2">IDS / IPS (Suricata)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">planned</td></tr>
-          <tr><td class="px-3 py-2">External auth (LDAP / RADIUS)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700">planned</td></tr>
+          <tr><td class="px-3 py-2">Base OS, packaging, install (apt, systemd, ISO)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-emerald-700 font-medium">95%</td></tr>
+          <tr><td class="px-3 py-2">Stateful firewall and NAT (nftables)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">80%</td></tr>
+          <tr><td class="px-3 py-2">Interfaces, VLAN, bridge, LAGG, routing (iproute2)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-emerald-700 font-medium">90%</td></tr>
+          <tr><td class="px-3 py-2">Web UI and API (configuration, diagnostics)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-emerald-700 font-medium">90%</td></tr>
+          <tr><td class="px-3 py-2">Console and system services (NTP, SSH, serial)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-emerald-700 font-medium">90%</td></tr>
+          <tr><td class="px-3 py-2">Recursive DNS (Unbound, dnsmasq)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">80%</td></tr>
+          <tr><td class="px-3 py-2">Dashboard, reporting and graphs</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">75%</td></tr>
+          <tr><td class="px-3 py-2">DHCP server</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">70%</td></tr>
+          <tr><td class="px-3 py-2">Captive portal</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">70%</td></tr>
+          <tr><td class="px-3 py-2">VPN (IPsec, OpenVPN, WireGuard)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">60%</td></tr>
+          <tr><td class="px-3 py-2">Gateways and multi-WAN failover</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">50%</td></tr>
+          <tr><td class="px-3 py-2">IDS / IPS (Suricata) and NetFlow</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-red-700 font-medium">30%</td></tr>
+          <tr><td class="px-3 py-2">High availability (VRRP, state sync)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-red-700 font-medium">10%</td></tr>
+          <tr><td class="px-3 py-2">Traffic shaping (QoS)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-red-700 font-medium">5%</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p class="mt-4 text-sm text-slate-900 max-w-3xl">"In progress" means the OPNsense configuration screen is present but its Debian backend is still being wired; "planned" is on the roadmap. Both are native to the core, not a third-party plugin. See <a href="why.html" class="text-amber-700 hover:underline font-medium">what it is for and what is on the roadmap</a>.</p>
+    <p class="mt-4 text-sm text-slate-900 max-w-3xl">The percentage is the share of each subsystem already ported to Debian, not a quality rating: 100% means it runs natively on Linux with no FreeBSD code left. Every component is native to the core, not a third-party plugin. See <a href="why.html" class="text-amber-700 hover:underline font-medium">what it is for and what is on the roadmap</a>.</p>
 
     <div class="mt-8">
       <a href="features.html" class="inline-flex items-center gap-2 text-sm font-medium text-slate-900 hover:text-amber-700">See all features &rarr;</a>
