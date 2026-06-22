@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>MurOS News</title>
+    <link>https://muros.org/</link>
+    <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
+    <language>en-us</language>
+    <item>
+      <title>MurOS 0.9.41 released</title>
+      <description>Refreshed branding across the web UI, captive portal and installer, plus the usual round of fixes for the Debian platform.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 22 Jun 2026 09:00:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-41</guid>
+    </item>
+    <item>
+      <title>Installer ISO updated</title>
+      <description>A fresh offline installer image is available from the download page. It ships the current MurOS build and needs no network access to install.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Fri, 20 Jun 2026 09:00:00 +0000</pubDate>
+      <guid>https://muros.org/news/iso-refresh</guid>
+    </item>
+    <item>
+      <title>Getting started with MurOS</title>
+      <description>New to MurOS? The documentation covers installation, interface assignment and your first firewall rules.</description>
+      <link>https://muros.org/docs.html</link>
+      <pubDate>Sun, 15 Jun 2026 09:00:00 +0000</pubDate>
+      <guid>https://muros.org/news/getting-started</guid>
+    </item>
+  </channel>
+</rss>
