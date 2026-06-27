@@ -36,11 +36,11 @@ html.dark body > footer { background-color: var(--bg); }
   font-size: 0.875rem; font-weight: 600; z-index: 60;
   transition: transform 0.15s ease;
 }
-.skip-link:focus { transform: translateY(0); outline: 2px solid #ffdc00; outline-offset: 2px; }
+.skip-link:focus { transform: translateY(0); outline: 2px solid #fff41a; outline-offset: 2px; }
 
 .nav-link.active { color: #0f172a; }
 .nav-link.active::after {
-  content: ''; display: block; height: 2px; background: #ffdc00; margin-top: 2px;
+  content: ''; display: block; height: 2px; background: #fff41a; margin-top: 2px;
 }
 
 /* Theme toggle button: show the icon for the action a click performs. */
@@ -87,7 +87,7 @@ details .nav-link.active::after { display: none; }
 .doc-prose img { max-width: 100%; border-radius: 4px; border: 1px solid #e2e8f0; }
 .doc-side a { display: block; padding: 0.35rem 0.75rem; font-size: 14px; color: #0f172a; border-left: 2px solid transparent; }
 .doc-side a:hover { color: #0f172a; background: #f8fafc; }
-.doc-side a.active { color: #0f172a; font-weight: 600; border-left-color: #ffdc00; background: #fffbeb; }
+.doc-side a.active { color: #0f172a; font-weight: 600; border-left-color: #fff41a; background: #fffbeb; }
 .doc-side .group-title { font-size: 11px; font-weight: 600; color: #0f172a; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.75rem 0.75rem 0.35rem; }
 .doc-side .group-title:first-child { padding-top: 0; }
 

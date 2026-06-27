@@ -28,12 +28,12 @@
     </linearGradient>
     <radialGradient id="portGlow" cx="0.5" cy="0.5" r="0.6">
       <stop offset="0"   stop-color="#fff985"/>
-      <stop offset="0.45" stop-color="#ffdc00"/>
+      <stop offset="0.45" stop-color="#fff41a"/>
       <stop offset="1"   stop-color="#83680d"/>
     </radialGradient>
     <radialGradient id="powerGlow" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0"   stop-color="#fff41a" stop-opacity="0.7"/>
-      <stop offset="1"   stop-color="#ffdc00" stop-opacity="0"/>
+      <stop offset="1"   stop-color="#fff41a" stop-opacity="0"/>
     </radialGradient>
     <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
@@ -142,10 +142,10 @@
       <!-- Background halo -->
       <circle r="22" fill="url(#powerGlow)"/>
       <!-- Disk -->
-      <circle r="14" fill="#0c111a" stroke="#ffdc00" stroke-width="2.8"/>
+      <circle r="14" fill="#0c111a" stroke="#fff41a" stroke-width="2.8"/>
       <!-- Power glyph -->
-      <path d="M -7 0 a 7 7 0 1 0 14 0" fill="none" stroke="#ffdc00" stroke-width="2.4" stroke-linecap="round"/>
-      <line x1="0" y1="-8" x2="0" y2="2" stroke="#ffdc00" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M -7 0 a 7 7 0 1 0 14 0" fill="none" stroke="#fff41a" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="0" y1="-8" x2="0" y2="2" stroke="#fff41a" stroke-width="2.4" stroke-linecap="round"/>
     </g>
   </g>
 </svg>

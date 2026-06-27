@@ -97,7 +97,7 @@ def header(active='docs'):
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="/index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
       <img src="/assets/logo.svg" alt="MurOS" class="block h-12 w-auto dark:hidden"><img src="/assets/logo-darkmode.svg" alt="MurOS" class="hidden h-12 w-auto dark:block">
-      <span class="mono text-base font-bold text-[#F5C518] -ml-2">[BETA]</span>
+      <span class="mono text-base font-bold text-[#fff41a] -ml-2">[BETA]</span>
     </a>
     <nav class="hidden md:flex items-center gap-6 text-base text-slate-900">
       {' '.join(inline)}
