@@ -122,7 +122,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">80%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">85%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Filter rules.</strong> Generated as an nftables ruleset: input / forward / output chains, action pass / block / reject, per-rule logging and comment.</li>
           <li><strong>Stateful by default.</strong> Default deny with connection-state matching, out of the box.</li>
@@ -134,10 +134,10 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">80%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">85%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Outbound NAT.</strong> Automatic masquerade per WAN, or manual rules with an explicit source address.</li>
-          <li><strong>Port forwarding (DNAT).</strong> Publish an internal service on a public port, with the matching forward rule opened automatically.</li>
+          <li><strong>Port forwarding (DNAT).</strong> Publish an internal service on a public port, scoped to the destination address it is published on (the WAN address or a chosen IP) and an optional source, with the matching forward rule opened automatically.</li>
           <li><strong>1:1 NAT.</strong> Static external-to-internal address mappings.</li>
           <li><strong>Negation.</strong> Match everything except a given address or set.</li>
         </ul>
@@ -165,10 +165,10 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">60%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">80%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>VRRP active / passive</strong> and connection-state sync (virtual IPs sharing an interface and group id collapse into one instance, no TCP reset on takeover).</li>
-          <li>This replaces the OPNsense CARP / pfsync stack with keepalived (VRRP) and conntrackd on Linux. Virtual IPs are rendered as keepalived instances and the state channel as conntrackd; advskew maps to the VRRP priority, and status, maintenance mode and enable / disable are wired into the UI through a role notify hook. Live failover validation <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
+          <li>This replaces the OPNsense CARP / pfsync stack with keepalived (VRRP) and conntrackd on Linux. Virtual IPs are rendered as keepalived instances and the state channel as conntrackd; advskew maps to the VRRP priority, and status, maintenance mode and enable / disable are wired into the UI through a role notify hook. A failed service demotes its node so a healthy peer takes the virtual IPs. Live failover, including service-failure takeover and recovery, is validated on a two-node cluster; long-run state-sync soak testing <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
 
