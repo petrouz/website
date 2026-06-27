@@ -154,12 +154,13 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">75%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">78%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>WireGuard.</strong> The native Linux wg device and its routing are set up through iproute2; configuration pages and key management come from OPNsense.</li>
           <li><strong>OpenVPN.</strong> tun / tap devices and runtime interface setup ported to iproute2.</li>
           <li><strong>IPsec (strongSwan 6).</strong> Site-to-site (policy-based) and routed (VTI) tunnels run on the in-kernel XFRM stack: charon runs under systemd, and routed tunnels bind their security associations to ipsec xfrm interfaces through a matching interface id. Configuration pages and the built-in PKI (CA, leaf certificates, CRL) come from OPNsense.</li>
           <li>The raw SAD and SPD diagnostic panels read the kernel XFRM stack through ip xfrm, with per-entry deletion, so they work on Linux without the FreeBSD setkey tool.</li>
+          <li>The strongSwan up/down handler is fully Linux-native: routed tunnels rely on the xfrm interface created at apply time, and manual security policies set on a phase 2 are installed through ip xfrm policy, reapplied idempotently when a tunnel comes up.</li>
         </ul>
       </div>
 
