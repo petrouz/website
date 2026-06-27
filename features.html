@@ -152,12 +152,12 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">60%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">70%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>WireGuard.</strong> The native Linux wg device and its routing are set up through iproute2; configuration pages and key management come from OPNsense.</li>
           <li><strong>OpenVPN.</strong> tun / tap devices and runtime interface setup ported to iproute2.</li>
-          <li><strong>IPsec (strongSwan).</strong> Configuration pages and the built-in PKI (CA, leaf certificates, CRL) are present; the Debian service integration is being ported.</li>
-          <li>The full service lifecycle through systemd is still being wired across all three.</li>
+          <li><strong>IPsec (strongSwan 6).</strong> Site-to-site (policy-based) and routed (VTI) tunnels run on the in-kernel XFRM stack: charon runs under systemd, and routed tunnels bind their security associations to ipsec xfrm interfaces through a matching interface id. Configuration pages and the built-in PKI (CA, leaf certificates, CRL) come from OPNsense.</li>
+          <li>The raw SAD / SPD diagnostic panels still read the FreeBSD setkey tool and are being moved to ip xfrm.</li>
         </ul>
       </div>
 
