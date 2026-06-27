@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#1f2638; --bg2:#161c2b; --accent:#fff41a; --ink:#ffffff; --muted:#9aa6bf; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1584px;height:396px}
+  body{font-family:'Inter',Arial,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;position:relative}
+  .bg{position:absolute;inset:0;background:
+     radial-gradient(1200px 500px at 88% 50%, rgba(255,244,26,.06), transparent 60%),
+     linear-gradient(120deg,#1b2333 0%, #20283b 55%, #1a212f 100%);}
+  /* faint descending bars motif on the right */
+  .motif{position:absolute;right:70px;top:50%;transform:translateY(-50%);opacity:.10}
+  .motif .b{height:34px;border-radius:8px;background:var(--accent);margin:18px 0}
+  .motif .b1{width:360px}.motif .b2{width:270px}.motif .b3{width:180px}
+  .hairline{position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--accent)}
+  .wrap{position:absolute;left:96px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:22px}
+  .lockup{display:flex;align-items:center;gap:30px}
+  .mark{display:flex;flex-direction:column;gap:9px}
+  .mark .b{height:18px;border-radius:5px;background:var(--accent)}
+  .mark .m1{width:70px}.mark .m2{width:53px}.mark .m3{width:37px}
+  .word{font-weight:800;font-size:96px;letter-spacing:-4px;line-height:.9}
+  .word .os{color:var(--accent)}
+  .tag{font-weight:500;font-size:30px;letter-spacing:-.5px;color:#e6ebf5;max-width:1000px}
+  .tag b{color:var(--accent);font-weight:700}
+  .chips{display:flex;gap:14px;margin-top:4px}
+  .chip{font-size:20px;font-weight:600;letter-spacing:.2px;color:#cdd6ea;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);padding:9px 18px;border-radius:999px}
+  .dot{color:var(--accent)}
+</style></head>
+<body>
+  <div class="bg"></div>
+  <div class="motif"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div>
+  <div class="wrap">
+    <div class="lockup">
+      <div class="mark"><div class="b m1"></div><div class="b m2"></div><div class="b m3"></div></div>
+      <div class="word">Mur<span class="os">OS</span></div>
+    </div>
+    <div class="tag">The open-source firewall, rebuilt on <b>Debian 13</b>.</div>
+    <div class="chips"><div class="chip">nftables</div><div class="chip">systemd</div><div class="chip">APT packages</div><div class="chip">Modern web UI</div></div>
+  </div>
+  <div class="hairline"></div>
+</body></html>
