@@ -90,7 +90,7 @@ def header(active='docs'):
     return f'''<header class="border-b border-slate-200 bg-slate-100">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="/index.html" class="flex items-center gap-2.5" aria-label="MurOS home">
-      <img src="/assets/logo.svg" alt="MurOS" class="block h-12 w-auto dark:hidden"><img src="/assets/logo-darkmode.svg" alt="MurOS" class="hidden h-12 w-auto dark:block">
+      <img src="/assets/logo.svg" alt="MurOS" class="block h-12 w-auto">
       <span class="mono text-base font-bold text-[#fff41a] -ml-2">[BETA]</span>
     </a>
     <nav class="hidden md:flex items-center gap-6 text-base text-slate-900">
@@ -142,11 +142,11 @@ def sidebar(active):
 
 def shell(title, desc, canonical, jsonld, body):
     return f'''<!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#ffffff">
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
@@ -284,7 +284,7 @@ def render_landing():
     # No separate docs landing: /docs.html redirects to the first doc page so
     # any old link or bookmark drops straight into the docs layout.
     redirect = f'''<!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

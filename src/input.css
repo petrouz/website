@@ -92,13 +92,12 @@ details .nav-link.active::after { display: none; }
 .doc-side .group-title:first-child { padding-top: 0; }
 
 /* ---------------------------------------------------------------------------
-   Dark theme.
+   Dark theme (opt-in, currently unused).
 
-   The site ships dark only: <html> always carries the `dark` class. The
-   markup uses a small, consistent slate/amber palette, so the dark palette is
-   defined once here by overriding that exact set of utility classes. Any new
-   page reusing the same classes gets the dark treatment for free, with no
-   per-element markup changes.
+   The site ships light by default: a white canvas with dark slate text. The
+   rules below only take effect when <html> carries the `dark` class, which no
+   page sets today. They are kept so an optional dark toggle can be wired up
+   later by adding that single class, with no per-element markup changes.
    --------------------------------------------------------------------------- */
 html.dark {
   --bg: #151a28;
