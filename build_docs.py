@@ -74,12 +74,6 @@ THEME_TOGGLE_MOBILE = (f'<button type="button" data-theme-toggle class="theme-to
     f'items-center gap-2 px-4 py-2 mt-1 text-left text-slate-900 hover:text-slate-900 '
     f'hover:bg-slate-100">{THEME_ICONS}<span>Dark mode</span></button>')
 
-# Sets the initial theme before first paint to avoid a flash. Reads the saved
-# choice, falling back to the OS preference.
-THEME_HEAD = ('<script>(function(){try{var t=localStorage.getItem("muros-theme");'
-    'if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){'
-    'document.documentElement.classList.add("dark");}}catch(e){}})();</script>')
-
 NAV = [('why', 'Why MurOS'), ('features', 'Features'),
        ('docs', 'Docs')]
 
@@ -148,7 +142,7 @@ def sidebar(active):
 
 def shell(title, desc, canonical, jsonld, body):
     return f'''<!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -158,7 +152,6 @@ def shell(title, desc, canonical, jsonld, body):
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/app.css">
-{THEME_HEAD}
 <link rel="canonical" href="{canonical}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="MurOS">
@@ -191,7 +184,6 @@ def shell(title, desc, canonical, jsonld, body):
 
 {FOOTER}
 
-<script src="/assets/theme.js?v=2" defer></script>
 </body>
 </html>
 '''

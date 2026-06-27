@@ -94,11 +94,11 @@ details .nav-link.active::after { display: none; }
 /* ---------------------------------------------------------------------------
    Dark theme.
 
-   Toggled by adding the `dark` class on <html> (assets/theme.js). The site
+   The site ships dark only: <html> always carries the `dark` class. The
    markup uses a small, consistent slate/amber palette, so the dark palette is
    defined once here by overriding that exact set of utility classes. Any new
-   page reusing the same classes gets dark mode for free, with no per-element
-   markup changes.
+   page reusing the same classes gets the dark treatment for free, with no
+   per-element markup changes.
    --------------------------------------------------------------------------- */
 html.dark {
   --bg: #151a28;
