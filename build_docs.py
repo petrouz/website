@@ -156,7 +156,6 @@ def shell(title, desc, canonical, jsonld, body):
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-<link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/app.css">
 {THEME_HEAD}
