@@ -284,7 +284,7 @@ def render_landing():
     # No separate docs landing: /docs.html redirects to the first doc page so
     # any old link or bookmark drops straight into the docs layout.
     redirect = f'''<!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
