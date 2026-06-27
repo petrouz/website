@@ -130,7 +130,7 @@ details .nav-link.active::after { display: none; }
 .doc-prose li { margin: 0.25rem 0; }
 .doc-prose li > p { margin: 0.25rem 0; }
 .doc-prose code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.875em; background: #f1f5f9; color: #0f172a; padding: 0.1em 0.35em; border-radius: 3px; }
-.doc-prose pre { background: #0f172a; color: #e2e8f0; padding: 1rem 1.1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; font-size: 13.5px; line-height: 1.55; }
+.doc-prose pre { background: #0f172a; color: #ffffff; padding: 1rem 1.1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; font-size: 13.5px; line-height: 1.55; }
 .doc-prose pre code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
 .doc-prose blockquote { border-left: 3px solid #fff41a; background: #fffbeb; color: #78350f; padding: 0.6rem 1rem; margin: 1rem 0; border-radius: 0 4px 4px 0; }
 .doc-prose blockquote p { margin: 0.25rem 0; }
@@ -236,7 +236,7 @@ html.dark .doc-prose h2 { border-top-color: var(--border); }
 html.dark .doc-prose a { color: var(--accent); text-decoration-color: rgba(255, 244, 26, 0.5); }
 html.dark .doc-prose a:hover { text-decoration-color: var(--accent); }
 html.dark .doc-prose code { background: #1b2436; color: var(--text-strong); }
-html.dark .doc-prose pre { background: var(--bg-sunken); color: #d7e0ec; border: 1px solid var(--border); }
+html.dark .doc-prose pre { background: var(--bg-sunken); color: #ffffff; border: 1px solid var(--border); }
 html.dark .doc-prose pre code { background: transparent; color: inherit; }
 html.dark .doc-prose blockquote { background: var(--accent-soft); color: #fff645; border-left-color: var(--accent); }
 html.dark .doc-prose hr { border-top-color: var(--border); }
