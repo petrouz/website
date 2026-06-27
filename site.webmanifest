@@ -4,7 +4,7 @@
   "description": "Open source firewall for Debian: stateful filtering, NAT, VPN, HA, all managed from a web UI.",
   "start_url": "/",
   "scope": "/",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
   "icons": [
