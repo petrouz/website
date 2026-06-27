@@ -148,6 +148,7 @@
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>DHCP server (Kea).</strong> Per-interface pools for IPv4 and IPv6, offered gateway and DNS, lease time and static reservations. It runs on the Debian Kea daemons, generated from the UI and controlled through systemd; active leases are read live over the Kea control channel.</li>
           <li><strong>DHCP relay.</strong> Forwards client requests to upstream servers on the Debian isc-dhcp-relay binary, for both IPv4 and IPv6, with the relay agent information option and automatic upstream interface selection.</li>
+          <li><strong>DHCP failover.</strong> Two firewalls share a single address pool in hot-standby through the Kea high availability hook, so leases survive a node going down. The generated configuration loads the lease and HA hook libraries shipped with Debian Kea.</li>
           <li><strong>Recursive DNS.</strong> Unbound resolver with DNSSEC, forwarders and local records. UI present, backend being ported.</li>
         </ul>
       </div>
