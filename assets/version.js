@@ -1,15 +1,52 @@
 /*
- * Replaces every <span data-muros-tag> on the page with the highest
- * semver tag published in the murosorg/muros GitHub release list, and
- * every <span data-muros-date> with the month/year that tag was
- * published. Silent no-op if the API call fails (page stays readable
- * offline).
+ * Version display for the MurOS site.
+ *
+ * The authoritative version is the muros package currently published on
+ * download.muros.org (the apt repository users actually install from). Its
+ * Packages index is parsed for the "muros" stanza and the Version field is
+ * written to every <span data-muros-tag> (prefixed with "v") and every
+ * <span data-muros-version> (bare). This keeps the site in lockstep with the
+ * download server instead of the GitHub release list.
+ *
+ * GitHub is still queried, best effort, only for the secondary release
+ * history: the <span data-muros-date> month/year label and the optional
+ * <div data-muros-recent-releases> table. Every call is a silent no-op on
+ * failure so the page stays readable offline.
  */
 (function () {
   var TAGS = document.querySelectorAll('[data-muros-tag]');
   var VERS = document.querySelectorAll('[data-muros-version]');
   var DATES = document.querySelectorAll('[data-muros-date]');
-  if (!TAGS.length && !VERS.length && !DATES.length) return;
+  var RECENT = document.querySelector('[data-muros-recent-releases]');
+
+  // --- Primary source: the apt repository on download.muros.org ----------
+  if (TAGS.length || VERS.length) {
+    fetch('https://download.muros.org/dists/stable/main/binary-amd64/Packages', {
+      headers: { 'Accept': 'text/plain' },
+    })
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function (text) {
+        // Packages is a list of stanzas separated by blank lines. Find the
+        // one for the "muros" package and read its Version field.
+        var stanzas = text.split(/\n\s*\n/);
+        var version = null;
+        for (var i = 0; i < stanzas.length; i++) {
+          if (/^Package:\s*muros\s*$/m.test(stanzas[i])) {
+            var m = stanzas[i].match(/^Version:\s*(.+?)\s*$/m);
+            if (m) { version = m[1]; break; }
+          }
+        }
+        if (!version) return;
+        // Strip a Debian revision suffix (e.g. "0.9.51-1" -> "0.9.51").
+        var bare = version.replace(/-\d+$/, '');
+        TAGS.forEach(function (n) { n.textContent = 'v' + bare; });
+        VERS.forEach(function (n) { n.textContent = bare; });
+      })
+      .catch(function () { /* keep the hardcoded fallback in the markup */ });
+  }
+
+  // --- Secondary: GitHub release history (dates + recent list) -----------
+  if (!DATES.length && !RECENT) return;
   fetch('https://api.github.com/repos/murosorg/muros/releases?per_page=10', {
     headers: { 'Accept': 'application/vnd.github+json' },
   })
@@ -37,11 +74,8 @@
         if (!pick || cmp(parse(r.tag_name), parse(pick.tag_name)) > 0) pick = r;
       }
       if (!pick) return;
-      TAGS.forEach(function (n) { n.textContent = pick.tag_name; });
-      // Bare version (no leading "v"), for places like the
-      // MUROS_VERSION=<version> pin example.
-      var bare = String(pick.tag_name || '').replace(/^v/, '');
-      VERS.forEach(function (n) { n.textContent = bare; });
+      // Note: the tag/version spans are populated from download.muros.org
+      // above. Here we only derive the publish date and recent list.
       var months = ['January','February','March','April','May','June',
                     'July','August','September','October','November','December'];
       if (pick.published_at) {
