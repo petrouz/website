@@ -81,6 +81,12 @@ html.dark body > footer { background-color: var(--bg); }
 .band-dark .ico-gh { color: #e6edf3; }
 .band-dark .ico-li { color: #4aa3df; }
 
+/* GitHub header button: a white pill carrying the black GitHub wordmark and
+   logo. It keeps these colors even inside the dark header band, so it is
+   styled with its own class rather than the flipped slate utilities. */
+.btn-gh { background-color: #ffffff; color: #181717; }
+.btn-gh:hover { background-color: #e9eef5; }
+
 /* Skip-to-content link: hidden until focused by keyboard users. */
 .skip-link {
   position: absolute; left: 0.5rem; top: 0.5rem;
