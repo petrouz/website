@@ -165,10 +165,10 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability <span class="align-middle text-xs font-medium text-red-800 border border-red-300 bg-red-50 rounded px-1.5 py-0.5">10%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">60%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>VRRP active / passive</strong> and connection-state sync (one VIP per interface, no TCP reset on takeover).</li>
-          <li>This replaces the OPNsense CARP / pfsync stack with keepalived / conntrackd on Linux; that backend is not wired yet.</li>
+          <li><strong>VRRP active / passive</strong> and connection-state sync (virtual IPs sharing an interface and group id collapse into one instance, no TCP reset on takeover).</li>
+          <li>This replaces the OPNsense CARP / pfsync stack with keepalived (VRRP) and conntrackd on Linux. Virtual IPs are rendered as keepalived instances and the state channel as conntrackd; advskew maps to the VRRP priority, and status, maintenance mode and enable / disable are wired into the UI through a role notify hook. Live failover validation <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
 
