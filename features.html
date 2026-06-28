@@ -134,10 +134,10 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">87%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">88%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Outbound NAT.</strong> Automatic masquerade per WAN, or manual rules matched on source and destination. No-NAT rules exclude traffic from translation (for example to a remote VPN subnet), and a fixed source port keeps protocols that need it from being rewritten.</li>
-          <li><strong>Port forwarding (DNAT).</strong> Publish an internal service on a public port, scoped to the destination address it is published on (the WAN address or a chosen IP) and an optional source, with the matching forward rule opened automatically.</li>
+          <li><strong>Port forwarding (DNAT).</strong> Publish an internal service on a public port, scoped to the destination address it is published on (the WAN address or a chosen IP) and an optional source, with the matching forward rule opened automatically. No-rdr exclusions exempt selected traffic, so a management subnet can reach a service directly while everyone else is forwarded.</li>
           <li><strong>1:1 NAT.</strong> Static external-to-internal address mappings.</li>
           <li><strong>Negation.</strong> Match everything except a given address or set.</li>
         </ul>
@@ -154,9 +154,9 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">80%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">VPN <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">81%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
-          <li><strong>WireGuard.</strong> The native Linux wg device and its routing are set up through iproute2; configuration pages and key management come from OPNsense. Peers with a hostname endpoint are re-resolved on a systemd timer, so a tunnel recovers when the remote address changes.</li>
+          <li><strong>WireGuard.</strong> The native Linux wg device and its routing are set up through iproute2; configuration pages and key management come from OPNsense. Peers with a hostname endpoint are re-resolved on a systemd timer, so a tunnel recovers when the remote address changes, and each peer reports an online or offline status derived from its last handshake.</li>
           <li><strong>OpenVPN.</strong> tun / tap devices and runtime interface setup ported to iproute2.</li>
           <li><strong>IPsec (strongSwan 6).</strong> Site-to-site (policy-based) and routed (VTI) tunnels run on the in-kernel XFRM stack: charon runs under systemd, and routed tunnels bind their security associations to ipsec xfrm interfaces through a matching interface id. Configuration pages and the built-in PKI (CA, leaf certificates, CRL) come from OPNsense.</li>
           <li>The raw SAD and SPD diagnostic panels read the kernel XFRM stack through ip xfrm, with per-entry deletion, so they work on Linux without the FreeBSD setkey tool.</li>
@@ -165,10 +165,10 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">82%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">High availability <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">84%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>VRRP active / passive</strong> and connection-state sync (virtual IPs sharing an interface and group id collapse into one instance, no TCP reset on takeover).</li>
-          <li>This replaces the OPNsense CARP / pfsync stack with keepalived (VRRP) and conntrackd on Linux. Virtual IPs are rendered as keepalived instances and the state channel as conntrackd; advskew maps to the VRRP priority, and status, maintenance mode and enable / disable are wired into the UI through a role notify hook. A failed service demotes its node so a healthy peer takes the virtual IPs. Every generated keepalived configuration is validated before it is applied, so a bad change cannot take the cluster down. Live failover, including service-failure takeover and recovery, is validated on a two-node cluster; long-run state-sync soak testing <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
+          <li>This replaces the OPNsense CARP / pfsync stack with keepalived (VRRP) and conntrackd on Linux. Virtual IPs are rendered as keepalived instances and the state channel as conntrackd; advskew maps to the VRRP priority, and status, maintenance mode and enable / disable are wired into the UI through a role notify hook. A failed service demotes its node so a healthy peer takes the virtual IPs. Virtual IPs that a node should own fail over together through a keepalived sync group, so a single link or service failure cannot split the cluster across both nodes. Every generated keepalived configuration is validated before it is applied, so a bad change cannot take the cluster down. Live failover, including service-failure takeover and recovery, is validated on a two-node cluster; long-run state-sync soak testing <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">in progress</span>.</li>
         </ul>
       </div>
 
