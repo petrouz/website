@@ -5,12 +5,6 @@
 /* MurOS marketing site. Custom styles layered on top of Tailwind. */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  /* The faint grid runs across the whole page canvas; solid sections
-     (bg-white, bg-slate-50) sit on top of it. */
-  background-image:
-    linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
-  background-size: 28px 28px;
 }
 /* Monospace text (code, command blocks, file listings) renders at a medium
    weight so the letters keep normal heft and stay legible. Left at the default
@@ -21,12 +15,6 @@ body {
   code, pre, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 500; font-style: normal; }
 }
 .shadow-card { box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04); }
-/* Header and footer sit on an opaque background so the page grid does not
-   show through their thin borders. */
-body > header,
-body > footer { background-color: #ffffff; }
-html.dark body > header,
-html.dark body > footer { background-color: var(--bg); }
 
 /* ---------------------------------------------------------------------------
    Dark bands on the light page.
@@ -171,9 +159,6 @@ html.dark {
 html.dark body {
   background-color: var(--bg);
   color: var(--text-strong);
-  background-image:
-    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
 }
 
 /* Surfaces. */
