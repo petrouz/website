@@ -21,12 +21,6 @@ body {
   code, pre, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 500; font-style: normal; }
 }
 .shadow-card { box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04); }
-.bg-grid {
-  background-image:
-    linear-gradient(rgba(15,23,42,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
 /* Header and footer sit on an opaque background so the page grid does not
    show through their thin borders. */
 body > header,
@@ -224,11 +218,6 @@ html.dark .border-amber-200 { border-color: rgba(255, 244, 26, 0.4); }
 html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) { border-color: var(--border); }
 
 /* Decorations. */
-html.dark .bg-grid {
-  background-image:
-    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
-}
 html.dark .shadow-card { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.45); }
 html.dark .nav-link.active { color: var(--text-strong); }
 
