@@ -117,7 +117,7 @@
           <li><strong>Tunnels.</strong> GRE and GIF tunnels (sit, ipip, ip6tnl, chosen from the underlay and overlay address family) created with iproute2.</li>
           <li><strong>Static routes.</strong> Entries in the main routing table, shown live from ip route.</li>
           <li><strong>Persistence.</strong> Assignment and addressing are reapplied at boot by systemd units (muros-interface-assign, muros-interfaces) before the firewall loads, so the state survives a reboot.</li>
-          <li><strong>Multi-WAN gateways.</strong> Gateways are configured in the UI and each one is monitored for latency, packet loss and availability by the dpinger daemon, with alarms when a link degrades. A gateway group fails over automatically: its routing table holds the members of the highest tier that still passes the trigger of the group, as a weighted multipath route when that tier has several uplinks, and it is rebuilt as soon as the monitor reports a change.</li>
+          <li><strong>Multi-WAN gateways.</strong> Gateways are configured in the UI and each one is monitored for latency, packet loss and availability by the dpinger daemon, with alarms when a link degrades. A gateway group fails over automatically: its routing table holds the members of the highest tier that still passes the trigger of the group, as a weighted multipath route when that tier has several uplinks, and it is rebuilt as soon as the monitor reports a change. The connections that were already open move as well, the tracked connections pinned to the gateway that changed state are dropped so their next packet takes the new path.</li>
         </ul>
       </div>
 

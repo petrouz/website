@@ -73,7 +73,9 @@ Releases page. This page summarises the broad strokes.
   into the routing table of that gateway. A group holds the members of the
   highest tier that still passes its trigger, as a weighted multipath route
   when the tier has several uplinks, and the table is rebuilt as soon as the
-  monitor reports a state change.
+  monitor reports a state change. The connections that were already open move
+  too: the tracked connections carrying the mark of the gateway that changed
+  state are dropped, so their next packet is routed through what is current.
 * The version, the commit and the hash of a build are derived at packaging time,
   so the firmware page reports what the box actually runs.
 
