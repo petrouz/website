@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.94 released</title>
+      <description>The address of the peer to replicate connection states to was read by the interface and ignored: the two nodes always looked for each other on a multicast group. On a sync link that is routed, or behind a switch that prunes multicast, they replicated into the void, which nothing reports and which is only discovered at the failover that drops every connection. When the peer is named, the states are now sent to it directly, in either address family.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Tue, 01 Sep 2026 02:50:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-94</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.93 released</title>
       <description>Inline intrusion detection and policy based routing were writing in the same bits of the packet mark. A gateway is identified by its number, and the handover to suricata recognised an already inspected packet by the lowest bit of the mark, so any gateway with an odd number made the traffic routed through it skip inspection entirely, and any packet coming back from the inspection queue carried a mark the routing rules no longer recognised and left through the default gateway. Both failures were silent and depended on a number nobody chooses deliberately.</description>
       <link>https://muros.org/download.html</link>

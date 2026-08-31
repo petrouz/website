@@ -23,6 +23,8 @@ Releases page. This page summarises the broad strokes.
   names, MAC addresses, autonomous system numbers, nested aliases) survive a
   ruleset reload: their resolved content is written into the generated ruleset,
   which pf got for free and nftables does not.
+* Sent the replicated connection states to the peer the operator named,
+  instead of always looking for it on a multicast group.
 * Split the packet mark between the intrusion detection and policy based
   routing, which were overwriting each other and silently disabling either
   inspection or multi-gateway routing depending on the gateway number.
