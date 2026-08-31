@@ -23,6 +23,9 @@ Releases page. This page summarises the broad strokes.
   names, MAC addresses, autonomous system numbers, nested aliases) survive a
   ruleset reload: their resolved content is written into the generated ruleset,
   which pf got for free and nftables does not.
+* Narrowed the captive portal redirection to what it is meant to intercept:
+  encrypted connections addressed to the firewall, and plain web traffic that
+  is not aimed at another client of the zone.
 * Carried the rules the plugins register for themselves into the ruleset, so a
   DHCP server, an IPsec tunnel or a captive portal zone works without the
   operator writing their rules by hand.

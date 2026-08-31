@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.92 released</title>
+      <description>The captive portal redirected every encrypted connection of an unauthenticated client to itself, whatever its destination. The client got a certificate warning for a site it never asked the firewall about, and the portal stayed hidden behind that warning. Only connections addressed to the firewall are redirected now, which is what a client detecting a captive network does. Plain web traffic between two clients of the same zone is no longer intercepted either, and the per-zone setting that hands the rules over to the operator is finally honoured.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Tue, 01 Sep 2026 01:50:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-92</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.91 released</title>
       <description>The rules the components register for themselves, the ones the rule page shows as automatically generated, were never applied. A DHCP server only answered if the operator had written the rule by hand, an IPsec tunnel only came up if IKE and ESP had been allowed by hand, and a captive portal could not resolve a name before authentication. They are now collected from the plugin tree and compiled into the ruleset ahead of the rules the operator wrote. The rule check also stops describing a rule left out for good as one waiting for a time window that does not exist.</description>
       <link>https://muros.org/download.html</link>
