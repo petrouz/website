@@ -178,6 +178,9 @@ Releases page. This page summarises the broad strokes.</p>
 <li>Traffic shaping on tc: pipes and queues become HTB classes with fq_codel or
   netem, the classification is carried by the nftables ruleset as marks, and the
   status page reads the live class counters.</li>
+<li>The per source limits of a firewall rule are enforced: how many connections a
+  single source may hold and how fast it may open them become a dynamic set keyed
+  by the source address, guarding the rule they belong to.</li>
 <li>Intrusion detection and prevention on the Debian Suricata: detection through
   af-packet, inline blocking through NFQUEUE from the nftables ruleset, with
   rule downloads and alerts in the UI. Flow export runs on softflowd with local
