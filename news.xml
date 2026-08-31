@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.91 released</title>
+      <description>The rules the components register for themselves, the ones the rule page shows as automatically generated, were never applied. A DHCP server only answered if the operator had written the rule by hand, an IPsec tunnel only came up if IKE and ESP had been allowed by hand, and a captive portal could not resolve a name before authentication. They are now collected from the plugin tree and compiled into the ruleset ahead of the rules the operator wrote. The rule check also stops describing a rule left out for good as one waiting for a time window that does not exist.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Tue, 01 Sep 2026 01:20:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-91</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.90 released</title>
       <description>Applying the firewall replaced the entire nftables ruleset, which also took away the tables other parts of the system own. The captive portal keeps its authenticated clients and their traffic counters in one of them, so every reload disconnected the users of a portal zone and reset the volume they had consumed, which meant a data quota was never reached on a machine that reloads its firewall. The generated ruleset now replaces its own table and nothing else, in the same single transaction.</description>
       <link>https://muros.org/download.html</link>

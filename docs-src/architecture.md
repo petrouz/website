@@ -74,6 +74,24 @@ A rule limited to a schedule is evaluated when the ruleset is built and simply
 not emitted while it is outside its window, and the filter is rebuilt on a
 timer so the ruleset follows the clock.
 
+## The rules nobody wrote
+
+A firewall configuration is not only what the operator typed. A DHCP server
+needs the requests addressed to it to be let in, an IPsec tunnel needs IKE and
+ESP from the peer, a captive portal needs name resolution to work before a
+client has authenticated. Those rules are declared by the component that needs
+them, at the moment the ruleset is built, and the interface shows them on the
+rule page marked as automatically generated.
+
+They live in the plugin tree, not in the configuration file, and the generator
+reads the configuration file. So the page showed rules that were never applied.
+A small script now runs inside the framework, asks every component what it
+needs, and writes the answer where the generator can read it. The rules land in
+the input chain ahead of the rules the operator wrote, which is the order the
+page shows. Anything a component asks for that cannot be expressed, a
+reference to a table the generator does not own for instance, is named by the
+rule check instead of disappearing.
+
 ## One table, not the whole ruleset
 
 Applying the firewall configuration means loading a generated file with

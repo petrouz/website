@@ -23,6 +23,9 @@ Releases page. This page summarises the broad strokes.
   names, MAC addresses, autonomous system numbers, nested aliases) survive a
   ruleset reload: their resolved content is written into the generated ruleset,
   which pf got for free and nftables does not.
+* Carried the rules the plugins register for themselves into the ruleset, so a
+  DHCP server, an IPsec tunnel or a captive portal zone works without the
+  operator writing their rules by hand.
 * Narrowed the firewall reload to the table it owns, so the captive portal
   keeps its authenticated clients and their accounting across a reload.
 * Implemented NAT reflection on nftables, as a redirection on the inside
