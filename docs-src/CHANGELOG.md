@@ -66,6 +66,12 @@ Releases page. This page summarises the broad strokes.
   the card capabilities come from `iw`, the status page shows the networks in
   range and the associated peers, and hostapd or wpa_supplicant drives the
   cell, protected or open. WEP has no equivalent and is refused.
+* A check tells whether a configured rule reached the kernel: it walks the
+  configuration and looks for each item in the loaded ruleset and in the one
+  the configuration produces, separating applied, pending a reload, and never
+  applied. Available as `configctl filter verify` and in the health audit.
+* Every rule carries the identifier of the item it came from, so the per rule
+  counters work on the rules of the older pages too.
 * The firmware changelog is built from the package: the history up to the
   running version ships with it, the repository publishes the changelog of
   every package alongside it, and apt fetches the one of a version not

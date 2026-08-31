@@ -59,6 +59,27 @@ operator.
    loaded ruleset carries a mandatory anti-lockout rule, so an apply cannot
    strand the operator.
 
+## Checking that a rule reached the kernel
+
+A rule the interface accepts is not necessarily a rule the kernel enforces: a
+configuration item the generator does not handle is stored, listed back, and
+silently ignored. Every rule generated from a configuration item therefore
+carries the identifier of that item, and a check walks the configuration to
+look for it:
+
+```
+configctl filter verify
+```
+
+It separates four cases. Applied, the loaded ruleset carries the rule. Pending,
+the ruleset the current configuration produces carries it but the loaded one
+does not, so the filter has not been reloaded since the change. Never applied,
+neither does, and nothing the box does will change that. Stale, a rule is
+loaded for an item that no longer exists. The same check runs as part of the
+health audit on the firmware page, and `configctl filter verify.json` returns
+it in a form a script can read. The exit status is non zero as soon as an item
+is pending or missing.
+
 ## Porting status
 
 MurOS is in beta. Running on Debian today: the web UI, login, the

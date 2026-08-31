@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.79 released</title>
+      <description>A rule can now be checked against the kernel. Every silent failure found in this port had the same shape: an item accepted by the interface, stored, listed back, and never turned into a rule. The new check walks the configuration and separates a rule that is applied, one that waits for a reload, and one that will never be applied at all. Rule counters also work on the rules of the older pages now.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 19:40:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-79</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.78 released</title>
       <description>The changelog tab of the firmware page shows something at last. A Debian package carries its own changelog, so the history up to the running version is already on the box, and the repository now publishes the changelog of every package alongside it, which lets a box read what a pending update contains before applying it.</description>
       <link>https://muros.org/download.html</link>

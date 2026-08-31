@@ -224,6 +224,21 @@ operator.</p>
    loaded ruleset carries a mandatory anti-lockout rule, so an apply cannot
    strand the operator.</li>
 </ol>
+<h2 id="checking-that-a-rule-reached-the-kernel">Checking that a rule reached the kernel</h2>
+<p>A rule the interface accepts is not necessarily a rule the kernel enforces: a
+configuration item the generator does not handle is stored, listed back, and
+silently ignored. Every rule generated from a configuration item therefore
+carries the identifier of that item, and a check walks the configuration to
+look for it:</p>
+<pre><code>configctl filter verify</code></pre>
+<p>It separates four cases. Applied, the loaded ruleset carries the rule. Pending,
+the ruleset the current configuration produces carries it but the loaded one
+does not, so the filter has not been reloaded since the change. Never applied,
+neither does, and nothing the box does will change that. Stale, a rule is
+loaded for an item that no longer exists. The same check runs as part of the
+health audit on the firmware page, and <code>configctl filter verify.json</code> returns
+it in a form a script can read. The exit status is non zero as soon as an item
+is pending or missing.</p>
 <h2 id="porting-status">Porting status</h2>
 <p>MurOS is in beta. Running on Debian today: the web UI, login, the
 configuration model, the stateful filter and NAT (config.xml to nftables),
