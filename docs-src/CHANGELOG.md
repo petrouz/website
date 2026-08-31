@@ -66,6 +66,8 @@ Releases page. This page summarises the broad strokes.
   the card capabilities come from `iw`, the status page shows the networks in
   range and the associated peers, and hostapd or wpa_supplicant drives the
   cell, protected or open. WEP has no equivalent and is refused.
+* A per source limit can add the offender to a table another rule blocks, for
+  an hour, and the per source counters can be flushed from the interface.
 * A rule asking for no connection tracking is excluded from the tracker ahead
   of it, and the options that have no counterpart here are named by the rule
   check instead of being dropped in silence.

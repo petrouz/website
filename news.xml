@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.83 released</title>
+      <description>The table offenders are added to is filled again. A rule with a per source limit can name a table the sources that go over it are added to, which another rule blocks wholesale; the generator read the field and did nothing with it, so the block rule matched an empty table forever. Flushing the per source counters also does something now, the action was wired to a command that does nothing.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 21:25:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-83</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.82 released</title>
       <description>A rule that asks for no connection tracking gets none, which matters for the traffic whose replies do not look like replies. And the options that cannot be translated at all are now named instead of dropped in silence: the rule check gained a verdict for a rule that is loaded but does not do everything it says.</description>
       <link>https://muros.org/download.html</link>
