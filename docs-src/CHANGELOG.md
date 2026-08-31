@@ -23,6 +23,9 @@ Releases page. This page summarises the broad strokes.
   names, MAC addresses, autonomous system numbers, nested aliases) survive a
   ruleset reload: their resolved content is written into the generated ruleset,
   which pf got for free and nftables does not.
+* Bound the anti-lockout rule to the inside interface and to the ports the
+  management interfaces really use, instead of opening 22, 80 and 443 on every
+  interface ahead of the operator rules.
 * Sent the replicated connection states to the peer the operator named,
   instead of always looking for it on a multicast group.
 * Split the packet mark between the intrusion detection and policy based

@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.95 released</title>
+      <description>The anti-lockout rule accepted ports 22, 80 and 443 on every interface, including the one facing the internet, ahead of every rule the operator wrote. On a firewall with a default deny policy and no rule at all, ssh and the web interface answered from the outside, and an explicit block for those ports could never take effect. The rule also carried a fixed list of ports, so moving the web interface or ssh elsewhere left the wrong ports open and no protection on the right ones. It is now bound to the primary inside interface, carries the ports actually configured, and can be turned off. Upgrading is recommended.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Tue, 01 Sep 2026 03:20:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-95</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.94 released</title>
       <description>The address of the peer to replicate connection states to was read by the interface and ignored: the two nodes always looked for each other on a multicast group. On a sync link that is routed, or behind a switch that prunes multicast, they replicated into the void, which nothing reports and which is only discovered at the failover that drops every connection. When the peer is named, the states are now sent to it directly, in either address family.</description>
       <link>https://muros.org/download.html</link>
