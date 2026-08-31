@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.82 released</title>
+      <description>A rule that asks for no connection tracking gets none, which matters for the traffic whose replies do not look like replies. And the options that cannot be translated at all are now named instead of dropped in silence: the rule check gained a verdict for a rule that is loaded but does not do everything it says.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 21:00:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-82</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.81 released</title>
       <description>The quick option of a rule means something again. The older packet filter let the last match decide unless a rule was marked quick; a Linux ruleset stops at the first match, so the port had turned every rule into a quick one and a broad floating block written to be refined further down the list stopped everything it covered. The rules are now ordered so that the first match is the one the original semantics would have chosen.</description>
       <link>https://muros.org/download.html</link>
