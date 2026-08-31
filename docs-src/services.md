@@ -49,11 +49,19 @@ delay queue for a pipe that adds latency. The match rules are carried by the
 nftables ruleset as marks and the status page reads the live class counters.
 Managed under Firewall > Shaper.
 
+Shaping what arrives on an interface works too, which a queueing discipline
+cannot do on its own: the ingress of the interface is redirected onto an
+intermediate device whose egress carries the same tree. That direction is
+classified by a filter of the traffic control layer rather than by the
+ruleset, because the redirection happens before the packet filter is
+consulted, and such a filter only understands a protocol, an address or a
+prefix and ports.
+
 What this kernel cannot express is named rather than ignored: the schedulers
 with no counterpart, the dynamic pipe per source or destination, the hash
-bucket count, and shaping what arrives on an interface, which needs an
-intermediate device and is not done yet. Ask for the list with `configctl
-shaper notes`, or read it in the health audit of the firmware page.
+bucket count, and the inbound rules whose match is beyond a traffic control
+filter, an alias, a negation or a packet length. Ask for the list with
+`configctl shaper notes`, or read it in the health audit of the firmware page.
 
 ## Wireless
 

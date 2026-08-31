@@ -66,6 +66,9 @@ Releases page. This page summarises the broad strokes.
   the card capabilities come from `iw`, the status page shows the networks in
   range and the associated peers, and hostapd or wpa_supplicant drives the
   cell, protected or open. WEP has no equivalent and is refused.
+* The traffic shaper can shape what arrives on an interface, on an intermediate
+  device fed by the ingress of the real one, classified by a filter of the
+  traffic control layer.
 * The traffic shaper builds the queueing discipline a pipe was configured with,
   scheduler, controlled delay targets, congestion notification and flow counts
   included, and names what the kernel cannot express, including shaping what
