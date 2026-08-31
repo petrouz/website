@@ -46,6 +46,18 @@ a pipe becomes an HTB class with fq_codel or netem as the leaf discipline, the
 match rules are carried by the nftables ruleset as marks, and the status page
 reads the live class counters. Managed under Firewall > Shaper.
 
+## Wireless
+
+A wifi card can serve an access point or join an existing network. The
+interface form offers the channels the regulatory domain of the radio allows,
+with the high throughput modes the card advertises, all read from `iw`. An
+access point is served by hostapd, a station is joined by wpa_supplicant, with
+or without encryption, and the hidden network, quality of service and station
+isolation toggles are passed to hostapd. WEP has no equivalent on this
+platform and is refused. Status > Wireless lists the networks in range and the
+associated peers with their signal, negotiated rates and traffic counters.
+Unlike FreeBSD, a card is assigned directly, there is no clone device.
+
 ## Remote logging
 
 Forwards the firewall's logs to a central syslog server or SIEM over UDP or

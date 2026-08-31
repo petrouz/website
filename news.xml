@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.77 released</title>
+      <description>Wireless is driven through nl80211 instead of the FreeBSD ifconfig that no longer exists. The channel list, the transmit power table and the card capabilities come from iw, the status page shows the networks in range and the associated peers again, and an open network works: hostapd owns the beacon in every case, so an access point without encryption and a station joining an open network are both started as soon as a network name is configured.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 18:30:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-77</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.76 released</title>
       <description>The source NAT rules written on the current GUI page are applied at last, with a masquerade for an interface target, a fixed address or a pool for the others. Also in this round: one-to-one NAT and IPv6 prefix translation on the nftables netmap statement, multi-WAN failover between the tiers of a gateway group including the connections already open, and per source connection limits on the firewall rules.</description>
       <link>https://muros.org/download.html</link>
