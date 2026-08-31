@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.76 released</title>
+      <description>The source NAT rules written on the current GUI page are applied at last, with a masquerade for an interface target, a fixed address or a pool for the others. Also in this round: one-to-one NAT and IPv6 prefix translation on the nftables netmap statement, multi-WAN failover between the tiers of a gateway group including the connections already open, and per source connection limits on the firewall rules.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 17:30:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-76</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.75 released</title>
       <description>Multi-WAN failover between the tiers of a gateway group, including the connections already open, one-to-one NAT and IPv6 prefix translation on the nftables netmap statement, per source connection limits on the firewall rules, host discovery on a packet socket, power savings mapped to the cpufreq governors, monit driving the Debian daemon, and the netstat diagnostics rebuilt on the Linux counters.</description>
       <link>https://muros.org/download.html</link>

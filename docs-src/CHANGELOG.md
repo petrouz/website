@@ -59,6 +59,9 @@ Releases page. This page summarises the broad strokes.
 * One-to-one NAT and IPv6 prefix translation are rendered from the model tree
   the GUI writes to: a mapping between whole prefixes becomes an nftables
   netmap, a single address a plain translation.
+* The source NAT rules of the current GUI page are rendered next to the legacy
+  outbound ones: an interface target becomes a masquerade, a fixed address or a
+  prefix an explicit translation to that address or pool.
 * The per source limits of a firewall rule are enforced: how many connections a
   single source may hold and how fast it may open them become a dynamic set
   keyed by the source address, guarding the rule they belong to.
