@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.78 released</title>
+      <description>The changelog tab of the firmware page shows something at last. A Debian package carries its own changelog, so the history up to the running version is already on the box, and the repository now publishes the changelog of every package alongside it, which lets a box read what a pending update contains before applying it.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 19:00:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-78</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.77 released</title>
       <description>Wireless is driven through nl80211 instead of the FreeBSD ifconfig that no longer exists. The channel list, the transmit power table and the card capabilities come from iw, the status page shows the networks in range and the associated peers again, and an open network works: hostapd owns the beacon in every case, so an access point without encryption and a station joining an open network are both started as soon as a network name is configured.</description>
       <link>https://muros.org/download.html</link>

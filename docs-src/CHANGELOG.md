@@ -66,6 +66,10 @@ Releases page. This page summarises the broad strokes.
   the card capabilities come from `iw`, the status page shows the networks in
   range and the associated peers, and hostapd or wpa_supplicant drives the
   cell, protected or open. WEP has no equivalent and is refused.
+* The firmware changelog is built from the package: the history up to the
+  running version ships with it, the repository publishes the changelog of
+  every package alongside it, and apt fetches the one of a version not
+  installed yet.
 * The per source limits of a firewall rule are enforced: how many connections a
   single source may hold and how fast it may open them become a dynamic set
   keyed by the source address, guarding the rule they belong to.
