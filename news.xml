@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.90 released</title>
+      <description>Applying the firewall replaced the entire nftables ruleset, which also took away the tables other parts of the system own. The captive portal keeps its authenticated clients and their traffic counters in one of them, so every reload disconnected the users of a portal zone and reset the volume they had consumed, which meant a data quota was never reached on a machine that reloads its firewall. The generated ruleset now replaces its own table and nothing else, in the same single transaction.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Tue, 01 Sep 2026 00:45:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-90</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.89 released</title>
       <description>NAT reflection, the last NAT feature the interface offered with nothing behind it, is implemented. A host on an inside network that asks for the published address now gets the same translation as one coming from the outside, with the return path translated so the answer comes back through the firewall. The release also fixes a rule bound to several interfaces, which resolved to none of them and matched every interface instead.</description>
       <link>https://muros.org/download.html</link>

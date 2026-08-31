@@ -23,6 +23,8 @@ Releases page. This page summarises the broad strokes.
   names, MAC addresses, autonomous system numbers, nested aliases) survive a
   ruleset reload: their resolved content is written into the generated ruleset,
   which pf got for free and nftables does not.
+* Narrowed the firewall reload to the table it owns, so the captive portal
+  keeps its authenticated clients and their accounting across a reload.
 * Implemented NAT reflection on nftables, as a redirection on the inside
   interfaces paired with a hairpin source translation on the return path.
 * Completed the NAT translation: the address family, the protocol, the source

@@ -74,6 +74,22 @@ A rule limited to a schedule is evaluated when the ruleset is built and simply
 not emitted while it is outside its window, and the filter is rebuilt on a
 timer so the ruleset follows the clock.
 
+## One table, not the whole ruleset
+
+Applying the firewall configuration means loading a generated file with
+`nft -f`. The obvious way to start that file is `flush ruleset`, and that is
+what it used to do. It is also wrong: the firewall is not the only owner of
+nftables state on the machine. The captive portal keeps the addresses of its
+authenticated clients, and the counters that measure what each of them has
+consumed, in a table of its own. Flushing everything disconnected those
+clients and reset their accounting on every reload, so a volume quota was
+never reached on a machine that reloads its firewall for any other reason.
+
+The generated file now begins by adding its own table and deleting it, then
+defines it. The add makes the delete safe on a machine where the table is not
+there yet, the whole file is still one transaction, and every other table is
+left exactly as it was.
+
 ## Aliases that are not lists of addresses
 
 An alias is often not a list of addresses. It can be a set of GeoIP countries,
