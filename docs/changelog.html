@@ -166,15 +166,39 @@ Releases page. This page summarises the broad strokes.</p>
   is generated to /etc/chrony/chrony.conf from the UI, the daemon runs as the
   stock chrony systemd unit, and the status page reads sources, offsets, jitter
   and delay live from chrony.</li>
+<li>Recursive DNS on the Debian Unbound daemon: DNSSEC, forwarders, local records
+  and blocklists are generated from the UI for the stock package, without the
+  FreeBSD chroot layout.</li>
+<li>Captive portal rebuilt on nftables: sessions, vouchers and per-session
+  accounting, with the portal runtime and its background process under systemd.</li>
+<li>High availability on keepalived and conntrackd in place of CARP and pfsync:
+  virtual IPs are rendered as VRRP instances with sync groups and service
+  demotion, and the master pushes the selected configuration sections to the
+  backup over XML-RPC.</li>
+<li>Traffic shaping on tc: pipes and queues become HTB classes with fq_codel or
+  netem, the classification is carried by the nftables ruleset as marks, and the
+  status page reads the live class counters.</li>
+<li>Intrusion detection and prevention on the Debian Suricata: detection through
+  af-packet, inline blocking through NFQUEUE from the nftables ruleset, with
+  rule downloads and alerts in the UI. Flow export runs on softflowd with local
+  collection and aggregation.</li>
+<li>Host discovery without the FreeBSD hostwatch binary: a daemon listens for ARP
+  and IPv6 neighbour discovery on a packet socket and reads the kernel neighbour
+  table, feeding the host list, the captive portal and the MAC address aliases.</li>
+<li>Service monitoring on the Debian monit and power savings mapped to the cpufreq
+  governors, both driven from the UI.</li>
+<li>The netstat diagnostics rebuilt on the Linux counters: per CPU softirq receive
+  statistics, the packet sockets with the process holding them, and the socket
+  memory charged against the kernel pressure limits.</li>
 </ul>
 <h2 id="in-progress">In progress</h2>
 <ul>
-<li>Recursive validating DNS on the Debian Unbound daemon.</li>
-<li>Full VPN service lifecycle (WireGuard, OpenVPN, IPsec) through systemd.</li>
-<li>High availability (keepalived/conntrackd) and traffic shaping.</li>
-<li>Automatic multi-WAN failover and policy routing.</li>
+<li>Automatic multi-WAN failover: gateway monitoring is in place, per-rule policy
+  routing to a gateway or a gateway group is still being translated to the Linux
+  data plane.</li>
 <li>SNMP and notifications, the full apt upgrade flow and the sshd options from
   the UI.</li>
+<li>Long-run soak testing of the high availability state sync.</li>
 </ul>
       </div>
       <div class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-900 flex items-center justify-between">

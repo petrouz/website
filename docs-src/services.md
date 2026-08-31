@@ -5,9 +5,9 @@ firewall is usually expected to provide. Each has its own page in the UI and
 is only written to the system when you Apply. On Debian these map to the
 standard Linux daemons.
 
-During beta, the service pages and the configuration model are in place; the
-backends that drive the Linux daemons are being ported from the FreeBSD
-originals. Treat this page as the target behaviour.
+During beta, the service pages, the configuration model and the backends that
+drive the Linux daemons are wired on Debian. SNMP and notifications are the
+last ones still being ported; the changelog page tracks what is left.
 
 ## DHCP server (IPv4 and IPv6)
 
@@ -41,8 +41,10 @@ VPN endpoint or a published service. Managed under Services > Dynamic DNS.
 Egress bandwidth control per interface, using the kernel's queueing
 disciplines. You cap an interface's egress rate, split it into classes with
 guaranteed and ceiling rates, and assign traffic to a class with match rules.
-This keeps interactive traffic responsive when the link is saturated. Managed
-under Firewall > Shaper.
+This keeps interactive traffic responsive when the link is saturated. On Debian
+a pipe becomes an HTB class with fq_codel or netem as the leaf discipline, the
+match rules are carried by the nftables ruleset as marks, and the status page
+reads the live class counters. Managed under Firewall > Shaper.
 
 ## Remote logging
 

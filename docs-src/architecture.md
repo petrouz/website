@@ -67,7 +67,11 @@ address aliases as named nftables sets, the full interface layer via iproute2
 (addressing, VLANs, bridges, LAGG as Linux bonding, GRE/GIF tunnels), static
 routing, account management through the Debian shadow utilities, the package
 inventory through dpkg/apt, and the WireGuard and OpenVPN runtime devices.
-Still being ported: the infrastructure services (DHCP, DNS, NTP), high
-availability (keepalived/conntrackd), traffic shaping, gateway monitoring and
-policy routing, the full apt upgrade flow, and the sshd options. Each feature
+Also running: the infrastructure services (Kea DHCP, Unbound, chrony), high
+availability on keepalived and conntrackd with configuration synchronisation to
+the backup, traffic shaping on tc, intrusion detection and prevention on
+Suricata, flow export on softflowd, the captive portal on nftables, host
+discovery, and gateway monitoring with dpinger. Still being ported: per-rule
+policy routing and the automatic multi-WAN failover that builds on it, SNMP and
+notifications, the full apt upgrade flow, and the sshd options. Each feature
 page notes where it stands.
