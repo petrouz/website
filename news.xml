@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.86 released</title>
+      <description>Three features were still calling a program that does not exist on this system, and none of them failed loudly: exporting an OpenVPN client configuration produced an empty file, the cipher lists of the secure shell page were empty, and the flow collector attributed a flow to whichever interface happened to sit at that position in a list, so its reports were not empty, they were wrong.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 23:00:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-86</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.85 released</title>
       <description>The traffic shaper can cap a download. A queueing discipline only works on what leaves a device, so the inbound half of a shaper rule silently did nothing; an intermediate device now carries it, with the same tree of pipes and queues as any other device. Measured between two namespaces, a pipe capped at one megabit stretched a burst of 1.1 megabytes from instant to 9.2 seconds.</description>
       <link>https://muros.org/download.html</link>

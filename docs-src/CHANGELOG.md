@@ -66,6 +66,9 @@ Releases page. This page summarises the broad strokes.
   the card capabilities come from `iw`, the status page shows the networks in
   range and the associated peers, and hostapd or wpa_supplicant drives the
   cell, protected or open. WEP has no equivalent and is refused.
+* Fixed three features still calling a FreeBSD path: the OpenVPN client export
+  produced an empty archive, the cipher lists of the secure shell page were
+  empty, and the flow collector attributed flows to the wrong interface.
 * The traffic shaper can shape what arrives on an interface, on an intermediate
   device fed by the ingress of the real one, classified by a filter of the
   traffic control layer.
