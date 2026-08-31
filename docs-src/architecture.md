@@ -59,6 +59,21 @@ operator.
    loaded ruleset carries a mandatory anti-lockout rule, so an apply cannot
    strand the operator.
 
+## Rule order
+
+The two packet filters do not decide the same way. pf evaluated every rule and
+let the last match decide, unless the rule was marked quick, which decided on
+the spot. nftables stops at the first match. The two agree once the list is
+rewritten: under pf the winner is the first matching quick rule, and when no
+quick rule matches it is the last matching non quick rule, so MurOS emits the
+quick rules in their original order followed by the non quick ones reversed. A
+first match walk over that list picks the rule pf would have picked. Only a
+floating rule can be non quick; an interface rule always is.
+
+A rule limited to a schedule is evaluated when the ruleset is built and simply
+not emitted while it is outside its window, and the filter is rebuilt on a
+timer so the ruleset follows the clock.
+
 ## Checking that a rule reached the kernel
 
 A rule the interface accepts is not necessarily a rule the kernel enforces: a

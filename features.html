@@ -124,9 +124,10 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">90%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">91%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Filter rules.</strong> Generated as an nftables ruleset: input / forward / output chains, action pass / block / reject, per-rule logging and comment.</li>
+          <li><strong>Floating rules that can be overridden.</strong> A floating rule without the quick option sets a verdict a later interface rule can still override, the way the original packet filter behaved. The rules are ordered so that the first match a Linux ruleset finds is the one the original semantics would have chosen.</li>
           <li><strong>Scheduled rules.</strong> A rule can be limited to a time window: weekday sets, calendar days and hour ranges. A rule outside its window is not loaded at all, and the ruleset is rebuilt on a timer so it follows the clock.</li>
           <li><strong>Stateful by default.</strong> Default deny with connection-state matching, out of the box.</li>
           <li><strong>IPv4 and IPv6.</strong> Per-rule address family, with the common protocols (tcp, udp, icmp, esp, gre, ...) and TCP flag matching.</li>

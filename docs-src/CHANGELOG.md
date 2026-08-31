@@ -66,6 +66,9 @@ Releases page. This page summarises the broad strokes.
   the card capabilities come from `iw`, the status page shows the networks in
   range and the associated peers, and hostapd or wpa_supplicant drives the
   cell, protected or open. WEP has no equivalent and is refused.
+* The quick option is honoured: a floating rule without it sets a verdict a
+  later interface rule can override. The list is ordered so that the first
+  match found by nftables is the one pf would have chosen.
 * Rule schedules are honoured: weekday sets, calendar days and hour ranges. A
   rule outside its window is not loaded, and the filter is rebuilt on a timer
   so the ruleset follows the clock.
