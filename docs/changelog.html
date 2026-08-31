@@ -178,6 +178,9 @@ Releases page. This page summarises the broad strokes.</p>
 <li>Traffic shaping on tc: pipes and queues become HTB classes with fq_codel or
   netem, the classification is carried by the nftables ruleset as marks, and the
   status page reads the live class counters.</li>
+<li>One-to-one NAT and IPv6 prefix translation are rendered from the model tree the
+  GUI writes to: a mapping between whole prefixes becomes an nftables netmap, a
+  single address a plain translation.</li>
 <li>The per source limits of a firewall rule are enforced: how many connections a
   single source may hold and how fast it may open them become a dynamic set keyed
   by the source address, guarding the rule they belong to.</li>

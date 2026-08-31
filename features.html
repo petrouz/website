@@ -135,11 +135,12 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">88%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">90%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Outbound NAT.</strong> Automatic masquerade per WAN, or manual rules matched on source and destination. No-NAT rules exclude traffic from translation (for example to a remote VPN subnet), and a fixed source port keeps protocols that need it from being rewritten.</li>
           <li><strong>Port forwarding (DNAT).</strong> Publish an internal service on a public port, scoped to the destination address it is published on (the WAN address or a chosen IP) and an optional source, with the matching forward rule opened automatically. No-rdr exclusions exempt selected traffic, so a management subnet can reach a service directly while everyone else is forwarded.</li>
-          <li><strong>1:1 NAT.</strong> Static external-to-internal address mappings.</li>
+          <li><strong>1:1 NAT.</strong> Static external-to-internal address mappings, for a single host or for a whole prefix, where the host part is kept across the translation.</li>
+          <li><strong>IPv6 prefix translation.</strong> An internal ULA prefix is mapped onto the prefix delegated by the provider, so renumbering stays at the edge.</li>
           <li><strong>Negation.</strong> Match everything except a given address or set.</li>
         </ul>
       </div>
