@@ -74,6 +74,25 @@ A rule limited to a schedule is evaluated when the ruleset is built and simply
 not emitted while it is outside its window, and the filter is rebuilt on a
 timer so the ruleset follows the clock.
 
+## Who owns the packet mark
+
+Two features write into the mark a packet carries through the kernel. Policy
+based routing puts the number of the gateway a flow was pinned to, and reads
+it back in a routing rule. Inline intrusion detection hands packets to a queue
+suricata reads, and needs a way to tell a packet that has already been through
+it, otherwise it would loop; suricata writes that flag into the mark too.
+
+They used to overlap. Gateway numbers start at 1000 and the inspection flag was
+the lowest bit, so a gateway with an odd number produced traffic the handover
+chain read as already inspected and let through without inspecting it, and a
+packet that had been inspected came back with its gateway number changed and
+no longer matched the routing rule, leaving through the default gateway. Both
+failures are silent and depend on a number nobody chooses deliberately.
+
+The mark is now divided: gateway numbers stay in the low sixteen bits, the two
+flags of the intrusion detection sit above them, and the routing rules match
+with a mask so the flags do not disturb them.
+
 ## The rules nobody wrote
 
 A firewall configuration is not only what the operator typed. A DHCP server

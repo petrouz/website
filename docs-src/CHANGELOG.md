@@ -23,6 +23,9 @@ Releases page. This page summarises the broad strokes.
   names, MAC addresses, autonomous system numbers, nested aliases) survive a
   ruleset reload: their resolved content is written into the generated ruleset,
   which pf got for free and nftables does not.
+* Split the packet mark between the intrusion detection and policy based
+  routing, which were overwriting each other and silently disabling either
+  inspection or multi-gateway routing depending on the gateway number.
 * Narrowed the captive portal redirection to what it is meant to intercept:
   encrypted connections addressed to the firewall, and plain web traffic that
   is not aimed at another client of the zone.

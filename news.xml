@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.93 released</title>
+      <description>Inline intrusion detection and policy based routing were writing in the same bits of the packet mark. A gateway is identified by its number, and the handover to suricata recognised an already inspected packet by the lowest bit of the mark, so any gateway with an odd number made the traffic routed through it skip inspection entirely, and any packet coming back from the inspection queue carried a mark the routing rules no longer recognised and left through the default gateway. Both failures were silent and depended on a number nobody chooses deliberately.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Tue, 01 Sep 2026 02:20:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-93</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.92 released</title>
       <description>The captive portal redirected every encrypted connection of an unauthenticated client to itself, whatever its destination. The client got a certificate warning for a site it never asked the firewall about, and the portal stayed hidden behind that warning. Only connections addressed to the firewall are redirected now, which is what a client detecting a captive network does. Plain web traffic between two clients of the same zone is no longer intercepted either, and the per-zone setting that hands the rules over to the operator is finally honoured.</description>
       <link>https://muros.org/download.html</link>

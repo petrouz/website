@@ -237,6 +237,21 @@ floating rule can be non quick; an interface rule always is.</p>
 <p>A rule limited to a schedule is evaluated when the ruleset is built and simply
 not emitted while it is outside its window, and the filter is rebuilt on a
 timer so the ruleset follows the clock.</p>
+<h2 id="who-owns-the-packet-mark">Who owns the packet mark</h2>
+<p>Two features write into the mark a packet carries through the kernel. Policy
+based routing puts the number of the gateway a flow was pinned to, and reads
+it back in a routing rule. Inline intrusion detection hands packets to a queue
+suricata reads, and needs a way to tell a packet that has already been through
+it, otherwise it would loop; suricata writes that flag into the mark too.</p>
+<p>They used to overlap. Gateway numbers start at 1000 and the inspection flag was
+the lowest bit, so a gateway with an odd number produced traffic the handover
+chain read as already inspected and let through without inspecting it, and a
+packet that had been inspected came back with its gateway number changed and
+no longer matched the routing rule, leaving through the default gateway. Both
+failures are silent and depend on a number nobody chooses deliberately.</p>
+<p>The mark is now divided: gateway numbers stay in the low sixteen bits, the two
+flags of the intrusion detection sit above them, and the routing rules match
+with a mask so the flags do not disturb them.</p>
 <h2 id="the-rules-nobody-wrote">The rules nobody wrote</h2>
 <p>A firewall configuration is not only what the operator typed. A DHCP server
 needs the requests addressed to it to be let in, an IPsec tunnel needs IKE and
