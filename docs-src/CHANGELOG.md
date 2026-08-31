@@ -23,6 +23,9 @@ Releases page. This page summarises the broad strokes.
   names, MAC addresses, autonomous system numbers, nested aliases) survive a
   ruleset reload: their resolved content is written into the generated ruleset,
   which pf got for free and nftables does not.
+* Built the bogon blocking from the list downloaded every night rather than a
+  constant in the source, and repaired the nightly download, whose action
+  still called a FreeBSD helper.
 * Gave effect to the advanced firewall settings that had none: state table
   size, alias entry limit, port zero blocking, and the logging of private and
   unroutable sources.
