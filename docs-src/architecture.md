@@ -71,10 +71,11 @@ look for it:
 configctl filter verify
 ```
 
-It separates four cases. Applied, the loaded ruleset carries the rule. Pending,
+It separates five cases. Applied, the loaded ruleset carries the rule. Pending,
 the ruleset the current configuration produces carries it but the loaded one
 does not, so the filter has not been reloaded since the change. Never applied,
-neither does, and nothing the box does will change that. Stale, a rule is
+neither does, and nothing the box does will change that. Outside its schedule,
+the rule was left out on purpose until its time window opens. Stale, a rule is
 loaded for an item that no longer exists. The same check runs as part of the
 health audit on the firmware page, and `configctl filter verify.json` returns
 it in a form a script can read. The exit status is non zero as soon as an item

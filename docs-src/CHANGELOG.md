@@ -66,6 +66,9 @@ Releases page. This page summarises the broad strokes.
   the card capabilities come from `iw`, the status page shows the networks in
   range and the associated peers, and hostapd or wpa_supplicant drives the
   cell, protected or open. WEP has no equivalent and is refused.
+* Rule schedules are honoured: weekday sets, calendar days and hour ranges. A
+  rule outside its window is not loaded, and the filter is rebuilt on a timer
+  so the ruleset follows the clock.
 * A check tells whether a configured rule reached the kernel: it walks the
   configuration and looks for each item in the loaded ruleset and in the one
   the configuration produces, separating applied, pending a reload, and never

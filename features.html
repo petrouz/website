@@ -124,9 +124,10 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">89%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">90%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Filter rules.</strong> Generated as an nftables ruleset: input / forward / output chains, action pass / block / reject, per-rule logging and comment.</li>
+          <li><strong>Scheduled rules.</strong> A rule can be limited to a time window: weekday sets, calendar days and hour ranges. A rule outside its window is not loaded at all, and the ruleset is rebuilt on a timer so it follows the clock.</li>
           <li><strong>Stateful by default.</strong> Default deny with connection-state matching, out of the box.</li>
           <li><strong>IPv4 and IPv6.</strong> Per-rule address family, with the common protocols (tcp, udp, icmp, esp, gre, ...) and TCP flag matching.</li>
           <li><strong>Aliases as sets.</strong> Host, network and port aliases are compiled into nftables named sets and referenced from rules; entries can be added to a running set and the contents are read back from nft.</li>

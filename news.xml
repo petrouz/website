@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.80 released</title>
+      <description>A firewall rule limited to a time window is limited again. The generator never read the schedule of a rule, so a scheduled rule was permanently active: a pass rule written to close at the end of its window never closed. Weekday sets, calendar days and hour ranges are honoured, and a rule outside its window is not loaded at all.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 20:10:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-80</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.79 released</title>
       <description>A rule can now be checked against the kernel. Every silent failure found in this port had the same shape: an item accepted by the interface, stored, listed back, and never turned into a rule. The new check walks the configuration and separates a rule that is applied, one that waits for a reload, and one that will never be applied at all. Rule counters also work on the rules of the older pages now.</description>
       <link>https://muros.org/download.html</link>

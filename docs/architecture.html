@@ -231,10 +231,11 @@ silently ignored. Every rule generated from a configuration item therefore
 carries the identifier of that item, and a check walks the configuration to
 look for it:</p>
 <pre><code>configctl filter verify</code></pre>
-<p>It separates four cases. Applied, the loaded ruleset carries the rule. Pending,
+<p>It separates five cases. Applied, the loaded ruleset carries the rule. Pending,
 the ruleset the current configuration produces carries it but the loaded one
 does not, so the filter has not been reloaded since the change. Never applied,
-neither does, and nothing the box does will change that. Stale, a rule is
+neither does, and nothing the box does will change that. Outside its schedule,
+the rule was left out on purpose until its time window opens. Stale, a rule is
 loaded for an item that no longer exists. The same check runs as part of the
 health audit on the firmware page, and <code>configctl filter verify.json</code> returns
 it in a form a script can read. The exit status is non zero as soon as an item
