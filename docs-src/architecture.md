@@ -74,6 +74,24 @@ A rule limited to a schedule is evaluated when the ruleset is built and simply
 not emitted while it is outside its window, and the filter is rebuilt on a
 timer so the ruleset follows the clock.
 
+## Aliases that are not lists of addresses
+
+An alias is often not a list of addresses. It can be a set of GeoIP countries,
+a list downloaded over HTTP, a host name, a MAC address, an autonomous system
+number, or the name of another alias. Turning any of those into addresses is
+the job of a background updater, which resolves them and keeps the result in
+`/var/db/aliastables`.
+
+On FreeBSD that was the end of the story, because reloading the ruleset left
+the contents of the tables in place. nftables has no equivalent: the apply
+pipeline starts from a flushed ruleset, so every reload used to empty those
+aliases and the rules using them matched nothing until the updater ran again.
+The generator therefore reads the resolved content back and writes the
+addresses into the ruleset itself. A reload arms the alias in the same
+transaction as the rules that use it, and an alias that resolves to nothing at
+all is reported by the rule check rather than left as a rule that can never
+match.
+
 ## Checking that a rule reached the kernel
 
 A rule the interface accepts is not necessarily a rule the kernel enforces: a

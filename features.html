@@ -126,7 +126,7 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">92%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">Firewall <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">93%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Filter rules.</strong> Generated as an nftables ruleset: input / forward / output chains, action pass / block / reject, per-rule logging and comment.</li>
           <li><strong>Floating rules that can be overridden.</strong> A floating rule without the quick option sets a verdict a later interface rule can still override, the way the original packet filter behaved. The rules are ordered so that the first match a Linux ruleset finds is the one the original semantics would have chosen.</li>
@@ -134,6 +134,7 @@
           <li><strong>Stateful by default.</strong> Default deny with connection-state matching, out of the box.</li>
           <li><strong>IPv4 and IPv6.</strong> Per-rule address family, with the common protocols (tcp, udp, icmp, esp, gre, ...) and TCP flag matching.</li>
           <li><strong>Aliases as sets.</strong> Host, network and port aliases are compiled into nftables named sets and referenced from rules; entries can be added to a running set and the contents are read back from nft.</li>
+          <li><strong>Aliases that resolve.</strong> An alias whose content is not a list of addresses, a GeoIP country, a downloaded list, a host name, a MAC address, an autonomous system number or another alias, is resolved by a background updater. The addresses it found are written into the ruleset itself, so a reload arms the alias immediately instead of leaving the rules that use it matching nothing until the next update. An alias that resolves to nothing at all is reported.</li>
           <li><strong>Live counters.</strong> Per-rule and per-table packets and bytes read back from netfilter.</li>
           <li><strong>Policy routing (multi-WAN).</strong> A pass rule can be pinned to a gateway or to a gateway group: matching connections are marked and steered out that uplink (route-to). Replies to a connection that arrived on a WAN are sent back through the same uplink (reply-to), so a multi-homed box does not leak answers into the wrong ISP. The marks are saved on the connection, so every following packet keeps the same path.</li>
           <li><strong>Validated apply.</strong> The generated ruleset is checked with nft -c before it is loaded, and a mandatory anti-lockout rule (SSH / HTTP / HTTPS) keeps the management session reachable.</li>

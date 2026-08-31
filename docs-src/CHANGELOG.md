@@ -19,6 +19,10 @@ Releases page. This page summarises the broad strokes.
 * Ported NAT (outbound masquerade and port forward) and address aliases to
   named nftables sets, with live per-rule and per-table counters from
   netfilter and connection-state flush through conntrack.
+* Made aliases that are not lists of addresses (GeoIP, downloaded lists, host
+  names, MAC addresses, autonomous system numbers, nested aliases) survive a
+  ruleset reload: their resolved content is written into the generated ruleset,
+  which pf got for free and nftables does not.
 * Rebuilt the interface layer on iproute2: addressing, VLANs, bridges, LAGG as
   Linux bonding, GRE and GIF tunnels, and static routing, with automatic
   interface assignment and persistent bring-up at boot through systemd units.
