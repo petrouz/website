@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.96 released</title>
+      <description>Four settings of the advanced firewall page had no effect at all. The maximum number of firewall states now sizes the connection tracking table, so a firewall sized for a large number of connections no longer keeps the kernel default and starts refusing connections with only a kernel message to show for it. The maximum number of entries per alias bounds the sets. Traffic claiming port zero is dropped, as it always should have been. And packets dropped because they came from a private or unroutable source, which used to vanish without a trace, are logged unless the operator says otherwise.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Tue, 01 Sep 2026 03:50:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-96</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.95 released</title>
       <description>The anti-lockout rule accepted ports 22, 80 and 443 on every interface, including the one facing the internet, ahead of every rule the operator wrote. On a firewall with a default deny policy and no rule at all, ssh and the web interface answered from the outside, and an explicit block for those ports could never take effect. The rule also carried a fixed list of ports, so moving the web interface or ssh elsewhere left the wrong ports open and no protection on the right ones. It is now bound to the primary inside interface, carries the ports actually configured, and can be turned off. Upgrading is recommended.</description>
       <link>https://muros.org/download.html</link>
