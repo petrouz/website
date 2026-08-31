@@ -142,12 +142,13 @@
       </div>
 
       <div>
-        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">96%</span></h2>
+        <h2 class="text-lg font-semibold text-slate-900 border-l-2 border-amber-400 pl-2">NAT <span class="align-middle text-xs font-medium text-amber-800 border border-amber-300 bg-amber-50 rounded px-1.5 py-0.5">98%</span></h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-900">
           <li><strong>Outbound NAT.</strong> Automatic masquerade per WAN, or manual rules matched on source and destination, written on either the Source NAT page or the older Outbound one. No-NAT rules exclude traffic from translation (for example to a remote VPN subnet), a fixed source port keeps protocols that need it from being rewritten, and a rule can translate to a single address or to a pool of them.</li>
           <li><strong>Port forwarding (DNAT).</strong> Publish an internal service on a public port, scoped to the destination address it is published on (the WAN address or a chosen IP) and an optional source, with the matching forward rule opened automatically. No-rdr exclusions exempt selected traffic, so a management subnet can reach a service directly while everyone else is forwarded.</li>
           <li><strong>1:1 NAT.</strong> Static external-to-internal address mappings, for a single host or for a whole prefix, where the host part is kept across the translation.</li>
           <li><strong>IPv6 prefix translation.</strong> An internal ULA prefix is mapped onto the prefix delegated by the provider, so renumbering stays at the edge.</li>
+          <li><strong>Reflection.</strong> A service published on the public address stays reachable under that same address from the inside networks, for port forwards and for 1:1 mappings, with the return path translated so the answer comes back through the firewall. It follows the per-rule setting and the system defaults.</li>
           <li><strong>Dual stack throughout.</strong> Outbound rules, port forwards and 1:1 mappings each follow the address family they were written for, so an IPv6 redirection or an IPv6 static mapping is translated like its IPv4 counterpart.</li>
           <li><strong>Translation pools.</strong> A rule can translate to a single address, to a range or to a network, with a sticky mapping that keeps one source on the same translated address, or a random pick across the pool.</li>
           <li><strong>Matched like a filter rule.</strong> An outbound rule narrows on protocol, source port and destination port, not only on addresses, and it can be logged.</li>

@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.89 released</title>
+      <description>NAT reflection, the last NAT feature the interface offered with nothing behind it, is implemented. A host on an inside network that asks for the published address now gets the same translation as one coming from the outside, with the return path translated so the answer comes back through the firewall. The release also fixes a rule bound to several interfaces, which resolved to none of them and matched every interface instead.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Tue, 01 Sep 2026 00:20:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-89</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.88 released</title>
       <description>An outbound NAT rule was translated from a fraction of what the page stores. The protocol, the ports, the translation pool and the address family were read by the interface and dropped on the way to the kernel, so a rule limited to one protocol translated everything, a rule pointing at a pool used the interface address instead, and a single IPv6 rule made the whole ruleset unloadable. Port forwards and 1:1 mappings now follow the address family too, and an address that cannot be resolved is left out and named rather than handed to the kernel as a host name.</description>
       <link>https://muros.org/download.html</link>
