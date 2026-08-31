@@ -68,12 +68,17 @@ Releases page. This page summarises the broad strokes.
 * The netstat diagnostics rebuilt on the Linux counters: per CPU softirq receive
   statistics, the packet sockets with the process holding them, and the socket
   memory charged against the kernel pressure limits.
+* Per-rule policy routing with automatic multi-WAN failover: a rule pinned to a
+  gateway or to a gateway group is marked by the nftables ruleset and steered
+  into the routing table of that gateway. A group holds the members of the
+  highest tier that still passes its trigger, as a weighted multipath route
+  when the tier has several uplinks, and the table is rebuilt as soon as the
+  monitor reports a state change.
+* The version, the commit and the hash of a build are derived at packaging time,
+  so the firmware page reports what the box actually runs.
 
 ## In progress
 
-* Automatic multi-WAN failover: gateway monitoring is in place, per-rule policy
-  routing to a gateway or a gateway group is still being translated to the Linux
-  data plane.
 * SNMP and notifications, the full apt upgrade flow and the sshd options from
   the UI.
 * Long-run soak testing of the high availability state sync.

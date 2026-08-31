@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#1f2638">
 <meta name="google-site-verification" content="gUUe2BSkVhGthwtAdlY94ba7EjI4Y8TjYVEQx291vlQ">
 <title>MurOS - Turn Linux into a firewall</title>
-<meta name="description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall, NAT, VPN, DHCP, recursive DNS and high availability already run natively on nftables, iproute2 and systemd; policy routing, multi-WAN failover and SNMP are being ported. Free, no subscription.">
+<meta name="description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall, NAT, VPN, DHCP, recursive DNS, high availability and multi-WAN failover already run natively on nftables, iproute2 and systemd; SNMP and notifications are being ported. Free, no subscription.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/app.css?v=b4d7843f7456">
@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://muros.org/">
 <meta property="og:title" content="MurOS - Turn Linux into a firewall">
-<meta property="og:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall, NAT, VPN, DHCP, recursive DNS and high availability already run natively on nftables, iproute2 and systemd; policy routing, multi-WAN failover and SNMP are being ported. Free, no subscription.">
+<meta property="og:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall, NAT, VPN, DHCP, recursive DNS, high availability and multi-WAN failover already run natively on nftables, iproute2 and systemd; SNMP and notifications are being ported. Free, no subscription.">
 <meta property="og:image" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://muros.org/assets/og-cover.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -26,7 +26,7 @@
 <meta property="og:image:alt" content="MurOS - turn Linux into a firewall">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="MurOS - Turn Linux into a firewall">
-<meta name="twitter:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall, NAT, VPN, DHCP, recursive DNS and high availability already run natively on nftables, iproute2 and systemd; policy routing, multi-WAN failover and SNMP are being ported. Free, no subscription.">
+<meta name="twitter:description" content="Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall, NAT, VPN, DHCP, recursive DNS, high availability and multi-WAN failover already run natively on nftables, iproute2 and systemd; SNMP and notifications are being ported. Free, no subscription.">
 <meta name="twitter:image" content="https://muros.org/assets/og-cover.jpg">
 <script type="application/ld+json">
 {
@@ -61,7 +61,7 @@
       "downloadUrl": "https://muros.org/install.html",
       "softwareHelp": "https://muros.org/docs/quickstart.html",
       "license": "https://www.gnu.org/licenses/gpl-3.0.html",
-      "description": "Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall, NAT, VPN, DHCP, recursive DNS and high availability already run natively on nftables, iproute2 and systemd; policy routing, multi-WAN failover and SNMP are being ported. Free, no subscription.",
+      "description": "Open source fork of OPNsense, ported to Debian 13 and managed from a web UI. BETA: the stateful firewall, NAT, VPN, DHCP, recursive DNS, high availability and multi-WAN failover already run natively on nftables, iproute2 and systemd; SNMP and notifications are being ported. Free, no subscription.",
       "author": {
         "@id": "https://muros.org/#org"
       },
@@ -107,7 +107,7 @@
         <div class="flex items-start gap-3 mb-6">
           <span class="mt-1 inline-block w-1 self-stretch bg-amber-400"></span>
           <div>
-            <div class="mono text-base font-semibold text-slate-900 tracking-wide"><span data-muros-tag>v0.9.51</span></div>
+            <div class="mono text-base font-semibold text-slate-900 tracking-wide"><span data-muros-tag>v0.9.72</span></div>
             <div class="text-sm text-slate-900">Production-grade features, breaking changes still possible.</div>
           </div>
         </div>
@@ -206,7 +206,7 @@
           <tr><td class="px-3 py-2">DHCP server</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-emerald-700 font-medium">90%</td></tr>
           <tr><td class="px-3 py-2">Captive portal</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">70%</td></tr>
           <tr><td class="px-3 py-2">VPN (IPsec, OpenVPN, WireGuard)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">82%</td></tr>
-          <tr><td class="px-3 py-2">Gateways and multi-WAN failover</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">50%</td></tr>
+          <tr><td class="px-3 py-2">Gateways and multi-WAN failover</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">80%</td></tr>
           <tr><td class="px-3 py-2">IDS / IPS (Suricata) and NetFlow</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">70%</td></tr>
           <tr><td class="px-3 py-2">High availability (VRRP, state sync)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">88%</td></tr>
           <tr><td class="px-3 py-2">Traffic shaping (QoS)</td><td class="text-center">yes</td><td class="text-center">yes</td><td class="text-center text-amber-700 font-medium">75%</td></tr>

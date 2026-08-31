@@ -145,7 +145,7 @@
       <p class="mt-5 text-lg text-slate-900 leading-relaxed">MurOS is an open source fork of OPNsense, ported from FreeBSD to Debian Linux. The same proven web UI and feature set, managed as one tested product, now running on far more hardware than the BSD-based original.</p>
       <p class="mt-4 text-base text-slate-900 leading-relaxed">Commercial appliances like FortiGate are polished but closed: licensed per tier, tied to one vendor and one hardware line. The open source option, OPNsense, removes the lock-in and has a mature web UI and a proven feature set, but it runs on FreeBSD, which narrows hardware support and leans on a catalogue of community plugins of uneven quality.</p>
       <p class="mt-4 text-base text-slate-900 leading-relaxed">MurOS starts from OPNsense rather than reinventing it. We forked it and ported it from FreeBSD to stock Debian Linux: the same web UI and configuration model, with the system layer rebuilt on nftables, systemd, apt and iproute2. You get the firewall you already know, on the hardware Linux runs on.</p>
-      <p class="mt-4 text-base text-slate-900 leading-relaxed">It already runs the core a perimeter firewall needs on Linux: stateful filtering, NAT, routing, multi-WAN gateway monitoring, DHCP and clean logs. VPN, DNS and high availability are being wired in next. Free, open source, no subscription, no lock-in.</p>
+      <p class="mt-4 text-base text-slate-900 leading-relaxed">It already runs the core a perimeter firewall needs on Linux: stateful filtering, NAT, routing, multi-WAN gateway monitoring, DHCP and clean logs. VPN, DNS, high availability and multi-WAN failover run as well. Free, open source, no subscription, no lock-in.</p>
       <div class="mt-7 flex flex-col sm:flex-row gap-3">
         <a href="install.html" class="inline-flex items-center justify-center px-5 py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-medium rounded">Install guide</a>
         <a href="features.html" class="inline-flex items-center justify-center px-5 py-3 border border-slate-200 text-slate-900 font-medium rounded bg-slate-100 hover:bg-slate-200">See every feature</a>
@@ -200,13 +200,13 @@
           <li>High availability on keepalived and conntrackd, with the configuration synchronised to the backup.</li>
           <li>Intrusion detection and prevention on Suricata, inline through the nftables ruleset, and NetFlow export.</li>
           <li>Captive portal for guest networks and traffic shaping on the kernel queueing disciplines.</li>
+          <li>Per-rule policy routing to a gateway or a gateway group, with automatic multi-WAN failover between tiers.</li>
           <li>One config.xml; web UI and SSH on shared PAM accounts with TOTP.</li>
         </ul>
       </div>
       <div class="border border-slate-200 rounded p-6">
         <h3 class="text-base font-semibold text-slate-900">Being wired in</h3>
         <ul class="mt-3 space-y-2 text-sm text-slate-900 list-disc list-inside">
-          <li>Per-rule policy routing to a gateway or a gateway group, and the automatic multi-WAN failover that builds on it.</li>
           <li>SNMP and notifications on the Debian equivalents, snmpd and an SMTP relay.</li>
           <li>The full apt upgrade flow from the UI, and the sshd options.</li>
           <li>Long-run soak testing of the high availability state synchronisation.</li>

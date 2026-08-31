@@ -71,7 +71,7 @@ Also running: the infrastructure services (Kea DHCP, Unbound, chrony), high
 availability on keepalived and conntrackd with configuration synchronisation to
 the backup, traffic shaping on tc, intrusion detection and prevention on
 Suricata, flow export on softflowd, the captive portal on nftables, host
-discovery, and gateway monitoring with dpinger. Still being ported: per-rule
-policy routing and the automatic multi-WAN failover that builds on it, SNMP and
-notifications, the full apt upgrade flow, and the sshd options. Each feature
+discovery, gateway monitoring with dpinger, and per-rule policy routing with
+automatic multi-WAN failover between the tiers of a gateway group. Still being
+ported: SNMP and notifications, the full apt upgrade flow, and the sshd options. Each feature
 page notes where it stands.

@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.72 released</title>
+      <description>Multi-WAN failover between the tiers of a gateway group, host discovery on a packet socket, power savings mapped to the cpufreq governors, monit driving the Debian daemon, and the netstat diagnostics rebuilt on the Linux counters.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 16:30:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-72</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.41 released</title>
       <description>Refreshed branding across the web UI, captive portal and installer, plus the usual round of fixes for the Debian platform.</description>
       <link>https://muros.org/download.html</link>
