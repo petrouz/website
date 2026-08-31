@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.84 released</title>
+      <description>A pipe of the traffic shaper gets the queue it was configured with. The page has always offered the scheduler, the controlled delay targets, explicit congestion notification and the flow counts, and the port read none of them, so a pipe tuned against bufferbloat behaved like one left alone. What the kernel cannot express, including shaping what arrives on an interface, is now named rather than ignored.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 21:55:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-84</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.83 released</title>
       <description>The table offenders are added to is filled again. A rule with a per source limit can name a table the sources that go over it are added to, which another rule blocks wholesale; the generator read the field and did nothing with it, so the block rule matched an empty table forever. Flushing the per source counters also does something now, the action was wired to a command that does nothing.</description>
       <link>https://muros.org/download.html</link>

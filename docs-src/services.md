@@ -42,9 +42,18 @@ Egress bandwidth control per interface, using the kernel's queueing
 disciplines. You cap an interface's egress rate, split it into classes with
 guaranteed and ceiling rates, and assign traffic to a class with match rules.
 This keeps interactive traffic responsive when the link is saturated. On Debian
-a pipe becomes an HTB class with fq_codel or netem as the leaf discipline, the
-match rules are carried by the nftables ruleset as marks, and the status page
-reads the live class counters. Managed under Firewall > Shaper.
+a pipe becomes an HTB class whose leaf discipline follows what the pipe was
+configured with: fq_codel with its limit, flows and quantum, the controlled
+delay targets and congestion notification, a plain codel queue, fq_pie, or a
+delay queue for a pipe that adds latency. The match rules are carried by the
+nftables ruleset as marks and the status page reads the live class counters.
+Managed under Firewall > Shaper.
+
+What this kernel cannot express is named rather than ignored: the schedulers
+with no counterpart, the dynamic pipe per source or destination, the hash
+bucket count, and shaping what arrives on an interface, which needs an
+intermediate device and is not done yet. Ask for the list with `configctl
+shaper notes`, or read it in the health audit of the firmware page.
 
 ## Wireless
 

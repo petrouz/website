@@ -188,6 +188,10 @@ Releases page. This page summarises the broad strokes.</p>
   the card capabilities come from <code>iw</code>, the status page shows the networks in
   range and the associated peers, and hostapd or wpa_supplicant drives the
   cell, protected or open. WEP has no equivalent and is refused.</li>
+<li>The traffic shaper builds the queueing discipline a pipe was configured with,
+  scheduler, controlled delay targets, congestion notification and flow counts
+  included, and names what the kernel cannot express, including shaping what
+  arrives on an interface.</li>
 <li>A per source limit can add the offender to a table another rule blocks, for
   an hour, and the per source counters can be flushed from the interface.</li>
 <li>A rule asking for no connection tracking is excluded from the tracker ahead

@@ -155,9 +155,17 @@ VPN endpoint or a published service. Managed under Services &gt; Dynamic DNS.</p
 disciplines. You cap an interface's egress rate, split it into classes with
 guaranteed and ceiling rates, and assign traffic to a class with match rules.
 This keeps interactive traffic responsive when the link is saturated. On Debian
-a pipe becomes an HTB class with fq_codel or netem as the leaf discipline, the
-match rules are carried by the nftables ruleset as marks, and the status page
-reads the live class counters. Managed under Firewall &gt; Shaper.</p>
+a pipe becomes an HTB class whose leaf discipline follows what the pipe was
+configured with: fq_codel with its limit, flows and quantum, the controlled
+delay targets and congestion notification, a plain codel queue, fq_pie, or a
+delay queue for a pipe that adds latency. The match rules are carried by the
+nftables ruleset as marks and the status page reads the live class counters.
+Managed under Firewall &gt; Shaper.</p>
+<p>What this kernel cannot express is named rather than ignored: the schedulers
+with no counterpart, the dynamic pipe per source or destination, the hash
+bucket count, and shaping what arrives on an interface, which needs an
+intermediate device and is not done yet. Ask for the list with <code>configctl
+shaper notes</code>, or read it in the health audit of the firmware page.</p>
 <h2 id="wireless">Wireless</h2>
 <p>A wifi card can serve an access point or join an existing network. The
 interface form offers the channels the regulatory domain of the radio allows,
