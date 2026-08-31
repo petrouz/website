@@ -146,6 +146,10 @@ Releases page. This page summarises the broad strokes.</p>
   names, MAC addresses, autonomous system numbers, nested aliases) survive a
   ruleset reload: their resolved content is written into the generated ruleset,
   which pf got for free and nftables does not.</li>
+<li>Completed the NAT translation: the address family, the protocol, the source
+  and destination ports, the translation pool and its options, static port and
+  logging are all carried into the ruleset, for outbound rules, port forwards
+  and 1:1 mappings alike.</li>
 <li>Rebuilt the interface layer on iproute2: addressing, VLANs, bridges, LAGG as
   Linux bonding, GRE and GIF tunnels, and static routing, with automatic
   interface assignment and persistent bring-up at boot through systemd units.</li>

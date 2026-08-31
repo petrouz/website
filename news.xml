@@ -6,6 +6,13 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.88 released</title>
+      <description>An outbound NAT rule was translated from a fraction of what the page stores. The protocol, the ports, the translation pool and the address family were read by the interface and dropped on the way to the kernel, so a rule limited to one protocol translated everything, a rule pointing at a pool used the interface address instead, and a single IPv6 rule made the whole ruleset unloadable. Port forwards and 1:1 mappings now follow the address family too, and an address that cannot be resolved is left out and named rather than handed to the kernel as a host name.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Mon, 31 Aug 2026 23:55:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-88</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.87 released</title>
       <description>An alias that is not a list of addresses, a GeoIP country, a downloaded list, a host name, a MAC address, an autonomous system number, was emptied by every firewall reload. The old packet filter kept the contents of its tables across a reload and nftables starts from a flushed ruleset, so the rules using those aliases matched nothing for up to a minute. The resolved addresses are now written into the ruleset itself, and an alias that resolves to nothing at all is reported.</description>
       <link>https://muros.org/download.html</link>
