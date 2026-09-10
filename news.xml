@@ -6,6 +6,90 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.109 released</title>
+      <description>The version shown throughout the running system, the login page, the console banner, opnsense-version, the firmware page, came from a build-time token that a previous fix missed: it derived the token nothing actually reads for that field, and left the one that does pointing at a literal last touched at 0.9.97. Every release since then displayed the wrong version on a fully up to date box. Both tokens are now derived from the same changelog dpkg itself builds the package version from.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Thu, 10 Sep 2026 09:45:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-109</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.108 released</title>
+      <description>Reassigning network interfaces from the console setup wizard tried to stop the DHCP server first, by killing a FreeBSD dhcpd pidfile that has not existed since DHCP moved to Kea. The kill was a silent no-op: a reassignment never actually stopped Kea before the interfaces it was bound to were rebuilt underneath it. It now goes through Kea's own service control.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Thu, 10 Sep 2026 07:20:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-108</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.107 released</title>
+      <description>Disconnecting a captive portal client only ever stripped its firewall membership right away, relying on a background loop to clear the matching accounting entry a few seconds later. That loop only ever looked at addresses still registered in the firewall table, so an address that had already left it was never looked at again, and its traffic counters and last accessed tracking stayed behind for as long as the portal ran.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Wed, 09 Sep 2026 18:15:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-107</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.106 released</title>
+      <description>A traffic shaper pipe left without a bandwidth is meant to be unrestricted, and its own class was correctly given a generous ceiling for that. Its queues were not: the weighted share computation used the pipe's literal zero rate with no such fallback, so every queue of an unrestricted pipe was throttled down to an eight kilobit floor instead of sharing the same effectively unlimited ceiling as the pipe carrying it.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Thu, 10 Sep 2026 08:05:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-106</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.105 released</title>
+      <description>The wireless status page triggered a fresh active radio scan on every load, not only when the operator pressed rescan. An active scan takes seconds and pulls a radio serving an access point off its channel while it runs, so simply opening or refreshing the page disrupted an access point every time. Loading the page now lists the last scan already found, and only the explicit rescan action starts a new one.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Wed, 09 Sep 2026 18:20:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-105</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.104 released</title>
+      <description>The service watchdog picked its ping command with a string comparison that dash, the default shell on Debian, does not know. It printed an error and fell through to the wrong branch every time, so every IPv6 monitored host was pinged over IPv4 and always reported down, running its failure script against a host that was reachable all along.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Wed, 09 Sep 2026 18:10:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-104</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.103 released</title>
+      <description>The GPS reference clock stanza of the generated time daemon configuration tested its prefer setting inverted: the clock was marked preferred whenever the operator had left the box unchecked, and left unpreferred when it was checked. The equivalent setting for regular time servers, a few lines above in the same file, was never affected.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Wed, 09 Sep 2026 17:50:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-103</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.102 released</title>
+      <description>Entering CARP maintenance mode stopped the failover daemon directly instead of letting it run its normal master to backup transition, so a master node put into maintenance never told the connection state sync daemon to give up that role. It is now restarted alongside it, the same way it already was when maintenance mode is left.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Wed, 09 Sep 2026 17:45:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-102</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.101 released</title>
+      <description>A DHCPv6 delegated prefix route was installed once its lease was handed out and never touched again: the watcher only ever acted on leases in the default state, so a prefix that was released, declined or expired kept its route pointing at a link local address that may no longer answer, or may since have been reused by a different client than the one it was routed for.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Wed, 09 Sep 2026 17:35:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-101</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.100 released</title>
+      <description>A DHCP relay with no destination server logged a warning naming the interface it could not find one for, except the value was only computed later, once a destination had been found. On the first relay checked this printed nothing useful; on every relay after the first it silently printed the previous relay's interface instead, a real problem reported against the wrong relay.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Wed, 09 Sep 2026 16:10:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-100</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.99 released</title>
+      <description>The automatic rule accepting VRRP adverts was reloaded into the firewall when the first CARP address was added, but removing the last one left nothing to trigger the same check, so it never reloaded. The rule, and the exposure of accepting VRRP traffic on every interface unconditionally, stayed behind for as long as nothing else happened to reload the firewall.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Wed, 09 Sep 2026 15:40:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-99</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.98 released</title>
+      <description>A manual IPsec security policy stayed installed after its tunnel went down. The handler only ever acted on the event that brings a tunnel up, so a phase 2 carrying a manual policy left it steering traffic into a state nothing negotiates anymore once the connection tears down, permanently on a tunnel that never comes back.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Wed, 09 Sep 2026 14:05:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-98</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.97 released</title>
       <description>Blocking bogon networks blocked seven well known ranges written into the source, not the several thousand prefixes that are unallocated today. The updater already downloaded the full list every night and wrote it next to the firewall, and nothing read it. Worse, the nightly download never ran either: its action still called the FreeBSD helper that launches a background job, so a firewall installed months ago still carried the list of the day it was built. Both are fixed, and private ranges the list marks as excluded are left out so the option does not quietly block a network the operator allowed.</description>
       <link>https://muros.org/download.html</link>
