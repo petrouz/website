@@ -6,6 +6,27 @@
     <description>Release notes and announcements for MurOS, the Debian-based firewall.</description>
     <language>en-us</language>
     <item>
+      <title>MurOS 0.9.112 released</title>
+      <description>waitfordad() read a FreeBSD-only sysctl to size the pause given to a freshly assigned IPv6 address before something else depends on it. On Linux that sysctl does not exist, the value came back empty, and the sleep it was meant to size was skipped entirely rather than falling back to any default, so callers never actually waited out DAD at all. It now always sleeps the caller's grace period.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Thu, 10 Sep 2026 11:30:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-112</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.111 released</title>
+      <description>The loopback pseudo-interface registered its kernel device under its FreeBSD name instead of the real one. Every consumer that resolves this logical interface therefore looked for a device that does not exist on Linux: the SSH daemon, the web GUI and the DNS resolver all silently failed to bind to loopback whenever restricted to specific interfaces, and bringing the interface up at boot logged a spurious failure against the same nonexistent device.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Thu, 10 Sep 2026 10:55:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-111</guid>
+    </item>
+    <item>
+      <title>MurOS 0.9.110 released</title>
+      <description>The post-install script unconditionally stopped and disabled the stock DHCP, DNS resolver, VRRP failover, connection state sync and monitoring units on every run, including a plain package upgrade, not only on a fresh install. Those are the exact units MurOS itself starts once each service is configured, so every single package upgrade silently stopped and disabled DHCP, DNS resolution, VRRP and its firewall state sync, and service monitoring on a box that had them running, until the next reboot or a manual re-apply from the UI brought them back. All of it now only runs on a fresh install.</description>
+      <link>https://muros.org/download.html</link>
+      <pubDate>Thu, 10 Sep 2026 10:30:00 +0000</pubDate>
+      <guid>https://muros.org/news/0-9-110</guid>
+    </item>
+    <item>
       <title>MurOS 0.9.109 released</title>
       <description>The version shown throughout the running system, the login page, the console banner, opnsense-version, the firmware page, came from a build-time token that a previous fix missed: it derived the token nothing actually reads for that field, and left the one that does pointing at a literal last touched at 0.9.97. Every release since then displayed the wrong version on a fully up to date box. Both tokens are now derived from the same changelog dpkg itself builds the package version from.</description>
       <link>https://muros.org/download.html</link>
