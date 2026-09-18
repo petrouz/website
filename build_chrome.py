@@ -3,7 +3,7 @@ import pathlib, re
 SITE = pathlib.Path(__file__).resolve().parent
 HEADER = (SITE / 'partials' / 'header.html').read_text(encoding='utf-8').strip()
 FOOTER = (SITE / 'partials' / 'footer.html').read_text(encoding='utf-8').strip()
-PAGES = ['index.html', 'why.html', 'features.html', 'install.html', 'legal.html', 'download/index.html']
+PAGES = ['index.html', 'why.html', 'install.html', 'legal.html', 'download/index.html']
 PAGES += sorted(str(p.relative_to(SITE)) for p in (SITE / 'docs').glob('*.html'))
 HDR = re.compile(r'<header\b.*?</header>', re.DOTALL)
 FTR = re.compile(r'<footer\b.*?</footer>', re.DOTALL)

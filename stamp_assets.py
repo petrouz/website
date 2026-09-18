@@ -9,7 +9,7 @@ import pathlib
 import re
 
 SITE = pathlib.Path(__file__).resolve().parent
-PAGES = ['index.html', 'why.html', 'features.html', 'install.html', 'legal.html', '404.html', 'download/index.html']
+PAGES = ['index.html', 'why.html', 'install.html', 'legal.html', '404.html', 'download/index.html']
 PAGES += sorted(str(p.relative_to(SITE)) for p in (SITE / 'docs').glob('*.html'))
 
 # Each asset is referenced from the page root with an optional leading slash.
