@@ -115,7 +115,7 @@ ping 1.1.1.1               # Internet OK
 curl -k https://10.0.0.1/  # UI reachable from LAN
 ```
 
-If everything responds, your firewall is running.
+If everything responds, your firewall is running fine.
 
 ---
 
