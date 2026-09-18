@@ -2,7 +2,7 @@
 
 # MurOS marketing site
 
-Static marketing site for [muros.org](https://muros.org).
+Static website for [muros.org](https://muros.org).
 
 Plain HTML pages styled with Tailwind CSS. The pages are committed as
 static files; the stylesheet is compiled once with the Tailwind CLI into
@@ -27,17 +27,3 @@ npm run watch:css      # rebuild on change while editing
 
 Note: this machine has npm set to omit dev dependencies. If `npm install`
 skips Tailwind, run `npm install --production=false`.
-
-## Hosting
-
-Served from web01 (the host that backs `muros.org` and `download.muros.org`),
-from `/opt/muros/site`, over HTTPS. HTTP redirects to HTTPS.
-
-## Deploy
-
-```sh
-./deploy.sh
-```
-
-This compiles the CSS, then rsyncs the static files to `/opt/muros/site`
-on the server, which serves them directly, so no restart is needed.
