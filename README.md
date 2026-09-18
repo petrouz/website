@@ -8,7 +8,7 @@ static files; the stylesheet is compiled once with the Tailwind CLI into
 
 ## Layout
 
-- `index.html`, `features.html`, `install.html`, `download.html`,
+- `index.html`,
   `hardware.html`, `docs.html` - the pages
 - `assets/` - compiled CSS (`app.css`), scripts, images, screenshots
 - `src/input.css` - Tailwind entry point and custom CSS
